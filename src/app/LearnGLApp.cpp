@@ -29,10 +29,10 @@ void LearnGLApp::initGeometry() {
     auto ratio = (float)SCR_WIDTH / (float)SCR_HEIGHT;
     cam = Camera::camPerspective(glm::radians(45.0f), ratio, 0.001f, 100.0f);
 
-    cam.trs.position(0, 0, -8.0f);
+    cam.transform.position(0, 0, -8.0f);
 
-    node.trs.position(1.f,1.f,1.f);
-    node.trs.scale(0.01f);
+    node.transform.position(1.f,1.f,1.f);
+    node.transform.scale(0.01f);
     node.updateGeometry();
 
     //cam.trs.lookAt(node.trs.getPosition(),vec3(0.f,1.f,0.f));
@@ -110,7 +110,7 @@ int LearnGLApp::Start() {
     {
         angle+= 0.03f;
 
-        node.trs.eulerAngle(0.0f, angle, 0.0f);
+        node.transform.eulerAngle(0.0f, angle, 0.0f);
 //
         node.updateGeometry();
 
@@ -122,11 +122,11 @@ int LearnGLApp::Start() {
         int rightClick = glfwGetMouseButton(window,GLFW_MOUSE_BUTTON_RIGHT);
 
         if(rightClick == GLFW_PRESS) {
-            cam.trs.rotateAroundAxis((mousePosX - _lastMousePosX ) / -100.f,glm::vec3(0,1,0));
-            cam.trs.rotateAroundAxis((mousePosY - _lastMousePosY ) / -100.f,glm::vec3(1,0,0));
+            cam.transform.rotateAroundAxis((mousePosX - _lastMousePosX ) / -100.f,glm::vec3(0,1,0));
+            cam.transform.rotateAroundAxis((mousePosY - _lastMousePosY ) / -100.f,glm::vec3(1,0,0));
         }
 
-        glm::mat4 camRotMat =  cam.trs.getRotMat();
+        glm::mat4 camRotMat =  cam.transform.getRotMat();
         glm::vec4 translateV = glm::vec4(0.0,0.0,0.0,1.0);
         if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS){
             translateV.x += 0.1f;
@@ -144,7 +144,7 @@ int LearnGLApp::Start() {
 
         translateV = camRotMat * translateV;
 
-        cam.trs.translate(translateV.x,translateV.y,translateV.z);
+        cam.transform.translate(translateV.x,translateV.y,translateV.z);
 
         _lastMousePosX = mousePosX;
         _lastMousePosY = mousePosY;
@@ -160,7 +160,7 @@ int LearnGLApp::Start() {
         texture.Bind();
         cam.updateMVP(&mvp, node.getWorldMat());
         simpleShader.uniformMat4v(transformLoc, mvp);
-        simpleShader.uniformMat4v(transformRotLoc, node.trs.getRotMat());
+        simpleShader.uniformMat4v(transformRotLoc, node.transform.getRotMat());
 
         meshes[0].draw();
 

@@ -20,7 +20,7 @@ protected:
 
 
 public:
-    GLTransform trs;
+    GLTransform transform;
     const char* name;
 
     const char *getName() const;

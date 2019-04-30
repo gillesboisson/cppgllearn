@@ -33,9 +33,9 @@ std::list<Node *>::iterator Node::find(Node *node) {
 
 void Node::updateWorldMat(glm::mat4 *parentMat, glm::mat4 *worldMat) {
     if(parentMat != nullptr){
-        trs.applyWorldMat(*parentMat, worldMat);
+        transform.applyWorldMat(*parentMat, worldMat);
     }else{
-        *worldMat = trs.getLocalMat();
+        *worldMat = transform.getLocalMat();
     }
 
 }

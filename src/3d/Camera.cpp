@@ -21,7 +21,7 @@ void Camera::updateMVP(glm::mat4 *mvpMat, glm::mat4 *modelTransformMat) {
 }
 
 Camera::Camera():Node() {
-    trs.setInvPos(true);
+    transform.setInvPos(true);
 }
 
 
