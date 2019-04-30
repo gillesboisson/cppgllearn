@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- GLM visualizers for Visual Studio 2012 -->
+<!-- Put them into My Documents/Visual Studio 2012/Visualizers/ -->
+
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+	<Type name="glm::tvec1&lt;*&gt;">
+		<DisplayString>{x}</DisplayString>
+		<Expand>
+			<Item name="x">x</Item>
+		</Expand>
+	</Type>
+
+	<Type name="glm::tvec2&lt;*&gt;">
+		<DisplayString>{x}, {y}</DisplayString>
+		<Expand>
+			<Item name="x">x</Item>
+			<Item name="y">y</Item>
+		</Expand>
+	</Type>
+
+	<Type name="glm::tvec3&lt;*&gt;">
+		<DisplayString>{x}, {y}, {z}</DisplayString>
+		<Expand>
+			<Item name="x">x</Item>
+			<Item name="y">y</Item>
+			<Item name="z">z</Item>
+		</Expand>
+	</Type>
+
+	<Type name="glm::tvec4&lt;*&gt;">
+		<DisplayString>{x}, {y}, {z}, {w}</DisplayString>
+		<Expand>
+			<Item name="x">x</Item>
+			<Item name="y">y</Item>
+			<Item name="z">z</Item>
+			<Item name="w">w</Item>
+		</Expand>
+	</Type>
+
+	<!--Type name="glm::tmat4&lt;*&gt;">
+		<DisplayString>{value[0]}, {value[1]}, {value[2]}, {value[3]}</DisplayString>
+		<Expand>
+			<Item name="[0]">value[0]</Item>
+			<Item name="[1]">value[1]</Item>
+			<Item name="[2]">value[2]</Item>
+			<Item name="[3]">value[3]</Item>
+		</Expand>
+	</Type-->
+
+	<Type name="glm::tquat&lt;*&gt;">
+		<DisplayString>({x}, {y}, {z}), {w}</DisplayString>
+		<Expand>
+			<Item name="x">x</Item>
+			<Item name="y">y</Item>
+			<Item name="z">z</Item>
+			<Item name="w">w</Item>
+		</Expand>
+	</Type>
+
+	<Type name="glm::tdualquat&lt;*&gt;">
+		<DisplayString>(({real.x}, {real.y}, {real.z}), {real.w}), (({dual.x}, {dual.y}, {dual.z}), {dual.w})</DisplayString>
+		<Expand>
+			<Item name="real">real</Item>
+			<Item name="dual">dual</Item>
+		</Expand>
+	</Type>
+</AutoVisualizer>
+
