@@ -4,7 +4,7 @@
 
 #include "GLTransformA.h"
 
-mat4 GLTransformA::getLocalMat() {
+glm::mat4 GLTransformA::getLocalMat() {
     updateLocalMat();
     return localMat;
 }

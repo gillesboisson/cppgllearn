@@ -4,11 +4,11 @@
 
 #include "GLTransform.h"
 
-vec3 GLTransform::getScale() const {
+glm::vec3 GLTransform::getScale() const {
     return _scale;
 }
 
-vec3 GLTransform::getPosition() const{
+glm::vec3 GLTransform::getPosition() const{
     return _position;
 }
 
@@ -44,12 +44,12 @@ void GLTransform::eulerAngle(float x, float y, float z) {
 
 }
 
-void GLTransform::rotateAroundAxis(float angle, vec3 axis) {
+void GLTransform::rotateAroundAxis(float angle, glm::vec3 axis) {
     _rotation *= angleAxis(angle,axis);
     _dirtyMat = true;
 }
 
-void GLTransform::setRotation(quat rotationQuat) {
+void GLTransform::setRotation(glm::quat rotationQuat) {
     _rotation = rotationQuat;
     _dirtyMat = true;
 }
@@ -69,7 +69,7 @@ void GLTransform::updateLocalMat(bool forceUpdate) {
 
 
 
-void GLTransform::applyWorldMat(const mat4 & parentMat, mat4 *worldMat) {
+void GLTransform::applyWorldMat(const glm::mat4 & parentMat, glm::mat4 *worldMat) {
     updateLocalMat(false);
     *worldMat = parentMat * localMat;
 }
@@ -82,16 +82,16 @@ void GLTransform::setInvPos(bool invPos) {
     GLTransform::_invPos = invPos;
 }
 
-mat4 GLTransform::getRotMat() {
+glm::mat4 GLTransform::getRotMat() {
     updateLocalMat(false);
     return rotMat;
 }
 
-quat GLTransform::getRotation() {
+glm::quat GLTransform::getRotation() {
     return _rotation;
 }
 
-void GLTransform::translate(const vec3 & trans) {
+void GLTransform::translate(const glm::vec3 & trans) {
     _position += trans;
 }
 

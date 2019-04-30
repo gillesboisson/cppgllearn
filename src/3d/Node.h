@@ -7,19 +7,16 @@
 #define CPP_LEARN_NODE_H
 #include <list>
 
-#include <algorithm>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 
+#include <glm/glm.hpp>
 #include "../gl/GLTransform.h"
 
-using namespace std;
 
 class Node {
 protected:
     Node* _parent{};
-    list<Node*> _children;
-    mat4 _worldMat;
+    std::list<Node*> _children;
+    glm::mat4 _worldMat;
 
 
 public:
@@ -32,19 +29,20 @@ public:
 
     Node();
 
-    mat4* getWorldMat();
+    glm::mat4* getWorldMat();
 
     void addChild(Node *node);
     void removeChild(Node *node);
-    list<Node*>::iterator find(Node *node);
+    std::list<Node*>::iterator find(Node *node);
+
 
     // geometry update;
     void updateGeometry();
     void updateWorldMat();
     virtual void updateWorldMat(bool updateChildren);
-    void updateWorldMat(mat4 *parentMat);
-    virtual void updateWorldMat(mat4 *parentMat, bool updateChildren);
-    virtual void updateWorldMat(mat4 *parentMat, mat4 *worldMat);
+    void updateWorldMat(glm::mat4 *parentMat);
+    virtual void updateWorldMat(glm::mat4 *parentMat, bool updateChildren);
+    virtual void updateWorldMat(glm::mat4 *parentMat, glm::mat4 *worldMat);
 
 
 

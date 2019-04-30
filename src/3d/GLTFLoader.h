@@ -4,6 +4,7 @@
 
 #ifndef CPP_LEARN_GLTFLOADER_H
 #define CPP_LEARN_GLTFLOADER_H
+#include <vector>
 
 #include "tiny_gltf.h"
 #include "../gl/GLMesh.h"

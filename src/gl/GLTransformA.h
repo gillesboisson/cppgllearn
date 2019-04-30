@@ -8,16 +8,15 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-using namespace glm;
 
 class GLTransformA {
 protected:
-    mat4 localMat = mat4(1.0f);
-    mat4 rotMat = mat4(1.0f);
+    glm::mat4 localMat = glm::mat4(1.0f);
+    glm::mat4 rotMat = glm::mat4(1.0f);
     virtual void updateLocalMat(bool forceUpdate) = 0;
     void updateLocalMat();
 public:
-    mat4 getLocalMat();
+    glm::mat4 getLocalMat();
 
 
 };

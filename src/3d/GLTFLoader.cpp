@@ -2,16 +2,13 @@
 // Created by Gilles Boisson on 2019-04-28.
 //
 
+#include "GLTFLoader.h"
 #include "../gl/GLHelper.h"
 
-#include "GLTFLoader.h"
-
-using namespace std;
 
 
-
-std::vector<uint32_t> GLTFLoader::loadBufferViews(const vector<tinygltf::Buffer> &buffers,
-                                                  const vector<tinygltf::BufferView> &bufferViews) {
+std::vector<uint32_t> GLTFLoader::loadBufferViews(const std::vector<tinygltf::Buffer> &buffers,
+                                                  const std::vector<tinygltf::BufferView> &bufferViews) {
 
     std::vector<uint32_t> vbos;
 

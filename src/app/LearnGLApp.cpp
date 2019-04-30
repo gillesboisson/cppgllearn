@@ -43,7 +43,7 @@ void LearnGLApp::initGeometry() {
 void LearnGLApp::setupShader() {
     std::cout << "SetupShader\n";
 
-    if(simpleShader.init("./simple_shader.vert", "./simple_shader.frag")){
+    if(simpleShader.init("./assets/simple_shader.vert", "./assets/simple_shader.frag")){
         simpleShader.useProgram();
         transformLoc = simpleShader.getUniformLocation("transform");
         transformRotLoc = simpleShader.getUniformLocation("transformRot");
@@ -122,12 +122,12 @@ int LearnGLApp::Start() {
         int rightClick = glfwGetMouseButton(window,GLFW_MOUSE_BUTTON_RIGHT);
 
         if(rightClick == GLFW_PRESS) {
-            cam.trs.rotateAroundAxis((mousePosX - _lastMousePosX ) / -100.f,vec3(0,1,0));
-            cam.trs.rotateAroundAxis((mousePosY - _lastMousePosY ) / -100.f,vec3(1,0,0));
+            cam.trs.rotateAroundAxis((mousePosX - _lastMousePosX ) / -100.f,glm::vec3(0,1,0));
+            cam.trs.rotateAroundAxis((mousePosY - _lastMousePosY ) / -100.f,glm::vec3(1,0,0));
         }
 
-        mat4 camRotMat =  cam.trs.getRotMat();
-        vec4 translateV = vec4(0.0,0.0,0.0,1.0);
+        glm::mat4 camRotMat =  cam.trs.getRotMat();
+        glm::vec4 translateV = glm::vec4(0.0,0.0,0.0,1.0);
         if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS){
             translateV.x += 0.1f;
         }

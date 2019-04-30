@@ -5,7 +5,6 @@
 #include "Node.h"
 
 
-using namespace std;
 
 void Node::addChild(Node *node) {
     auto it = find(node);
@@ -13,6 +12,7 @@ void Node::addChild(Node *node) {
         node->_parent = this;
         _children.push_back(node);
     }
+
 }
 
 void Node::removeChild(Node *node) {
@@ -21,28 +21,30 @@ void Node::removeChild(Node *node) {
         _children.erase(it);
         node->_parent = nullptr;
     }
+
+
+
 }
 
-list<Node *>::iterator Node::find(Node *node) {
+std::list<Node *>::iterator Node::find(Node *node) {
     return std::find(_children.begin(), _children.end(), node);
 }
 
 
-void Node::updateWorldMat(mat4 *parentMat, mat4 *worldMat) {
+void Node::updateWorldMat(glm::mat4 *parentMat, glm::mat4 *worldMat) {
     if(parentMat != nullptr){
         trs.applyWorldMat(*parentMat, worldMat);
     }else{
         *worldMat = trs.getLocalMat();
     }
 
-
 }
 
-void Node::updateWorldMat(mat4 *parentMat) {
+void Node::updateWorldMat(glm::mat4 *parentMat) {
     updateWorldMat(parentMat,true);
 }
 
-void Node::updateWorldMat(mat4 *parentMat, bool updateChildren) {
+void Node::updateWorldMat(glm::mat4 *parentMat, bool updateChildren) {
     updateWorldMat(parentMat, &_worldMat);
     if(updateChildren){
         for(auto & it : _children){
@@ -74,7 +76,7 @@ void Node::setName(const char *name) {
     name = name;
 }
 
-mat4* Node::getWorldMat() {
+glm::mat4* Node::getWorldMat() {
     return &_worldMat;
 }
 

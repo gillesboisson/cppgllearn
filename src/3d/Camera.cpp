@@ -5,18 +5,18 @@
 #include "Camera.h"
 
 void Camera::initOrtho(float left, float right, float bottom, float top, float near, float far) {
-    _projection = ortho(left,right,bottom,top,near,far);
+    _projection = glm::ortho(left,right,bottom,top,near,far);
 }
 
 void Camera::init2D(float width, float height, float near, float far) {
-    _projection = ortho(0.0f,width,0.0f,-height,near,far);
+    _projection = glm::ortho(0.0f,width,0.0f,-height,near,far);
 }
 
 void Camera:: initPerspective(float fov, float ratio, float near, float far){
-    _projection = perspective(fov,ratio,near,far);
+    _projection = glm::perspective(fov,ratio,near,far);
 }
 
-void Camera::updateMVP(mat4 *mvpMat, mat4 *modelTransformMat) {
+void Camera::updateMVP(glm::mat4 *mvpMat, glm::mat4 *modelTransformMat) {
     *mvpMat = _projection * _invWorldMat * *modelTransformMat;
 }
 
@@ -44,7 +44,7 @@ Camera Camera::camOrtho(float left, float right, float bottom, float top, float 
     return cam;
 }
 
-void Camera::updateWorldMat(mat4 *parentMat, bool updateChildren) {
+void Camera::updateWorldMat(glm::mat4 *parentMat, bool updateChildren) {
     Node::updateWorldMat(parentMat, updateChildren);
     _invWorldMat = inverse(_worldMat);
 }
