@@ -39,8 +39,14 @@ public:
  
 	void dispose();
 
-    unsigned int getUniformLocation(const char *uniformName);
-    void uniformMat4v(GLuint location, glm::mat4 mat);
+    uint32_t getUniformLocation(const char *uniformName);
+    void setUniformMat4v(GLuint location, const glm::mat4 & mat);
+
+    void setUniformVec4v(GLuint location, const glm::vec4 & vec);
+
+    void setUniformVec3v(GLuint location, const glm::vec3 & vec);
+
+    void setUniformFloat(GLuint location, float fl);
 };
 
 #endif

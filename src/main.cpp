@@ -1,13 +1,13 @@
 
 #include "app/LearnGLApp.h"
+#include "app/TutoGLApp.h"
 
 
-LearnGLApp app;
+TutoGLApp app;
 
 int main()
 {
-
-    return app.Start();
+    return app.start();
 }
 
 

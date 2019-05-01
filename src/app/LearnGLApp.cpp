@@ -30,8 +30,7 @@ void LearnGLApp::initGeometry() {
     cam = Camera::camPerspective(glm::radians(45.0f), ratio, 0.001f, 100.0f);
 
     cam.transform.position(0, 0, -8.0f);
-
-    node.transform.position(1.f,1.f,1.f);
+//    node.transform.position(1.f,1.f,1.f);
     node.transform.scale(0.01f);
     node.updateGeometry();
 
@@ -43,10 +42,8 @@ void LearnGLApp::initGeometry() {
 void LearnGLApp::setupShader() {
     std::cout << "SetupShader\n";
 
-    if(simpleShader.init("./assets/simple_shader.vert", "./assets/simple_shader.frag")){
+    if(simpleShader.init("./assets/simple_light_shader.vert", "./assets/simple_light_shader.frag")){
         simpleShader.useProgram();
-        transformLoc = simpleShader.getUniformLocation("transform");
-        transformRotLoc = simpleShader.getUniformLocation("transformRot");
         glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 
@@ -103,6 +100,39 @@ int LearnGLApp::Start() {
     setupNodes();
     loadDuck();
 
+    uint32_t colorL = simpleShader.getUniformLocation("color");
+    uint32_t diffuseColorL = simpleShader.getUniformLocation("material.diffuse");
+    uint32_t ambientColorL = simpleShader.getUniformLocation("material.ambient");
+    uint32_t specularColorL = simpleShader.getUniformLocation("material.specular");
+    uint32_t shininessL = simpleShader.getUniformLocation("material.shininess");
+    uint32_t lightPositionL = simpleShader.getUniformLocation("lightPosition");
+    uint32_t camPosL = simpleShader.getUniformLocation("camPosition");
+
+
+    uint32_t mvpL   = simpleShader.getUniformLocation("transform.mvp");
+    uint32_t mL     = simpleShader.getUniformLocation("transform.m");
+    uint32_t rotL   = simpleShader.getUniformLocation("transform.rot");
+
+
+
+    glm::vec4 color(1.0);
+    glm::vec3 diffuseColor(1.0);
+    glm::vec3 ambientColor(0.1);
+    glm::vec3 specularColor(0.3);
+    glm::vec3 lightPosition(3.0,3.0,3.0);
+    float shininess = 32.f;
+
+
+    simpleShader.setUniformVec4v(colorL,color);
+    simpleShader.setUniformVec3v(diffuseColorL,diffuseColor);
+    simpleShader.setUniformVec3v(ambientColorL,ambientColor);
+    simpleShader.setUniformVec3v(specularColorL,specularColor);
+    simpleShader.setUniformVec3v(lightPositionL,lightPosition);
+    simpleShader.setUniformFloat(shininessL,shininess);
+
+
+
+
 
     // render loop
     // -----------
@@ -151,6 +181,7 @@ int LearnGLApp::Start() {
 
         cam.updateGeometry();
 
+        simpleShader.setUniformVec3v(camPosL,cam.transform.getPosition());
 
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -158,9 +189,13 @@ int LearnGLApp::Start() {
         cam.updateGeometry();
 
         texture.Bind();
-        cam.updateMVP(&mvp, node.getWorldMat());
-        simpleShader.uniformMat4v(transformLoc, mvp);
-        simpleShader.uniformMat4v(transformRotLoc, node.transform.getRotMat());
+        glm::mat4 *modelM = node.getWorldMat();
+        const glm::mat4 &rotM = node.transform.getRotMat();
+
+        cam.updateMVP(&mvp, modelM);
+        simpleShader.setUniformMat4v(mvpL, mvp);
+        simpleShader.setUniformMat4v(mL, *modelM);
+        simpleShader.setUniformMat4v(rotL, rotM);
 
         meshes[0].draw();
 

@@ -57,8 +57,7 @@ class LearnGLApp {
 
     GLTexture texture;
     GLTransform glTransform;
-    unsigned int transformLoc;
-    unsigned int transformRotLoc;
+
 
     Node node;
     glm::mat4 mvp;

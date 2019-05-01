@@ -205,11 +205,23 @@ void GLShader::dispose()
 	glDeleteShader(_fragmentShader);
 }
 
-void GLShader::uniformMat4v(GLuint location, glm::mat4 mat) {
+void GLShader::setUniformMat4v(GLuint location, const glm::mat4 &mat) {
     glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(mat));
 }
 
-unsigned int  GLShader::getUniformLocation(const char *uniformName) {
+void GLShader::setUniformVec4v(GLuint location, const glm::vec4 &vec) {
+    glUniform4fv(location, 1, glm::value_ptr(vec));
+}
+
+void GLShader::setUniformVec3v(GLuint location, const glm::vec3 &vec) {
+    glUniform3fv(location, 1, glm::value_ptr(vec));
+}
+
+void GLShader::setUniformFloat(GLuint location, float fl) {
+    glUniform1f(location, fl);
+}
+
+uint32_t  GLShader::getUniformLocation(const char *uniformName) {
     return glGetUniformLocation(_shaderProgram, uniformName);
 }
 
