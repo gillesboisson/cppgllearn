@@ -13,7 +13,7 @@ std::string GLShader::readFile(const char *file)
 	// Open file
 	
 	
-	std::cout << "> Open file " << file << std::endl;
+	//std::cout << "> Open file " << file << std::endl;
 	
 
 	std::ifstream t(file);
@@ -25,17 +25,11 @@ std::string GLShader::readFile(const char *file)
 	// Make a std::string and fill it with the contents of buffer
 	std::string fileContent = buffer.str();
 
-	std::cout << "<  " << fileContent << std::endl << "==================" << std::endl;
+	//std::cout << "<  " << fileContent << std::endl << "==================" << std::endl;
 
 	return fileContent;
 }
 
-void GLShader::bindAttributeLocation(int index, const std::string &attribute)
-{
-	// Bind attribute index 0 (coordinates) to in_Position and attribute index 1 (color) to in_Color
-	// Attribute locations must be setup before calling glLinkProgram
-	glBindAttribLocation(_shaderProgram, index, attribute.c_str());
-}
 
 void GLShader::useProgram()
 {
@@ -47,10 +41,6 @@ bool GLShader::init(const std::string &vertProgramPath, const std::string &fragP
 {
 	// Generate our shader. This is similar to glGenBuffers() and glGenVertexArray(), except that this returns the ID
 	_shaderProgram = glCreateProgram();
-	
-	// Bind the location of our attributes
-    bindAttributeLocation(0, "in_Position");
-    bindAttributeLocation(1, "in_Color");
 
 	if (!loadVertexShader(vertProgramPath))
 		return false;
@@ -65,7 +55,7 @@ bool GLShader::init(const std::string &vertProgramPath, const std::string &fragP
 
 bool GLShader::loadVertexShader(const std::string &filename)
 {
-	std::cout << "Linking Vertex shader" << std::endl;
+	std::cout << "Linking Vertex shader" << filename << " " << std::endl;
 
 	// Read file as std::string 
 	std::string str = readFile(filename.c_str());
@@ -100,7 +90,7 @@ bool GLShader::loadVertexShader(const std::string &filename)
 
 bool GLShader::loadFragmentShader(const std::string &filename)
 {
-	std::cout << "Loading Fragment GLShader" << std::endl;
+	std::cout << "Loading Fragment GLShader" << filename << " "<< std::endl;
 
 	// Read file as std::string 
 	std::string str = readFile(filename.c_str());
@@ -167,7 +157,8 @@ void GLShader::printShaderLinkingError(int32_t shaderId)
 	/* Handle the error in an appropriate way such as displaying a message or writing to a log file. */
 	/* In this simple program, we'll just leave */
 	delete[] shaderProgramInfoLog;
-	return;
+    shaderProgramInfoLog = nullptr;
+
 }
 
 // If something went wrong whil compiling the shaders, we'll use this function to find the error
@@ -189,6 +180,7 @@ void GLShader::printShaderCompilationErrorInfo(int32_t shaderId)
 
 	std::cout << "=======================================\n\n";
 	delete []shaderInfoLog;
+    shaderInfoLog = nullptr;
 }
 
 void GLShader::dispose()

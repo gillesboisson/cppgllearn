@@ -39,11 +39,15 @@ void GLTexture::Bind() {
     glBindTexture(GL_TEXTURE_2D, texture0);
 }
 
-unsigned int GLTexture::GetTexture() {
+unsigned int GLTexture::getGLId() {
     return texture0;
 }
 
-void GLTexture::Activate(unsigned int index) {
+void GLTexture::activate(unsigned int index) {
     glActiveTexture(GL_TEXTURE0 + index); // activate the texture unit first before binding texture
     Bind();
+}
+
+void GLTexture::dispose(){
+    glDeleteTextures(1,&texture0);
 }

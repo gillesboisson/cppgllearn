@@ -49,7 +49,7 @@ class GLVao{
     GLuint _indVbo;
     GLenum _indType = GL_UNSIGNED_SHORT;
 public:
-    GLenum GetIndType() const;
+    GLenum getIndType() const;
 
 private:
     int _nbAttributes;
@@ -62,10 +62,10 @@ public:
     void bind();
     void gen();
     void activate();
-    void dispose();
+    void dispose(bool destroyBuffers = true);
 
-    GLuint getVao();
-    GLuint getIndVbo();
+    GLuint getGLId();
+    GLuint getIndexVboGLId();
 };
 
 

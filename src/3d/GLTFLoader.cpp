@@ -58,12 +58,17 @@ GLTFLoader::loadMeshes(const std::vector<uint32_t> &vbos,
                        const std::vector<tinygltf::Primitive> &primitives) {
 
     std::vector<GLMesh> meshes;
-    std::vector<GLAttribute> attributes;
+    meshes.reserve(primitives.size());
+
+
     tinygltf::Accessor acc;
 
     for(auto & pr : primitives){
-        attributes.clear();
+
+
+        auto attributes = new GLAttribute[pr.attributes.size()];
         uint32_t nbPoints = 0;
+        uint8_t ind = 0;
 
         for(auto & attr : pr.attributes){
             auto attrLocation  = GTLFAttributeLocation.find(attr.first);
@@ -76,7 +81,7 @@ GLTFLoader::loadMeshes(const std::vector<uint32_t> &vbos,
                     nbPoints = acc.count;
                 }
 
-                attributes.push_back(CreateGLAttribute(
+                attributes[ind++] = CreateGLAttribute(
                         attrLocation->second,
                         acc.type,
                         acc.componentType,
@@ -84,7 +89,7 @@ GLTFLoader::loadMeshes(const std::vector<uint32_t> &vbos,
                         bufferViews[acc.bufferView].byteStride,
                         acc.normalized,
                         (GLvoid*) acc.byteOffset
-                        ));
+                        );
 
 
 
@@ -104,11 +109,12 @@ GLTFLoader::loadMeshes(const std::vector<uint32_t> &vbos,
             indType = indAcc.componentType;
         }
 
-        GLVao vao{};
-        vao.init(&attributes[0], attributes.size(), indicesVBO, indType);
-        GLMesh mesh(nbPoints,vao,pr.mode);
 
-        meshes.push_back(mesh);
+
+        GLVao vao{};
+        vao.init(attributes,pr.attributes.size(), indicesVBO, indType);
+        meshes.emplace_back(GLMesh(nbPoints,vao,pr.mode));
+
 
     }
 

@@ -31,6 +31,9 @@ protected:
 
 public:
 
+
+
+
     GLFWAppA(int width,int height,const char* title,uint16_t fps = 60);
 
     uint16_t getFps() const;
@@ -56,6 +59,9 @@ public:
     virtual void afterStart();
     virtual void update(double frameInterval,float frameSpeed) = 0;
     virtual void beforeQuit();
+
+
+
 
 };
 

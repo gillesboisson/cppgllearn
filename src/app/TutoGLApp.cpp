@@ -21,7 +21,11 @@ void TutoGLApp::setupGeometry() {
     _cam.transform.position(0, 0, -8.0f);
 //    node.transform.position(1.f,1.f,1.f);
     _node.transform.scale(0.01f);
-    _node.updateGeometry();
+    _node2.transform.scale(0.01f);
+    _node2.transform.translate(5,0,0);
+
+    _wireframeBatch.init();
+
 }
 
 void TutoGLApp::setupShader() {
@@ -29,10 +33,13 @@ void TutoGLApp::setupShader() {
 
     if(_simpleShader.init("./assets/simple_light_shader.vert", "./assets/simple_light_shader.frag")){
         _simpleShader.useProgram();
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-
     }
+
+    if(_colorShader.init("./assets/color_shader.vert", "./assets/color_shader.frag")){
+        _colorShader.useProgram();
+    }
+
+
 }
 
 void TutoGLApp::loadDuck() {
@@ -60,11 +67,12 @@ void TutoGLApp::loadDuck() {
 }
 
 void TutoGLApp::setupUniforms() {
+    _simpleShader.useProgram();
     uint32_t colorL = _simpleShader.getUniformLocation("color");
-    uint32_t diffuseColorL = _simpleShader.getUniformLocation("material.diffuse");
-    uint32_t ambientColorL = _simpleShader.getUniformLocation("material.ambient");
-    uint32_t specularColorL = _simpleShader.getUniformLocation("material.specular");
-    uint32_t shininessL = _simpleShader.getUniformLocation("material.shininess");
+    uint32_t diffuseColorL = _simpleShader.getUniformLocation("pointLight.diffuse");
+    uint32_t ambientColorL = _simpleShader.getUniformLocation("pointLight.ambient");
+    uint32_t specularColorL = _simpleShader.getUniformLocation("pointLight.specular");
+    uint32_t shininessL = _simpleShader.getUniformLocation("pointLight.shininess");
     uint32_t lightPositionL = _simpleShader.getUniformLocation("lightPosition");
 
     _camPosL = _simpleShader.getUniformLocation("camPosition");
@@ -112,6 +120,13 @@ void TutoGLApp::update(double frameInterval,float frameSpeed) {
     _node.transform.eulerAngle(0.0f, _angle, 0.0f);
     _node.updateGeometry();
 
+    _node2.transform.eulerAngle(0.0f, 0.0f, _angle);
+    _node2.updateGeometry();
+
+
+
+
+
     // handle cam nav -------------------------
     double mousePosX, mousePosY;
     glfwGetCursorPos(_window, &mousePosX, &mousePosY);
@@ -139,6 +154,10 @@ void TutoGLApp::update(double frameInterval,float frameSpeed) {
         translateV.z -= 0.1f;
     }
 
+    if(glfwGetKey(_window, GLFW_KEY_ESCAPE) == GLFW_PRESS){
+        glfwSetWindowShouldClose(_window,true);
+    }
+
     translateV = camRotMat * translateV;
 
     _cam.transform.translate(translateV.x,translateV.y,translateV.z);
@@ -149,6 +168,7 @@ void TutoGLApp::update(double frameInterval,float frameSpeed) {
     _cam.updateGeometry();
 
     // update transform uniform -------------------------
+    _simpleShader.useProgram();
 
     glm::mat4 *modelM = _node.getWorldMat();
     const glm::mat4 &rotM = _node.transform.getRotMat();
@@ -161,4 +181,79 @@ void TutoGLApp::update(double frameInterval,float frameSpeed) {
 
     // draw mesh
     _meshes[0].draw();
+
+
+    glm::mat4 *modelM2 = _node2.getWorldMat();
+    const glm::mat4 &rotM2 = _node2.transform.getRotMat();
+
+    _cam.updateMVP(&_mvp, modelM2);
+    _simpleShader.setUniformMat4v(_mvpL, _mvp);
+    _simpleShader.setUniformMat4v(_mL, *modelM);
+    _simpleShader.setUniformMat4v(_rotL, rotM2);
+
+    _meshes[0].draw();
+
+
+
+    WireframeVertex* vertices;
+    uint16_t* ind;
+
+    _colorShader.useProgram();
+    _wireframeBatch.reset();
+
+    uint16_t p0 = _wireframeBatch.pull(&vertices, &ind, 4, 6);
+
+    vertices[0].position = glm::vec3(-0.5, -0.5, 0);
+    vertices[1].position = glm::vec3(0.5, -0.5, 0);
+    vertices[2].position = glm::vec3(-0.5, 0.5, 0);
+    vertices[3].position = glm::vec3(0.5, 0.5, 0);
+
+    vertices[0].color = glm::vec4(1, 0, 0, 1);
+    vertices[1].color = glm::vec4(0, 1, 0, 1);
+    vertices[2].color = glm::vec4(1, 0, 1, 1);
+    vertices[3].color = glm::vec4(1, 0, 1, 1);
+
+    ind[0] = 0;
+    ind[1] = 1;
+    ind[2] = 2;
+    ind[3] = 1;
+    ind[4] = 3;
+    ind[5] = 2;
+
+    _wireframeBatch.end();
+
+
+
+
 }
+
+// Wireframe batch
+
+void WireframeBatch::complete() {
+
+    auto indT = _vao->getIndType();
+    glDrawElements(GL_TRIANGLES,_indicesSize,indT, nullptr);
+}
+
+GLVao* WireframeBatch::createVao() {
+
+    auto *attributes = new GLAttribute[2];
+
+    auto stride = sizeof(WireframeVertex);
+    auto colorOffset = sizeof(glm::vec3);
+
+    attributes[0] = CreateGLAttribute(GLAttributeLocation::Position, 3, GL_FLOAT, _vbo, stride,GL_FALSE, 0);
+    attributes[1] = CreateGLAttribute(GLAttributeLocation::Color, 4, GL_FLOAT, _vbo, stride, GL_FALSE, (GLvoid *) colorOffset);
+
+    auto vao = new GLVao();
+    vao->init(attributes,2,_ibo,GL_UNSIGNED_SHORT);
+
+    return vao;
+}
+
+
+
+WireframeBatch::WireframeBatch():GLBatchA(1024,1024) {
+
+}
+

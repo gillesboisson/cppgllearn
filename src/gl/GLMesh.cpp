@@ -30,12 +30,13 @@ uint32_t GLMesh::getNbPoints() const {
 }
 
 void GLMesh::draw() {
+    _vao.bind();
     draw(_nbPoints);
 }
 
 void GLMesh::draw(uint32_t nbPoints) {
-    if(_vao.getIndVbo() != 0) {
-        glDrawElements(_renderType, nbPoints, _vao.GetIndType(), nullptr);
+    if(_vao.getIndexVboGLId() != 0) {
+        glDrawElements(_renderType, nbPoints, _vao.getIndType(), nullptr);
     }else{
         glDrawArrays(_renderType,0,nbPoints);
     }

@@ -22,7 +22,6 @@ public:
 
 	std::string readFile(const char *file);
  
-	void bindAttributeLocation(int index, const std::string &attribute);
 	void useProgram();
 
 	bool init(const std::string &vertProgramPath, const std::string &fragProgramPath);

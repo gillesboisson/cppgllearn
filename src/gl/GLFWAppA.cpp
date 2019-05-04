@@ -6,6 +6,7 @@
 
 #include <cmath>
 
+
 void GLFWAppA::framebuffer_size_callback(GLFWwindow *window, int width, int height) {
     glViewport(0, 0, width, height);
 }
@@ -18,15 +19,14 @@ bool GLFWAppA::start() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    double timeAfterUpdate,timeExec,timeInterval;
+    double timeAfterUpdate, timeExec, timeInterval;
 
 #ifdef __APPLE__
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // uncomment this statement to fix compilation on OS X
 #endif
 
     _window = glfwCreateWindow(_windowWidth, _windowHeight, _windowTitle, NULL, NULL);
-    if (_window == NULL)
-    {
+    if (_window == NULL) {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
         return false;
@@ -35,11 +35,11 @@ bool GLFWAppA::start() {
     glfwMakeContextCurrent(_window);
     glfwSetFramebufferSizeCallback(_window, GLFWAppA::framebuffer_size_callback);
 
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
+    if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
         std::cout << "Failed to initialize GLAD" << std::endl;
         return false;
     }
+
 
     afterStart();
 
@@ -53,7 +53,7 @@ bool GLFWAppA::start() {
 
         double time = glfwGetTime() * 1000;
 
-        if(_lastFrameTime != 0){
+        if (_lastFrameTime != 0) {
             timeInterval = time - _lastFrameTime;
             update(timeInterval, 1000 / timeInterval / _fps);
         }
@@ -65,7 +65,7 @@ bool GLFWAppA::start() {
 
         long long int idleT = floor(1000 / (double) _fps - timeExec) - 1;
 
-        if(idleT > 0){
+        if (idleT > 0) {
             std::this_thread::sleep_for(std::chrono::milliseconds(idleT));
         }
 
@@ -73,7 +73,7 @@ bool GLFWAppA::start() {
 
         glfwPollEvents();
         _lastFrameTime = time;
-        if(!_active)  glfwSetWindowShouldClose(_window, true);
+        if (!_active) glfwSetWindowShouldClose(_window, true);
     }
 
     beforeQuit();

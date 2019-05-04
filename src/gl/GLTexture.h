@@ -13,17 +13,18 @@ class GLTexture {
     int width;
     int height;
     int nrChannels;
-    unsigned int texture0;
+    GLuint texture0;
     void initLinearTexture();
 public:
     void LoadTexture(const char* imagePath);
     void Bind();
 
-    void Activate(unsigned int index = 0);
+    void activate(unsigned int index = 0);
 
-    unsigned int GetTexture();
+    unsigned int getGLId();
 
 
+    void dispose();
 };
 
 
