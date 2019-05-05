@@ -1,5 +1,5 @@
 
-#include "app/LearnGLApp.h"
+
 #include "app/TutoGLApp.h"
 
 

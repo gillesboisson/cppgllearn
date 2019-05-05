@@ -11,13 +11,11 @@
 #include "../3d/Node.h"
 #include "../gl/GLShader.h"
 #include "../gl/GLBatchA.h"
-#include "../gl/GLFrameBuffer.h"
 #include "../3d/GLTFLoader.h"
-
 
 struct WireframeVertex{
     glm::vec3 position;
-    glm::vec2 uv;
+    glm::vec4 color;
 };
 
 class WireframeBatch: public GLBatchA<WireframeVertex>{
@@ -32,7 +30,6 @@ public:
 
 };
 
-
 class TutoGLApp : public GLFWAppA {
 protected:
     Camera _cam;
@@ -40,14 +37,10 @@ protected:
     Node _node2;
     GLShader _simpleShader;
     GLShader _colorShader;
-    GLShader _textureShader;
-    GLTexture* _fboTexture;
     std::vector<uint32_t> _vbos;
     std::vector<GLMesh> _meshes;
-    WireframeBatch _wireframeBatch;
 
-    GLFrameBuffer _fbo;
-    GLTexture _textureTest;
+    WireframeBatch _wireframeBatch;
 
     void setupGeometry();
 
@@ -66,7 +59,6 @@ protected:
     float _angle;
     float _lastMousePosX;
     float _lastMousePosY;
-    GLVao _quadVao;
 
 public:
     TutoGLApp();
@@ -79,8 +71,6 @@ public:
 
     void setupUniforms();
 
-
-    void setupFBO();
 
 };
 

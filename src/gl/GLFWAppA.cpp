@@ -43,11 +43,6 @@ bool GLFWAppA::start() {
 
     afterStart();
 
-    //    glEnable(GL_DEPTH_TEST);
-    //    glClearColor(0.0, 0.0, 0.0, 0.0);
-    //    glEnable(GL_CULL_FACE);
-    //    glCullFace(GL_BACK);
-
     _active = true;
     while (!glfwWindowShouldClose(_window)) {
 
@@ -124,10 +119,14 @@ void GLFWAppA::beforeQuit() {
 
 }
 
+void GLFWAppA::bindFramebuffer(){
+    glBindFramebuffer(GL_FRAMEBUFFER,0);
+    glViewport(0, 0, _windowWidth, _windowHeight);
+}
+
 GLFWAppA::GLFWAppA(int width, int height, const char *title, uint16_t fps) {
     _windowWidth = width;
     _windowHeight = height;
     _windowTitle = title;
     _fps = fps;
 }
-

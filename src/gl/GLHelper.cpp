@@ -41,31 +41,40 @@ std::string GLErrorMessage(GLenum error){
             break;
     }
 
-    errorM = "OpenGL error : "+message+" \n";
+    errorM = "OpenGL error : "+message;
 
     return errorM;
 }
 
-void GLThrowErrors() {
+void GLThrowErrors(const std::string &errorMessage) {
 
     std::string errorM;
 
     while (auto error = glGetError()) {
-        errorM = GLErrorMessage(error);
+        errorM = GLErrorMessage(error)+" :: "+errorMessage;
 //        std::cerr << errorM;
         throw std::invalid_argument(errorM);
 
     }
 }
 
-void GLPrintErrors() {
+void GLPrintErrors(const std::string &errorMessage) {
 
     std::string errorM;
 
     while (auto error = glGetError()) {
-        errorM = GLErrorMessage(error);
+        errorM = GLErrorMessage(error)+" :: "+errorMessage;
         std::cout << error << std::endl;
 
     }
 
+}
+
+GLuint GLGenRenderBuffer(GLenum bufferType,int width,int height){
+    GLuint rbo;
+    glGenRenderbuffers(1, &rbo);
+    glBindRenderbuffer(GL_RENDERBUFFER, rbo);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, width, height);
+    glBindRenderbuffer(GL_RENDERBUFFER,0);
+    return rbo;
 }

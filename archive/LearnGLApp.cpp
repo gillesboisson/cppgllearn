@@ -19,7 +19,7 @@ void LearnGLApp::processInput(GLFWwindow *window) {
 }
 
 void LearnGLApp::initTexture() {
-    texture.LoadTexture("./grass_2.png");
+    texture.loadTexture2d("./grass_2.png");
 }
 
 
@@ -188,7 +188,7 @@ int LearnGLApp::Start() {
 
         cam.updateGeometry();
 
-        texture.Bind();
+        texture.bind();
         glm::mat4 *modelM = node.getWorldMat();
         const glm::mat4 &rotM = node.transform.getRotMat();
 

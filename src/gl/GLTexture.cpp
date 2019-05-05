@@ -4,50 +4,117 @@
 #include <iostream>
 
 #include "GLTexture.h"
+#include "GLHelper.h"
 
 
 
-void GLTexture::LoadTexture(const char *imagePath) {
-    glGenTextures(1, &texture0);
-    initLinearTexture();
+void GLTexture::loadTexture2d(const char *imagePath) {
+    gen();
+
+
     stbi_set_flip_vertically_on_load(true);
-    unsigned char *data = stbi_load(imagePath, &width, &height, &nrChannels, 0);
-    GLenum chanelE = nrChannels > 3 ? GL_RGBA : GL_RGB;
+    int nrChannels;
+    unsigned char *data = stbi_load(imagePath, &_width, &_height, &nrChannels, 0);
+
+    _format = nrChannels > 3 ? GL_RGBA : GL_RGB;
+    _target = GL_TEXTURE_2D;
+    _type = GL_UNSIGNED_BYTE;
+
+    initLinearTexture();
+
     if (data)
     {
-        glTexImage2D(GL_TEXTURE_2D, 0, chanelE, width, height, 0,chanelE, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
+        glBindTexture(_target,_texture);
+        glTexImage2D(_target, 0, _format, _width, _height, 0,_format, _type, data);
+        glGenerateMipmap(_target);
+        glBindTexture(_target,0);
     }
     else
     {
         std::cout << "Failed to load texture " << imagePath << std::endl;
     }
 
+#ifdef DEBUG_GL
+    GLPrintErrors("GLTexture :: loadTexture2d");
+#endif
     stbi_image_free(data);
 
 }
 
 void GLTexture::initLinearTexture() {
-    Bind();
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glBindTexture(_target, _texture);
+    glTexParameteri(_target, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(_target, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(_target, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+    glTexParameteri(_target, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glBindTexture(_target, 0);
+
+#ifdef DEBUG_GL
+    GLPrintErrors("GLTexture :: initLinearTexture");
+#endif
 }
 
-void GLTexture::Bind() {
-    glBindTexture(GL_TEXTURE_2D, texture0);
+void GLTexture::bind() const{
+    glBindTexture(_target, _texture);
 }
 
-unsigned int GLTexture::getGLId() {
-    return texture0;
-}
 
-void GLTexture::activate(unsigned int index) {
+void GLTexture::activate(unsigned int index) const{
+    glBindTexture(GL_TEXTURE_2D,_texture);
     glActiveTexture(GL_TEXTURE0 + index); // activate the texture unit first before binding texture
-    Bind();
+
 }
 
 void GLTexture::dispose(){
-    glDeleteTextures(1,&texture0);
+    glDeleteTextures(1,&_texture);
 }
+
+void GLTexture::initEmpty(GLenum format, GLenum target, GLenum type, int width, int height) {
+    gen();
+    _target = target;
+    _format = format;
+    _type = type;
+    _width = width;
+    _height = height;
+
+    glBindTexture(_target, _texture);
+    glTexParameteri(_target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(_target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(_target, 0, _format, _width, _height, 0,_format, _type, nullptr);
+    glBindTexture(_target, 0);
+
+#ifdef DEBUG_GL
+    GLPrintErrors("GLTexture :: initEmpty");
+#endif
+}
+
+void GLTexture::gen() {
+    if(_texture == 0) glGenTextures(1,&_texture);
+
+
+}
+
+int GLTexture::getWidth() const {
+    return _width;
+}
+
+int GLTexture::getHeight() const {
+    return _height;
+}
+
+GLuint GLTexture::getGLId() const {
+    return _texture;
+}
+
+GLenum GLTexture::getType() const {
+    return _type;
+}
+
+GLenum GLTexture::getTarget() const {
+    return _target;
+}
+
+GLenum GLTexture::getFormat() const {
+    return _format;
+}
+

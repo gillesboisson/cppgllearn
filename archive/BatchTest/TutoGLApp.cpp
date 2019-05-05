@@ -26,19 +26,19 @@ void TutoGLApp::setupGeometry() {
 
     _wireframeBatch.init();
 
-
-
-
 }
 
 void TutoGLApp::setupShader() {
     std::cout << "SetupShader\n";
 
-    _simpleShader.init("./assets/simple_light_shader.vert", "./assets/simple_light_shader.frag");
-    _colorShader.init("./assets/color_shader.vert", "./assets/color_shader.frag");
-    _textureShader.init("./assets/texture_shader.vert", "./assets/texture_shader.frag");
+    if(_simpleShader.init("./assets/simple_light_shader.vert", "./assets/simple_light_shader.frag")){
+        _simpleShader.useProgram();
+    }
 
-    _textureTest.loadTexture2d("./assets/grass_2.png");
+    if(_colorShader.init("./assets/color_shader.vert", "./assets/color_shader.frag")){
+        _colorShader.useProgram();
+    }
+
 
 }
 
@@ -64,7 +64,6 @@ void TutoGLApp::loadDuck() {
 
     _vbos = GLTFLoader::loadBufferViews(model.buffers, model.bufferViews);
     _meshes = GLTFLoader::loadMeshes(_vbos, model.bufferViews, model.accessors, model.meshes[0].primitives);
-
 }
 
 void TutoGLApp::setupUniforms() {
@@ -94,11 +93,6 @@ void TutoGLApp::setupUniforms() {
     _simpleShader.setUniformVec3v(specularColorL,specularColor);
     _simpleShader.setUniformVec3v(lightPositionL,lightPosition);
     _simpleShader.setUniformFloat(shininessL,shininess);
-    _textureShader.useProgram();
-    auto colorTLocation   = _textureShader.getUniformLocation("colorT");
-    glUniform1i(colorTLocation, 0);
-
-
 }
 
 void TutoGLApp::afterStart() {
@@ -107,7 +101,6 @@ void TutoGLApp::afterStart() {
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
 
-    setupFBO();
     setupGeometry();
     setupShader();
     loadDuck();
@@ -174,13 +167,8 @@ void TutoGLApp::update(double frameInterval,float frameSpeed) {
 
     _cam.updateGeometry();
 
-
-    _fbo.bindViewport();
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
     // update transform uniform -------------------------
     _simpleShader.useProgram();
-
 
     glm::mat4 *modelM = _node.getWorldMat();
     const glm::mat4 &rotM = _node.transform.getRotMat();
@@ -195,8 +183,6 @@ void TutoGLApp::update(double frameInterval,float frameSpeed) {
     _meshes[0].draw();
 
 
-
-
     glm::mat4 *modelM2 = _node2.getWorldMat();
     const glm::mat4 &rotM2 = _node2.transform.getRotMat();
 
@@ -207,21 +193,13 @@ void TutoGLApp::update(double frameInterval,float frameSpeed) {
 
     _meshes[0].draw();
 
-    bindFramebuffer();
+
 
     WireframeVertex* vertices;
     uint16_t* ind;
 
-    _textureShader.useProgram();
-    GLuint colorT = _textureShader.getUniformLocation("colorT");
-//    glUniform1i(colorT,0);
-//
-//    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D,_fboTexture->getGLId());
-
-
+    _colorShader.useProgram();
     _wireframeBatch.reset();
-
 
     uint16_t p0 = _wireframeBatch.pull(&vertices, &ind, 4, 6);
 
@@ -230,10 +208,10 @@ void TutoGLApp::update(double frameInterval,float frameSpeed) {
     vertices[2].position = glm::vec3(-0.5, 0.5, 0);
     vertices[3].position = glm::vec3(0.5, 0.5, 0);
 
-    vertices[0].uv = glm::vec2(0, 0);
-    vertices[1].uv = glm::vec2(1, 0);
-    vertices[2].uv = glm::vec2(0, 1);
-    vertices[3].uv = glm::vec2(1, 1);
+    vertices[0].color = glm::vec4(1, 0, 0, 1);
+    vertices[1].color = glm::vec4(0, 1, 0, 1);
+    vertices[2].color = glm::vec4(1, 0, 1, 1);
+    vertices[3].color = glm::vec4(1, 0, 1, 1);
 
     ind[0] = 0;
     ind[1] = 1;
@@ -246,30 +224,12 @@ void TutoGLApp::update(double frameInterval,float frameSpeed) {
 
 
 
-}
-
-void TutoGLApp::setupFBO() {
-    _fbo.init(128,128);
-    _fboTexture = _fbo.attachNewColorTexture(GL_RGBA,GL_TEXTURE_2D,GL_UNSIGNED_BYTE);
-    //_fbo.attachNewTexture(GL_)
-
-    _fboTexture->activate(0);
-
-    _fbo.attachNewDepthRenderBuffer();
-
-
-    if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE){
-        printf("ERRRRRROR\n");
-    }
 
 }
 
 // Wireframe batch
 
 void WireframeBatch::complete() {
-
-
-
 
     auto indT = _vao->getIndType();
     glDrawElements(GL_TRIANGLES,_indicesSize,indT, nullptr);
@@ -280,16 +240,13 @@ GLVao* WireframeBatch::createVao() {
     auto *attributes = new GLAttribute[2];
 
     auto stride = sizeof(WireframeVertex);
-    auto uvOffset = sizeof(glm::vec3);
+    auto colorOffset = sizeof(glm::vec3);
 
     attributes[0] = CreateGLAttribute(GLAttributeLocation::Position, 3, GL_FLOAT, _vbo, stride,GL_FALSE, 0);
-    attributes[1] = CreateGLAttribute(GLAttributeLocation::Uv, 2, GL_FLOAT, _vbo, stride, GL_FALSE, (GLvoid *) uvOffset);
+    attributes[1] = CreateGLAttribute(GLAttributeLocation::Color, 4, GL_FLOAT, _vbo, stride, GL_FALSE, (GLvoid *) colorOffset);
 
     auto vao = new GLVao();
-
     vao->init(attributes,2,_ibo,GL_UNSIGNED_SHORT);
-
-
 
     return vao;
 }
@@ -299,3 +256,4 @@ GLVao* WireframeBatch::createVao() {
 WireframeBatch::WireframeBatch():GLBatchA(1024,1024) {
 
 }
+
