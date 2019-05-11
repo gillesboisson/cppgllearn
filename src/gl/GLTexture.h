@@ -13,7 +13,7 @@ class GLTexture {
 protected:
     int _width;
     int _height;
-    GLuint _texture;
+    GLuint _glId;
     GLenum _type;
     GLenum _target;
     GLenum _format;

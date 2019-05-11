@@ -17,8 +17,8 @@ class GLShader
 {
 public:
 
-	GLuint _shaderProgram;
-	GLuint _vertexshader, _fragmentShader;
+	GLuint _programId;
+	GLuint _vertexId, _fragmentId;
 
 	std::string readFile(const char *file);
  

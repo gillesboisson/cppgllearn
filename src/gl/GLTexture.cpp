@@ -30,7 +30,7 @@ void GLTexture::loadTexture2d(const char *imagePath) {
 
     if (data)
     {
-        glBindTexture(_target,_texture);
+        glBindTexture(_target,_glId);
         glTexImage2D(_target, 0, _format, _width, _height, 0,_format, _type, data);
         glGenerateMipmap(_target);
         glBindTexture(_target,0);
@@ -56,7 +56,7 @@ void GLTexture::loadTextureCubeMap(const char *baseImagePath,const char *fileExt
     _target = GL_TEXTURE_CUBE_MAP;
     _type = GL_UNSIGNED_BYTE;
 
-    glBindTexture(_target,_texture);
+    glBindTexture(_target,_glId);
 
     for (int i = 0; i < 6; ++i) {
 
@@ -94,7 +94,7 @@ void GLTexture::loadTextureCubeMap(const char *baseImagePath,const char *fileExt
 }
 
 void GLTexture::initLinearTexture() {
-    glBindTexture(_target, _texture);
+    glBindTexture(_target, _glId);
     glTexParameteri(_target, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(_target, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(_target, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
@@ -107,18 +107,18 @@ void GLTexture::initLinearTexture() {
 }
 
 void GLTexture::bind() const{
-    glBindTexture(_target, _texture);
+    glBindTexture(_target, _glId);
 }
 
 
 void GLTexture::activate(unsigned int index) const{
-    glBindTexture(GL_TEXTURE_2D,_texture);
+    glBindTexture(GL_TEXTURE_2D,_glId);
     glActiveTexture(GL_TEXTURE0 + index); // activate the texture unit first before binding texture
 
 }
 
 void GLTexture::dispose(){
-    glDeleteTextures(1,&_texture);
+    glDeleteTextures(1,&_glId);
 }
 
 void GLTexture::initEmptyTexture2d(GLenum format, GLenum target, GLenum type, int width, int height) {
@@ -129,7 +129,7 @@ void GLTexture::initEmptyTexture2d(GLenum format, GLenum target, GLenum type, in
     _width = width;
     _height = height;
 
-    glBindTexture(_target, _texture);
+    glBindTexture(_target, _glId);
     glTexParameteri(_target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(_target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexImage2D(_target, 0, _format, _width, _height, 0,_format, _type, nullptr);
@@ -141,7 +141,7 @@ void GLTexture::initEmptyTexture2d(GLenum format, GLenum target, GLenum type, in
 }
 
 void GLTexture::gen() {
-    if(_texture == 0) glGenTextures(1,&_texture);
+    if(_glId == 0) glGenTextures(1,&_glId);
 
 
 }
@@ -155,7 +155,7 @@ int GLTexture::getHeight() const {
 }
 
 GLuint GLTexture::getGLId() const {
-    return _texture;
+    return _glId;
 }
 
 GLenum GLTexture::getType() const {

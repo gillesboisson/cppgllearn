@@ -144,7 +144,7 @@ void GLBatchA<VerticesT>::end() {
 
     glBindBuffer(GL_ARRAY_BUFFER, _vbo);
     glBufferData(GL_ARRAY_BUFFER, sV, _verticesData, GL_DYNAMIC_DRAW);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _vao->getIndexVboGLId());
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _vao->getIndexBufferGlId());
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sI, _indicesData, GL_DYNAMIC_DRAW);
 
     complete();

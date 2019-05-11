@@ -37,8 +37,8 @@ void ActivateGLAttribute(GLAttribute* attr);
 
 class GLVao{
     GLAttribute* _attributes;
-    GLuint _vao;
-    GLuint _indVbo;
+    GLuint _glId;
+    GLuint _indexBufferGlId;
     GLenum _indType = GL_UNSIGNED_SHORT;
     int _nbAttributes;
 
@@ -55,7 +55,7 @@ public:
     void dispose(bool destroyBuffers = true);
 
     GLuint getGLId();
-    GLuint getIndexVboGLId();
+    GLuint getIndexBufferGlId();
 };
 
 

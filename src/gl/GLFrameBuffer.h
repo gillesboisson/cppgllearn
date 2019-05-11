@@ -12,7 +12,7 @@
 class GLFrameBuffer {
 protected:
 
-    GLuint _fbo;
+    GLuint _glId;
 public:
     GLuint getGLId() const;
 

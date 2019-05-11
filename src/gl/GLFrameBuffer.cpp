@@ -6,28 +6,28 @@
 #include "GLHelper.h"
 
 void GLFrameBuffer::init(int width,int height) {
-    glGenFramebuffers(1, &_fbo);
+    glGenFramebuffers(1, &_glId);
     _width = width;
     _height = height;
 
 }
 
 void GLFrameBuffer::bind() {
-    glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
+    glBindFramebuffer(GL_FRAMEBUFFER, _glId);
 }
 
 void GLFrameBuffer::bindViewport() {
-    glBindFramebuffer(GL_FRAMEBUFFER, _fbo);
+    glBindFramebuffer(GL_FRAMEBUFFER, _glId);
     glViewport(0,0,_width,_height);
 }
 
 void GLFrameBuffer::dispose() {
 
-    glDeleteFramebuffers(1,&_fbo);
+    glDeleteFramebuffers(1,&_glId);
 }
 
 void GLFrameBuffer::attachTexture(const GLTexture &texture,GLenum attachment) {
-    glBindFramebuffer(GL_FRAMEBUFFER,_fbo);
+    glBindFramebuffer(GL_FRAMEBUFFER,_glId);
     glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, texture.getTarget(), texture.getGLId(), 0);
     glBindFramebuffer(GL_FRAMEBUFFER,0);
 #ifdef DEBUG_GL
@@ -64,7 +64,7 @@ GLTexture *GLFrameBuffer::attachNewColorTexture(GLenum format, GLenum target, GL
 }
 
 void GLFrameBuffer::attachRenderBuffer(GLuint rbo,GLenum attachment){
-    glBindFramebuffer(GL_FRAMEBUFFER,_fbo);
+    glBindFramebuffer(GL_FRAMEBUFFER,_glId);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, attachment, GL_RENDERBUFFER, rbo);
     glBindFramebuffer(GL_FRAMEBUFFER,0);
 
@@ -85,7 +85,7 @@ GLuint GLFrameBuffer::attachNewDepthRenderBuffer(){
 }
 
 GLuint GLFrameBuffer::getGLId() const {
-    return _fbo;
+    return _glId;
 }
 
 int GLFrameBuffer::getWidth() const {

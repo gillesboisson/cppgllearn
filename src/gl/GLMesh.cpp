@@ -35,7 +35,7 @@ void GLMesh::draw() {
 }
 
 void GLMesh::draw(uint32_t nbIndices) {
-    if(_vao.getIndexVboGLId() != 0) {
+    if(_vao.getIndexBufferGlId() != 0) {
         glDrawElements(_renderType, nbIndices, _vao.getIndType(), nullptr);
     }else{
         glDrawArrays(_renderType,0,nbIndices);

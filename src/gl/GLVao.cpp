@@ -49,11 +49,11 @@ void ActivateGLAttribute(GLAttribute* attr){
 }
 
 GLuint GLVao::getGLId(){
-    return _vao;
+    return _glId;
 }
 
-GLuint GLVao::getIndexVboGLId(){
-    return _indVbo;
+GLuint GLVao::getIndexBufferGlId(){
+    return _indexBufferGlId;
 }
 
 void GLVao::init(GLAttribute *attributes, int nbAttributes){
@@ -63,41 +63,41 @@ void GLVao::init(GLAttribute *attributes, int nbAttributes){
     activate();
 }
 void GLVao::init(GLAttribute *attributes, int nbAttributes, GLuint indVbo){
-    _indVbo = indVbo;
+    _indexBufferGlId = indVbo;
     init(attributes, nbAttributes);
 }
 
 void GLVao::bind(){
-    glBindVertexArray(_vao);
+    glBindVertexArray(_glId);
 }
 void GLVao::gen(){
-	glGenVertexArrays(1, &_vao);
+	glGenVertexArrays(1, &_glId);
     
 }
 
 
 void GLVao::activate(){
     GLAttribute *attr = _attributes;
-    glBindVertexArray(_vao);
+    glBindVertexArray(_glId);
     for(int i=0; i < _nbAttributes ; i++){
 
         ActivateGLAttribute(attr++);
     }
-    if(_indVbo != 0){
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,_indVbo);
+    if(_indexBufferGlId != 0){
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,_indexBufferGlId);
     }
     glBindVertexArray(0);
 
 }
 void GLVao::dispose(bool destroyBuffers){
-    glDeleteVertexArrays(1, &_vao);
+    glDeleteVertexArrays(1, &_glId);
     if(destroyBuffers){
         for (int i = 0; i < _nbAttributes; ++i) {
             _attributes[i].deleteVbo();
         }
     }
-    if(destroyBuffers && _indVbo != 0){
-        glDeleteBuffers(1,&_indVbo);
+    if(destroyBuffers && _indexBufferGlId != 0){
+        glDeleteBuffers(1,&_indexBufferGlId);
     }
 
     delete[] _attributes;
