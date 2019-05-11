@@ -38,9 +38,12 @@ protected:
     Camera _cam;
     Node _node;
     Node _node2;
+    GLShader _fixColorShader;
     GLShader _simpleShader;
     GLShader _colorShader;
     GLShader _textureShader;
+    GLShader _skyboxShader;
+    GLShader _cmReflectionShader;
     GLTexture* _fboTexture;
     std::vector<uint32_t> _vbos;
     std::vector<GLMesh> _meshes;
@@ -48,10 +51,13 @@ protected:
 
     GLFrameBuffer _fbo;
     GLTexture _textureTest;
+    GLTexture _cubeMapTest;
+    GLMesh *_cube;
 
     void setupGeometry();
 
     void setupShader();
+    void setupTexture();
 
     void loadDuck();
     glm::mat4 _mvp;
@@ -62,6 +68,9 @@ protected:
     uint32_t _mvpL    ;
     uint32_t _mL      ;
     uint32_t _rotL    ;
+    uint32_t _mvpL2;
+    uint32_t _mvpL3;
+    uint32_t _rotL3;
 
     float _angle;
     float _lastMousePosX;
@@ -81,6 +90,8 @@ public:
 
 
     void setupFBO();
+
+
 
 };
 

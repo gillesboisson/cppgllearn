@@ -11,7 +11,7 @@
 class GLMesh {
 protected:
     GLVao _vao;
-    uint32_t _nbPoints;
+    uint32_t _nbIndices;
 public:
     uint32_t getNbPoints() const;
 
@@ -26,12 +26,12 @@ protected:
 
 public:
     GLMesh();
-    explicit GLMesh(uint32_t nbPoints,GLVao vao);
+    explicit GLMesh(uint32_t nbIndices,GLVao vao);
     explicit GLMesh(uint32_t nbPoints,GLVao vao,GLenum renderType);
 
     GLenum getRenderType();
 
-    void draw(uint32_t nbPoints);
+    void draw(uint32_t nbIndices);
     void draw();
 };
 

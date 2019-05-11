@@ -4,27 +4,48 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
-
-GLAttribute CreateGLAttribute(uint32_t location, GLint size, GLenum type,GLuint vbo,GLsizei stride,GLboolean normalize,const GLvoid * pointer){
-    GLAttribute attr;
-
-    attr.location = location;
-    attr.size = size;
-    attr.type = type;
-    attr.normalize = normalize;
-    attr.stride = stride;
-    attr.location = location;
-    attr.vbo = vbo;
-    attr.pointer = pointer;
-
-    return attr;
-}
+//
+//GLAttribute CreateGLAttribute(uint32_t location, GLint size, GLenum type,GLuint vbo,GLsizei stride,GLboolean normalize,const GLvoid * pointer){
+//    GLAttribute attr;
+//
+//    attr.location = location;
+//    attr.size = size;
+//    attr.type = type;
+//    attr.normalize = normalize;
+//    attr.stride = stride;
+//    attr.location = location;
+//    attr.vbo = vbo;
+//    attr.pointer = pointer;
+//
+//    return attr;
+//}
+//
+//GLAttribute* NewGLAttribute(uint32_t location, GLint size, GLenum type,GLuint vbo,GLsizei stride,GLboolean normalize,const GLvoid * pointer){
+//    GLAttribute* attr = new GLAttribute();
+//
+//    attr->location = location;
+//    attr->size = size;
+//    attr->type = type;
+//    attr->normalize = normalize;
+//    attr->stride = stride;
+//    attr->location = location;
+//    attr->vbo = vbo;
+//    attr->pointer = pointer;
+//
+//    return attr;
+//}
 
 void ActivateGLAttribute(GLAttribute* attr){
-    printf("Activate vao attr %d \n",attr->vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, attr->vbo);
-	glEnableVertexAttribArray(attr->location);
-	glVertexAttribPointer(attr->location, attr->size, attr->type, attr->normalize, attr->stride, attr->pointer);
+    glBindBuffer(GL_ARRAY_BUFFER, attr->getVbo());
+	glEnableVertexAttribArray(attr->getLocation());
+	glVertexAttribPointer(
+	    attr->getLocation(),
+	    attr->getSize(),
+	    attr->getType(),
+	    attr->getNormalize(),
+	    attr->getStride(),
+	    attr->getPointer()
+	    );
 }
 
 GLuint GLVao::getGLId(){
@@ -58,7 +79,6 @@ void GLVao::gen(){
 void GLVao::activate(){
     GLAttribute *attr = _attributes;
     glBindVertexArray(_vao);
-    printf("Activate vao %d \n",_vao);
     for(int i=0; i < _nbAttributes ; i++){
 
         ActivateGLAttribute(attr++);
@@ -73,7 +93,7 @@ void GLVao::dispose(bool destroyBuffers){
     glDeleteVertexArrays(1, &_vao);
     if(destroyBuffers){
         for (int i = 0; i < _nbAttributes; ++i) {
-            glDeleteBuffers(1,&_attributes[i].vbo);
+            _attributes[i].deleteVbo();
         }
     }
     if(destroyBuffers && _indVbo != 0){
@@ -96,3 +116,4 @@ GLenum GLVao::getIndType() const {
     return _indType;
 
 }
+

@@ -3,6 +3,7 @@
 //
 
 #include "TutoGLApp.h"
+#include "../geometry/PrimitiveHelper.h"
 
 
 
@@ -21,11 +22,13 @@ void TutoGLApp::setupGeometry() {
     _cam.transform.position(0, 0, -8.0f);
 //    node.transform.position(1.f,1.f,1.f);
     _node.transform.scale(0.01f);
-    _node2.transform.scale(0.01f);
-    _node2.transform.translate(5,0,0);
+    _node2.transform.scale(20);
+//    _node2.transform.translate(5,0,0);
 
     _wireframeBatch.init();
 
+
+    _cube = PrimitiveHelper::createSkyboxTriangleMesh();
 
 
 
@@ -37,6 +40,9 @@ void TutoGLApp::setupShader() {
     _simpleShader.init("./assets/simple_light_shader.vert", "./assets/simple_light_shader.frag");
     _colorShader.init("./assets/color_shader.vert", "./assets/color_shader.frag");
     _textureShader.init("./assets/texture_shader.vert", "./assets/texture_shader.frag");
+    _fixColorShader.init("./assets/fixcolor.vert", "./assets/fixcolor.frag");
+    _skyboxShader.init("./assets/skybox.vert","./assets/skybox.frag");
+    _cmReflectionShader.init("./assets/cm_reflection.vert","./assets/cm_reflection.frag");
 
     _textureTest.loadTexture2d("./assets/grass_2.png");
 
@@ -82,9 +88,9 @@ void TutoGLApp::setupUniforms() {
     _rotL   = _simpleShader.getUniformLocation("transform.rot");
 
     glm::vec4 color(1.0);
-    glm::vec3 diffuseColor(1.0);
-    glm::vec3 ambientColor(0.1);
-    glm::vec3 specularColor(0.3);
+    glm::vec3 diffuseColor(0.5);
+    glm::vec3 ambientColor(0.4);
+    glm::vec3 specularColor(0.1);
     glm::vec3 lightPosition(3.0,3.0,3.0);
     float shininess = 32.f;
 
@@ -99,6 +105,27 @@ void TutoGLApp::setupUniforms() {
     glUniform1i(colorTLocation, 0);
 
 
+    _fixColorShader.useProgram();
+    uint32_t colorFL = _fixColorShader.getUniformLocation("color");
+    _mvpL2   = _fixColorShader.getUniformLocation("mvp");
+
+
+    glm::vec4 colorC = glm::vec4(1.0);
+    _fixColorShader.setUniformVec4v(colorFL,colorC);
+    _mvpL2   = _fixColorShader.getUniformLocation("mvp");
+
+    _skyboxShader.useProgram();
+    _mvpL3   = _skyboxShader.getUniformLocation("mvp");
+    _rotL3   = _skyboxShader.getUniformLocation("camRot");
+
+    _cmReflectionShader.useProgram();
+    _cmReflectionShader.setUniformVec4v("color",color);
+    _cmReflectionShader.setUniformVec3v("pointLight.diffuse",diffuseColor);
+    _cmReflectionShader.setUniformVec3v("pointLight.ambient",ambientColor);
+    _cmReflectionShader.setUniformVec3v("pointLight.specular",specularColor);
+    _cmReflectionShader.setUniformFloat("pointLight.shininess",shininess);
+    _cmReflectionShader.setUniformVec3v("lightPosition",lightPosition);
+
 }
 
 void TutoGLApp::afterStart() {
@@ -107,6 +134,8 @@ void TutoGLApp::afterStart() {
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
 
+
+    setupTexture();
     setupFBO();
     setupGeometry();
     setupShader();
@@ -127,7 +156,7 @@ void TutoGLApp::update(double frameInterval,float frameSpeed) {
     _node.transform.eulerAngle(0.0f, _angle, 0.0f);
     _node.updateGeometry();
 
-    _node2.transform.eulerAngle(0.0f, 0.0f, _angle);
+//    _node2.transform.eulerAngle(0.0f, 0.0f, _angle);
     _node2.updateGeometry();
 
 
@@ -175,81 +204,44 @@ void TutoGLApp::update(double frameInterval,float frameSpeed) {
     _cam.updateGeometry();
 
 
-    _fbo.bindViewport();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // update transform uniform -------------------------
-    _simpleShader.useProgram();
+    _cmReflectionShader.useProgram();
 
 
     glm::mat4 *modelM = _node.getWorldMat();
     const glm::mat4 &rotM = _node.transform.getRotMat();
 
     _cam.updateMVP(&_mvp, modelM);
-    _simpleShader.setUniformMat4v(_mvpL, _mvp);
-    _simpleShader.setUniformMat4v(_mL, *modelM);
-    _simpleShader.setUniformMat4v(_rotL, rotM);
-    _simpleShader.setUniformVec3v(_camPosL,_cam.transform.getPosition());
+    _cmReflectionShader.setUniformMat4v("transform.mvp", _mvp);
+    _cmReflectionShader.setUniformMat4v("transform.m", *modelM);
+    _cmReflectionShader.setUniformMat4v("transform.rot", rotM);
+    _cmReflectionShader.setUniformVec3v("camPosition",_cam.transform.getPosition());
 
     // draw mesh
     _meshes[0].draw();
 
 
-
-
+    _skyboxShader.useProgram();
     glm::mat4 *modelM2 = _node2.getWorldMat();
     const glm::mat4 &rotM2 = _node2.transform.getRotMat();
 
     _cam.updateMVP(&_mvp, modelM2);
-    _simpleShader.setUniformMat4v(_mvpL, _mvp);
-    _simpleShader.setUniformMat4v(_mL, *modelM);
-    _simpleShader.setUniformMat4v(_rotL, rotM2);
+    _skyboxShader.setUniformMat4v(_mvpL3, _mvp);
+    _skyboxShader.setUniformMat4v(_rotL3, _cam.transform.getRotMat());
+    _cubeMapTest.bind();
 
-    _meshes[0].draw();
-
-    bindFramebuffer();
-
-    WireframeVertex* vertices;
-    uint16_t* ind;
-
-    _textureShader.useProgram();
-    GLuint colorT = _textureShader.getUniformLocation("colorT");
-//    glUniform1i(colorT,0);
-//
-//    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D,_fboTexture->getGLId());
+    _cube->draw();
 
 
-    _wireframeBatch.reset();
-
-
-    uint16_t p0 = _wireframeBatch.pull(&vertices, &ind, 4, 6);
-
-    vertices[0].position = glm::vec3(-0.5, -0.5, 0);
-    vertices[1].position = glm::vec3(0.5, -0.5, 0);
-    vertices[2].position = glm::vec3(-0.5, 0.5, 0);
-    vertices[3].position = glm::vec3(0.5, 0.5, 0);
-
-    vertices[0].uv = glm::vec2(0, 0);
-    vertices[1].uv = glm::vec2(1, 0);
-    vertices[2].uv = glm::vec2(0, 1);
-    vertices[3].uv = glm::vec2(1, 1);
-
-    ind[0] = 0;
-    ind[1] = 1;
-    ind[2] = 2;
-    ind[3] = 1;
-    ind[4] = 3;
-    ind[5] = 2;
-
-    _wireframeBatch.end();
 
 
 
 }
 
 void TutoGLApp::setupFBO() {
-    _fbo.init(128,128);
+    _fbo.init(512,512);
     _fboTexture = _fbo.attachNewColorTexture(GL_RGBA,GL_TEXTURE_2D,GL_UNSIGNED_BYTE);
     //_fbo.attachNewTexture(GL_)
 
@@ -262,6 +254,10 @@ void TutoGLApp::setupFBO() {
         printf("ERRRRRROR\n");
     }
 
+}
+
+void TutoGLApp::setupTexture() {
+    _cubeMapTest.loadTextureCubeMap("assets/siege","tga");
 }
 
 // Wireframe batch
@@ -282,8 +278,8 @@ GLVao* WireframeBatch::createVao() {
     auto stride = sizeof(WireframeVertex);
     auto uvOffset = sizeof(glm::vec3);
 
-    attributes[0] = CreateGLAttribute(GLAttributeLocation::Position, 3, GL_FLOAT, _vbo, stride,GL_FALSE, 0);
-    attributes[1] = CreateGLAttribute(GLAttributeLocation::Uv, 2, GL_FLOAT, _vbo, stride, GL_FALSE, (GLvoid *) uvOffset);
+    attributes[0].set(GLAttributeLocation::Position, 3, GL_FLOAT, _vbo, stride,GL_FALSE, 0);
+    attributes[1].set(GLAttributeLocation::Uv, 2, GL_FLOAT, _vbo, stride, GL_FALSE, (GLvoid *) uvOffset);
 
     auto vao = new GLVao();
 

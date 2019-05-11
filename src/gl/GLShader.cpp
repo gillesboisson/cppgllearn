@@ -55,7 +55,7 @@ bool GLShader::init(const std::string &vertProgramPath, const std::string &fragP
 
 bool GLShader::loadVertexShader(const std::string &filename)
 {
-	std::cout << "Linking Vertex shader" << filename << " " << std::endl;
+//	std::cout << "Linking Vertex shader" << filename << " " << std::endl;
 
 	// Read file as std::string 
 	std::string str = readFile(filename.c_str());
@@ -90,7 +90,7 @@ bool GLShader::loadVertexShader(const std::string &filename)
 
 bool GLShader::loadFragmentShader(const std::string &filename)
 {
-	std::cout << "Loading Fragment GLShader" << filename << " "<< std::endl;
+//	std::cout << "Loading Fragment GLShader" << filename << " "<< std::endl;
 
 	// Read file as std::string 
 	std::string str = readFile(filename.c_str());
@@ -210,6 +210,27 @@ void GLShader::setUniformVec3v(GLuint location, const glm::vec3 &vec) {
 }
 
 void GLShader::setUniformFloat(GLuint location, float fl) {
+    glUniform1f(location, fl);
+}
+
+
+void GLShader::setUniformMat4v(const char* uniformName, const glm::mat4 &mat) {
+    GLuint location = glGetUniformLocation(_shaderProgram, uniformName);
+    glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(mat));
+}
+
+void GLShader::setUniformVec4v(const char* uniformName, const glm::vec4 &vec) {
+    GLuint location = glGetUniformLocation(_shaderProgram, uniformName);
+    glUniform4fv(location, 1, glm::value_ptr(vec));
+}
+
+void GLShader::setUniformVec3v(const char* uniformName, const glm::vec3 &vec) {
+    GLuint location = glGetUniformLocation(_shaderProgram, uniformName);
+    glUniform3fv(location, 1, glm::value_ptr(vec));
+}
+
+void GLShader::setUniformFloat(const char* uniformName, float fl) {
+    GLuint location = glGetUniformLocation(_shaderProgram, uniformName);
     glUniform1f(location, fl);
 }
 

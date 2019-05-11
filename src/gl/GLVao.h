@@ -1,24 +1,15 @@
-#include <glad/glad.h>
-#include <string>
-#include <map>
 
 
 #ifndef GL_VAO
 #define GL_VAO
 
+#include <glad/glad.h>
+#include "GLAttribute.h"
+#include <string>
+#include <map>
 
-typedef struct GLAttribute{
 
-    uint32_t location;
-    GLint size;
-    GLenum type;
-    GLboolean normalize;
-    GLsizei stride;
-    GLuint vbo;
-    
-    const GLvoid * pointer;
 
-} GLAttribute;
 
 enum GLAttributeLocation{
     Position = 0,
@@ -39,7 +30,8 @@ enum GLAttributeLocation{
 
 
 
-GLAttribute CreateGLAttribute(uint32_t location, GLint size, GLenum type,GLuint vbo,GLsizei stride,GLboolean normalize,const GLvoid * pointer);
+//GLAttribute CreateGLAttribute(uint32_t location, GLint size, GLenum type,GLuint vbo,GLsizei stride,GLboolean normalize,const GLvoid * pointer);
+//GLAttribute* NewGLAttribute(uint32_t location, GLint size, GLenum type,GLuint vbo,GLsizei stride,GLboolean normalize,const GLvoid * pointer);
 
 void ActivateGLAttribute(GLAttribute* attr);
 
@@ -48,14 +40,12 @@ class GLVao{
     GLuint _vao;
     GLuint _indVbo;
     GLenum _indType = GL_UNSIGNED_SHORT;
-public:
-    GLenum getIndType() const;
-
-private:
     int _nbAttributes;
 
 
 public:
+
+    GLenum getIndType() const;
     void init(GLAttribute *attributes, int nbAttributes);
     void init(GLAttribute *attributes, int nbAttributes, GLuint indVbo);
     void init(GLAttribute *attributes, int nbAttributes, GLuint indVbo, GLenum indType);

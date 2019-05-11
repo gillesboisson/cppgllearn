@@ -29,7 +29,6 @@ std::vector<uint32_t> GLTFLoader::loadBufferViews(const std::vector<tinygltf::Bu
         float val3 = *(bufferF+2);
         float val4 = *(bufferF+3);
 
-        printf("VBO %d : %f %f %f %f \n",vbo,val1,val2,val3,val4);
 
 
         GLUploadBuffer(vbo,it.byteLength,bufferC,it.target);
@@ -63,6 +62,8 @@ GLTFLoader::loadMeshes(const std::vector<uint32_t> &vbos,
 
     tinygltf::Accessor acc;
 
+
+
     for(auto & pr : primitives){
 
 
@@ -81,7 +82,7 @@ GLTFLoader::loadMeshes(const std::vector<uint32_t> &vbos,
                     nbPoints = acc.count;
                 }
 
-                attributes[ind++] = CreateGLAttribute(
+                attributes[ind++].set(
                         attrLocation->second,
                         acc.type,
                         acc.componentType,

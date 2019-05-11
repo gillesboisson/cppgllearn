@@ -43,7 +43,7 @@ void GLFrameBuffer::attachColorTexture(const GLTexture &texture, uint16_t attach
 GLTexture *GLFrameBuffer::attachNewTexture(GLenum format, GLenum target, GLenum type,GLenum attachment, int width, int height) {
     auto texture = new GLTexture();
 
-    texture->initEmpty(format,target,type,width,height);
+    texture->initEmptyTexture2d(format, target, type, width, height);
     attachTexture(*texture,attachment);
 
     return texture;
@@ -82,4 +82,16 @@ GLuint GLFrameBuffer::attachNewRenderBuffer(GLenum bufferType,GLenum attachment)
 
 GLuint GLFrameBuffer::attachNewDepthRenderBuffer(){
     return attachNewRenderBuffer(GL_DEPTH_COMPONENT24,GL_DEPTH_ATTACHMENT,_width,_height);
+}
+
+GLuint GLFrameBuffer::getGLId() const {
+    return _fbo;
+}
+
+int GLFrameBuffer::getWidth() const {
+    return _width;
+}
+
+int GLFrameBuffer::getHeight() const {
+    return _height;
 }

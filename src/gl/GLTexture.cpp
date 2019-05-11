@@ -6,7 +6,13 @@
 #include "GLTexture.h"
 #include "GLHelper.h"
 
-
+const char *cubeMapNames[] = {"pos-x",
+                              "neg-x",
+                              "pos-y",
+                              "neg-y",
+                              "pos-z",
+                              "neg-z"
+                            };
 
 void GLTexture::loadTexture2d(const char *imagePath) {
     gen();
@@ -41,6 +47,52 @@ void GLTexture::loadTexture2d(const char *imagePath) {
 
 }
 
+void GLTexture::loadTextureCubeMap(const char *baseImagePath,const char *fileExtension) {
+    gen();
+    stbi_set_flip_vertically_on_load(true);
+    int nrChannels;
+
+    char *imagePath = new char[100];
+    _target = GL_TEXTURE_CUBE_MAP;
+    _type = GL_UNSIGNED_BYTE;
+
+    glBindTexture(_target,_texture);
+
+    for (int i = 0; i < 6; ++i) {
+
+        sprintf(imagePath,"%s-%s.%s",baseImagePath,cubeMapNames[i],fileExtension);
+        printf("Load cubemap face %s\n",imagePath);
+        unsigned char *data = stbi_load(imagePath, &_width, &_height, &nrChannels, 0);
+
+        if (data) {
+            if (i == 0) {
+                _format = nrChannels > 3 ? GL_RGBA : GL_RGB;
+            }
+
+            glTexImage2D(
+                GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
+                0, _format, _width, _height, 0, _format, _type, data
+            );
+        }else{
+            std::cout << "Failed to load texture " << imagePath << std::endl;
+        }
+
+        stbi_image_free(data);
+    }
+
+    glTexParameteri(_target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(_target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(_target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(_target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(_target, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+    glBindTexture(_target,0);
+
+    delete[] imagePath;
+
+
+}
+
 void GLTexture::initLinearTexture() {
     glBindTexture(_target, _texture);
     glTexParameteri(_target, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -69,7 +121,7 @@ void GLTexture::dispose(){
     glDeleteTextures(1,&_texture);
 }
 
-void GLTexture::initEmpty(GLenum format, GLenum target, GLenum type, int width, int height) {
+void GLTexture::initEmptyTexture2d(GLenum format, GLenum target, GLenum type, int width, int height) {
     gen();
     _target = target;
     _format = format;

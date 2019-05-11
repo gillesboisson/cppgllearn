@@ -6,7 +6,6 @@ void GLUploadBuffer(GLuint vbo,GLsizeiptr size,const GLvoid* data,GLenum target,
 	glBufferData(target, size, data, usage);
     glBindBuffer(target, 0);
 
-    printf("GLUploadBuffer target %d VBO %d \n",target, vbo);
 }
 
 

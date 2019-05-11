@@ -13,6 +13,14 @@ class GLFrameBuffer {
 protected:
 
     GLuint _fbo;
+public:
+    GLuint getGLId() const;
+
+    int getWidth() const;
+
+    int getHeight() const;
+
+protected:
     int _width;
     int _height;
 

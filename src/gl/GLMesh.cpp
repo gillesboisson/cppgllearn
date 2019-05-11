@@ -8,12 +8,12 @@ GLMesh::GLMesh() {
 
 }
 
-GLMesh::GLMesh(uint32_t nbPoints,const GLVao vao) {
+GLMesh::GLMesh(uint32_t nbIndices,GLVao vao) {
     _vao = vao;
-    _nbPoints = nbPoints;
+    _nbIndices = nbIndices;
 }
 
-GLMesh::GLMesh(uint32_t nbPoints,const GLVao vao, GLenum renderType): GLMesh(nbPoints,vao) {
+GLMesh::GLMesh(uint32_t nbPoints,GLVao vao, GLenum renderType): GLMesh(nbPoints,vao) {
     _renderType = renderType;
 }
 
@@ -26,18 +26,18 @@ const GLVao &GLMesh::getVao() const {
 }
 
 uint32_t GLMesh::getNbPoints() const {
-    return _nbPoints;
+    return _nbIndices;
 }
 
 void GLMesh::draw() {
     _vao.bind();
-    draw(_nbPoints);
+    draw(_nbIndices);
 }
 
-void GLMesh::draw(uint32_t nbPoints) {
+void GLMesh::draw(uint32_t nbIndices) {
     if(_vao.getIndexVboGLId() != 0) {
-        glDrawElements(_renderType, nbPoints, _vao.getIndType(), nullptr);
+        glDrawElements(_renderType, nbIndices, _vao.getIndType(), nullptr);
     }else{
-        glDrawArrays(_renderType,0,nbPoints);
+        glDrawArrays(_renderType,0,nbIndices);
     }
 }

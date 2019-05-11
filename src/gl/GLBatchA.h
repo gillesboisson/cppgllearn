@@ -98,8 +98,7 @@ GLBatchA<VerticesT>::GLBatchA(const uint32_t maxSize, const uint16_t maxIndicesS
 
 template<typename VerticesT>
 GLBatchA<VerticesT>::~GLBatchA(){
-    if (_verticesData != nullptr) dispose();
-
+    dispose();
 }
 
 
@@ -154,15 +153,23 @@ void GLBatchA<VerticesT>::end() {
 
 template<typename VerticesT>
 void GLBatchA<VerticesT>::dispose() {
-    _vao->dispose();
 
-    delete[] _verticesData;
-    delete[] _indicesData;
-    delete _vao;
+    if(_verticesData != nullptr) {
+        delete[] _verticesData;
+        _verticesData = nullptr;
 
-    _verticesData = nullptr;
-    _indicesData = nullptr;
-    _vao = nullptr;
+    }
+
+    if(_vao != nullptr) {
+        _vao->dispose();
+        delete _vao;
+        _vao = nullptr;
+    }
+
+    if(_verticesData != nullptr) {
+        delete[] _indicesData;
+        _indicesData = nullptr;
+    }
 }
 
 

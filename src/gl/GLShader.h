@@ -46,6 +46,14 @@ public:
     void setUniformVec3v(GLuint location, const glm::vec3 & vec);
 
     void setUniformFloat(GLuint location, float fl);
+
+    void setUniformMat4v(const char *uniformName, const glm::mat4 &mat);
+
+    void setUniformVec4v(const char *uniformName, const glm::vec4 &vec);
+
+    void setUniformVec3v(const char *uniformName, const glm::vec3 &vec);
+
+    void setUniformFloat(const char *uniformName, float fl);
 };
 
 #endif
