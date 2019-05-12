@@ -11,6 +11,7 @@
 #include "../3d/Node.h"
 #include "../gl/GLShader.h"
 #include "../gl/GLBatchA.h"
+#include "../gl/GLBuffer.h"
 #include "../gl/GLFrameBuffer.h"
 #include "../3d/GLTFLoader.h"
 
@@ -45,8 +46,8 @@ protected:
     GLShader _skyboxShader;
     GLShader _cmReflectionShader;
     GLTexture* _fboTexture;
-    std::vector<uint32_t> _vbos;
-    std::vector<GLMesh> _meshes;
+    std::vector<GLBuffer*> _vbos;
+    std::vector<GLMesh*> _meshes;
     WireframeBatch _wireframeBatch;
 
     GLFrameBuffer _fbo;

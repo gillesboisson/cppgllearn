@@ -23,6 +23,9 @@ protected:
     void gen();
 
 public:
+
+    ~GLTexture();
+
     void loadTexture2d(const char *imagePath);
 
     ///

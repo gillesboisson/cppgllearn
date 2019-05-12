@@ -170,3 +170,6 @@ GLenum GLTexture::getFormat() const {
     return _format;
 }
 
+GLTexture::~GLTexture(){
+    dispose();
+}

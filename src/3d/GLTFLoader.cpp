@@ -4,34 +4,22 @@
 
 #include "GLTFLoader.h"
 #include "../gl/GLHelper.h"
+#include "../gl/GLBuffer.h"
 
 
 
-std::vector<uint32_t> GLTFLoader::loadBufferViews(const std::vector<tinygltf::Buffer> &buffers,
+std::vector<GLBuffer*> GLTFLoader::loadBufferViews(const std::vector<tinygltf::Buffer> &buffers,
                                                   const std::vector<tinygltf::BufferView> &bufferViews) {
 
-    std::vector<uint32_t> vbos;
+    std::vector<GLBuffer*> vbos;
 
     for(auto & it : bufferViews){
         auto buffer = buffers[it.buffer];
-        uint32_t vbo;
-        glGenBuffers(1,&vbo);
-
-
-
 
         unsigned char* bufferC = &buffer.data[it.byteOffset];
 
-        auto* bufferF = (float*) &buffer.data[it.byteOffset];
-
-        float val1 = *bufferF;
-        float val2 = *(bufferF+1);
-        float val3 = *(bufferF+2);
-        float val4 = *(bufferF+3);
-
-
-
-        GLUploadBuffer(vbo,it.byteLength,bufferC,it.target);
+        auto vbo = new GLBuffer(it.target,GL_STATIC_DRAW);
+        vbo->uploadData(it.byteLength,bufferC);
         vbos.push_back(vbo);
 
     }
@@ -50,13 +38,13 @@ std::vector<uint32_t> GLTFLoader::loadBufferViews(const std::vector<tinygltf::Bu
 //    return attributes;
 //}
 
-std::vector<GLMesh>
-GLTFLoader::loadMeshes(const std::vector<uint32_t> &vbos,
+std::vector<GLMesh*>
+GLTFLoader::loadMeshes(const std::vector<GLBuffer*> &vbos,
                        const std::vector<tinygltf::BufferView> &bufferViews,
                        const std::vector<tinygltf::Accessor> &accessors,
                        const std::vector<tinygltf::Primitive> &primitives) {
 
-    std::vector<GLMesh> meshes;
+    std::vector<GLMesh*> meshes;
     meshes.reserve(primitives.size());
 
 
@@ -100,7 +88,7 @@ GLTFLoader::loadMeshes(const std::vector<uint32_t> &vbos,
         }
 
 
-        uint32_t indicesVBO = 0;
+        GLBuffer* indicesVBO ;
         GLenum indType = GL_UNSIGNED_SHORT;
 
         if(pr.indices >= 0){
@@ -111,10 +99,9 @@ GLTFLoader::loadMeshes(const std::vector<uint32_t> &vbos,
         }
 
 
-
-        GLVao vao{};
-        vao.init(attributes,pr.attributes.size(), indicesVBO, indType);
-        meshes.emplace_back(GLMesh(nbPoints,vao,pr.mode));
+        GLMesh* mesh = new GLMesh(nbPoints,pr.mode);
+        mesh->getVao()->init(attributes,pr.attributes.size(), indicesVBO, indType);
+        meshes.emplace_back(mesh);
 
 
     }

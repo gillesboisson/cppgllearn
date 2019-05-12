@@ -6,7 +6,7 @@
 #define CPP_LEARN_GLATTRIBUTE_H
 
 #include <glad/glad.h>
-
+#include "GLBuffer.h"
 
 
 class GLAttribute {
@@ -24,7 +24,7 @@ public:
 
     GLsizei getStride() const;
 
-    GLuint getVbo() const;
+    GLBuffer* getVbo() const;
 
     const void *getPointer() const;
 
@@ -32,12 +32,12 @@ public:
     GLenum _type;
     GLboolean _normalize;
     GLsizei _stride;
-    GLuint _vbo;
+    GLBuffer* _vbo;
     const GLvoid * _pointer;
 
     GLAttribute();
-    GLAttribute(uint32_t location, GLint size, GLenum type,GLuint vbo,GLsizei stride,GLboolean normalize,const GLvoid * pointer);
-    void set(uint32_t location, GLint size, GLenum type,GLuint vbo,GLsizei stride,GLboolean normalize,const GLvoid * pointer);
+    GLAttribute(uint32_t location, GLint size, GLenum type,GLBuffer* vbo,GLsizei stride,GLboolean normalize,const GLvoid * pointer);
+    void set(uint32_t location, GLint size, GLenum type,GLBuffer* vbo,GLsizei stride,GLboolean normalize,const GLvoid * pointer);
 
     void deleteVbo();
 };

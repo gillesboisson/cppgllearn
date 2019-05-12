@@ -96,7 +96,7 @@ void GLBuffer::bind() const {
     glBindBuffer(_target,_glId);
 }
 
-GLBuffer::GLBuffer() {}
+GLBuffer::GLBuffer(){};
 
 GLBuffer::GLBuffer(GLenum target, GLenum usage):GLBuffer() {
 
@@ -111,4 +111,8 @@ void GLBuffer::uploadData() const {
     // assuming memory is already allocated, upload sub data is used for faster upload
     glBindBuffer(_target, _glId);
     glBufferSubData(_target,0,_dataSize,_data);
+}
+
+GLBuffer::~GLBuffer() {
+    dispose();
 }

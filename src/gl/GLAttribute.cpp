@@ -4,15 +4,18 @@
 
 #include "GLAttribute.h"
 
-GLAttribute::GLAttribute(){};
+GLAttribute::GLAttribute() = default;
 
-GLAttribute::GLAttribute(uint32_t location, GLint size, GLenum type, GLuint vbo, GLsizei stride, GLboolean normalize,
+GLAttribute::GLAttribute(uint32_t location, GLint size, GLenum type, GLBuffer* vbo, GLsizei stride, GLboolean normalize,
                          const GLvoid *pointer) {
     set(location,size,type,vbo,stride,normalize,pointer);
 }
 
 void GLAttribute::deleteVbo(){
-    glDeleteFramebuffers(1,&_vbo);
+    if(_vbo != nullptr) {
+        delete _vbo;
+        _vbo = nullptr;
+    }
 }
 
 uint32_t GLAttribute::getLocation() const {
@@ -35,7 +38,7 @@ GLsizei GLAttribute::getStride() const {
     return _stride;
 }
 
-GLuint GLAttribute::getVbo() const {
+GLBuffer* GLAttribute::getVbo() const {
     return _vbo;
 }
 
@@ -47,7 +50,7 @@ void GLAttribute::set(
     uint32_t location,
     GLint size,
     GLenum type,
-    GLuint vbo,
+    GLBuffer* vbo,
     GLsizei stride,
     GLboolean normalize,
     const GLvoid *pointer) {

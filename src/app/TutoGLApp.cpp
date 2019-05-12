@@ -12,21 +12,13 @@ TutoGLApp::TutoGLApp():GLFWAppA(512,512,"Open GL Tutos",60) {
 
 }
 
-
-
-
 void TutoGLApp::setupGeometry() {
     auto ratio = (float)_windowWidth / (float)_windowHeight;
     _cam = Camera::camPerspective(glm::radians(45.0f), ratio, 0.001f, 100.0f);
 
     _cam.transform.position(0, 0, -8.0f);
-//    node.transform.position(1.f,1.f,1.f);
     _node.transform.scale(0.01f);
     _node2.transform.scale(20);
-//    _node2.transform.translate(5,0,0);
-
-    _wireframeBatch.init();
-
 
     _cube = PrimitiveHelper::createSkyboxTriangleMesh();
 
@@ -159,10 +151,6 @@ void TutoGLApp::update(double frameInterval,float frameSpeed) {
 //    _node2.transform.eulerAngle(0.0f, 0.0f, _angle);
     _node2.updateGeometry();
 
-
-
-
-
     // handle cam nav -------------------------
     double mousePosX, mousePosY;
     glfwGetCursorPos(_window, &mousePosX, &mousePosY);
@@ -208,7 +196,7 @@ void TutoGLApp::update(double frameInterval,float frameSpeed) {
 
     // update transform uniform -------------------------
     _cmReflectionShader.useProgram();
-
+    _cubeMapTest.bind();
 
     glm::mat4 *modelM = _node.getWorldMat();
     const glm::mat4 &rotM = _node.transform.getRotMat();
@@ -220,7 +208,7 @@ void TutoGLApp::update(double frameInterval,float frameSpeed) {
     _cmReflectionShader.setUniformVec3v("camPosition",_cam.transform.getPosition());
 
     // draw mesh
-    _meshes[0].draw();
+    _meshes[0]->draw();
 
 
     _skyboxShader.useProgram();

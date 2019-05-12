@@ -10,6 +10,7 @@
 #include <glad/glad.h>
 
 #include "./GLVao.h"
+#include "./GLBuffer.h"
 
 template<typename VerticesT>
 class GLBatchA {
@@ -25,9 +26,12 @@ protected:
 
     uint16_t _maxIndicesSize;
     uint16_t _indicesSize;
-    GLuint _vbo;
+//    GLuint _vbo;
+//    GLuint _ibo;
 
-    GLuint _ibo;
+    GLBuffer* _vbo;
+    GLBuffer* _ibo;
+
     GLVao* _vao;
     uint16_t _vaoId;
 
@@ -76,15 +80,16 @@ void GLBatchA<VerticesT>::init() {
 
     if (_verticesData != nullptr) dispose();
 
+    _verticesData = new VerticesT[_maxVerticesSize];
+    _indicesData = new uint16_t[_maxIndicesSize];
 
+    _vbo = new GLBuffer(GL_ARRAY_BUFFER,GL_DYNAMIC_DRAW,_verticesData,sizeof(_verticesData));
+    _ibo = new GLBuffer(GL_ELEMENT_ARRAY_BUFFER,GL_DYNAMIC_DRAW,_indicesData,sizeof(_indicesData));
 
-    glGenBuffers(1, &_vbo);
-    glGenBuffers(1, &_ibo);
     _vao = createVao();
     _vaoId = _vao->getGLId();
 
-    _verticesData = new VerticesT[_maxVerticesSize];
-    _indicesData = new uint16_t[_maxIndicesSize];
+
 }
 
 
@@ -142,10 +147,14 @@ void GLBatchA<VerticesT>::end() {
     auto v2 = _indicesData[1];
     auto v3 = _indicesData[2];
 
-    glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-    glBufferData(GL_ARRAY_BUFFER, sV, _verticesData, GL_DYNAMIC_DRAW);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _vao->getIndexBufferGlId());
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sI, _indicesData, GL_DYNAMIC_DRAW);
+
+    _vbo->uploadData();
+    _ibo->uploadData();
+
+//    glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+//    glBufferData(GL_ARRAY_BUFFER, sV, _verticesData, GL_DYNAMIC_DRAW);
+//    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _vao->getIndexBufferGlId());
+//    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sI, _indicesData, GL_DYNAMIC_DRAW);
 
     complete();
     reset();
@@ -158,6 +167,18 @@ void GLBatchA<VerticesT>::dispose() {
         delete[] _verticesData;
         _verticesData = nullptr;
 
+    }
+
+    if(_vbo != nullptr) {
+        _vbo->dispose();
+        delete _vbo;
+        _vbo = nullptr;
+    }
+
+    if(_ibo != nullptr) {
+        _ibo->dispose();
+        delete _ibo;
+        _ibo = nullptr;
     }
 
     if(_vao != nullptr) {

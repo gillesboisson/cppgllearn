@@ -29,7 +29,7 @@ class GLTFLoader {
 
 public:
 
-    static std::vector<uint32_t> loadBufferViews(
+    static std::vector<GLBuffer*> loadBufferViews(
             const std::vector<tinygltf::Buffer> &buffers,
             const std::vector<tinygltf::BufferView> &bufferViews
     );
@@ -38,7 +38,7 @@ public:
 //    static std::vector<GLAttribute> LoadAccessors(const std::vector<uint32_t> &vbos, const std::vector<tinygltf::Accessor> &accessors);
 
 
-    static std::vector<GLMesh> loadMeshes(const std::vector<uint32_t> &vbos,
+    static std::vector<GLMesh*> loadMeshes(const std::vector<GLBuffer*> &vbos,
                                           const std::vector<tinygltf::BufferView> &bufferViews,
                                           const std::vector<tinygltf::Accessor> &accessors,
                                           const std::vector<tinygltf::Primitive> &primitives);

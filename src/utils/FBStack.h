@@ -17,8 +17,8 @@ struct FBStackData {
 
 class FBStack {
     FBStackData* _stack;
-    FBStackData* _current;
-    uint16_t _stackInd;
+    FBStackData* _current{};
+    uint16_t _stackInd{};
     const uint16_t _stackSize;
 
 

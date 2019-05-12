@@ -5,6 +5,7 @@
 
 #include <glad/glad.h>
 #include "GLAttribute.h"
+#include "GLBuffer.h"
 #include <string>
 #include <map>
 
@@ -38,24 +39,30 @@ void ActivateGLAttribute(GLAttribute* attr);
 class GLVao{
     GLAttribute* _attributes;
     GLuint _glId;
-    GLuint _indexBufferGlId;
+//    GLuint _indexBufferGlId;
+    GLBuffer *_indexBuffer;
+
     GLenum _indType = GL_UNSIGNED_SHORT;
     int _nbAttributes;
 
 
 public:
 
+    ~GLVao();
+
     GLenum getIndType() const;
     void init(GLAttribute *attributes, int nbAttributes);
-    void init(GLAttribute *attributes, int nbAttributes, GLuint indVbo);
-    void init(GLAttribute *attributes, int nbAttributes, GLuint indVbo, GLenum indType);
+    void init(GLAttribute *attributes, int nbAttributes, GLBuffer *indexBuffer);
+    void init(GLAttribute *attributes, int nbAttributes, GLBuffer *indexBuffer, GLenum indType);
     void bind();
     void gen();
     void activate();
     void dispose(bool destroyBuffers = true);
 
+
+    GLBuffer *getIndexBuffer() const;
+
     GLuint getGLId();
-    GLuint getIndexBufferGlId();
 };
 
 

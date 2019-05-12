@@ -43,63 +43,84 @@ const GLushort PrimitiveHelper::cubeLineIndices[] = {
 
 GLMesh *PrimitiveHelper::createCubeTriangleMesh() {
 
-    GLuint vbo;
-    GLuint ibo;
+//    GLuint vbo;
+//    GLuint ibo;
+//
+//    glGenBuffers(1,&vbo);
+//    glGenBuffers(1,&ibo);
+//    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+//    glBufferData(GL_ARRAY_BUFFER, sizeof(cubePosition), cubePosition,GL_STATIC_DRAW);
+//    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+//    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cubeTriangleIndices), cubeTriangleIndices,GL_STATIC_DRAW);
 
-    glGenBuffers(1,&vbo);
-    glGenBuffers(1,&ibo);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(cubePosition), cubePosition,GL_STATIC_DRAW);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cubeTriangleIndices), cubeTriangleIndices,GL_STATIC_DRAW);
+    auto vbo = new GLBuffer(GL_ARRAY_BUFFER,GL_STATIC_DRAW,(GLvoid*) cubePosition,sizeof(cubePosition));
+    auto ibo = new GLBuffer(GL_ELEMENT_ARRAY_BUFFER,GL_STATIC_DRAW,(GLvoid*) cubeTriangleIndices,sizeof(cubeTriangleIndices));
 
-    GLVao vao;
+
     auto attr = new GLAttribute(GLAttributeLocation::Position,3,GL_FLOAT,vbo,sizeof(float) * 3,GL_FALSE, nullptr);
-    vao.init(attr,1,ibo,GL_UNSIGNED_SHORT);
+    auto mesh = new GLMesh(36,GL_TRIANGLES);
+    mesh->getVao()->init(attr,1,ibo,GL_UNSIGNED_SHORT);
 
-    auto mesh = new GLMesh(36,vao);
 
     return mesh;
 }
 
 GLMesh *PrimitiveHelper::createSkyboxTriangleMesh() {
 
-    GLuint vbo;
-    GLuint ibo;
 
-    glGenBuffers(1,&vbo);
-    glGenBuffers(1,&ibo);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(cubePosition), cubePosition,GL_STATIC_DRAW);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cubeTriangleInsideIndices), cubeTriangleInsideIndices,GL_STATIC_DRAW);
 
-    GLVao vao;
+
+
+//    glGenBuffers(1,&vbo);
+//    glGenBuffers(1,&ibo);
+//    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+//    glBufferData(GL_ARRAY_BUFFER, sizeof(cubePosition), cubePosition,GL_STATIC_DRAW);
+//    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+//    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cubeTriangleInsideIndices), cubeTriangleInsideIndices,GL_STATIC_DRAW);
+
+
+
+    auto vbo = new GLBuffer(GL_ARRAY_BUFFER,GL_STATIC_DRAW,(GLvoid*) cubePosition,sizeof(cubePosition));
+    auto ibo = new GLBuffer(GL_ELEMENT_ARRAY_BUFFER,GL_STATIC_DRAW,(GLvoid*) cubeTriangleInsideIndices,sizeof(cubeTriangleInsideIndices));
+//    GLVao vao;
+
+//    auto attr = new GLAttribute(GLAttributeLocation::Position,3,GL_FLOAT,vbo,sizeof(float) * 3,GL_FALSE, nullptr);
+//    vao.init(attr,1,ibo,GL_UNSIGNED_SHORT);
+//
+//    auto mesh = new GLMesh(36,vao);
+
     auto attr = new GLAttribute(GLAttributeLocation::Position,3,GL_FLOAT,vbo,sizeof(float) * 3,GL_FALSE, nullptr);
-    vao.init(attr,1,ibo,GL_UNSIGNED_SHORT);
+    auto mesh = new GLMesh(36,GL_TRIANGLES);
+    mesh->getVao()->init(attr,1,ibo,GL_UNSIGNED_SHORT);
 
-    auto mesh = new GLMesh(36,vao);
 
     return mesh;
 }
 
 GLMesh *PrimitiveHelper::createCubeLineMesh() {
 
-    GLuint vbo;
-    GLuint ibo;
+//    GLuint vbo;
+//    GLuint ibo;
+//
+//    glGenBuffers(1,&vbo);
+//    glGenBuffers(1,&ibo);
+//    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+//    glBufferData(GL_ARRAY_BUFFER, sizeof(cubePosition), cubePosition,GL_STATIC_DRAW);
+//    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+//    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cubeLineIndices), cubeLineIndices,GL_STATIC_DRAW);
 
-    glGenBuffers(1,&vbo);
-    glGenBuffers(1,&ibo);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(cubePosition), cubePosition,GL_STATIC_DRAW);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cubeLineIndices), cubeLineIndices,GL_STATIC_DRAW);
+    auto vbo = new GLBuffer(GL_ARRAY_BUFFER,GL_STATIC_DRAW,(GLvoid*) cubePosition,sizeof(cubePosition));
+    auto ibo = new GLBuffer(GL_ELEMENT_ARRAY_BUFFER,GL_STATIC_DRAW,(GLvoid*) cubeLineIndices,sizeof(cubeLineIndices));
 
-    GLVao vao;
-    auto attr = new GLAttribute(GLAttributeLocation::Position,3,GL_FLOAT,vbo,sizeof(float) * 3,GL_FALSE, nullptr);
-    vao.init(attr,1,ibo,GL_UNSIGNED_SHORT);
+//    GLVao vao;
+//    auto attr = new GLAttribute(GLAttributeLocation::Position,3,GL_FLOAT,vbo,sizeof(float) * 3,GL_FALSE, nullptr);
+//    vao.init(attr,1,ibo,GL_UNSIGNED_SHORT);
 
-    auto mesh = new GLMesh(24,vao,GL_LINES);
+     auto attr = new GLAttribute(GLAttributeLocation::Position,3,GL_FLOAT,vbo,sizeof(float) * 3,GL_FALSE, nullptr);
+    auto mesh = new GLMesh(36,GL_LINES);
+    mesh->getVao()->init(attr,1,ibo,GL_UNSIGNED_SHORT);
+
+//    auto mesh = new GLMesh(24,vao,GL_LINES);
 
     return mesh;
 }

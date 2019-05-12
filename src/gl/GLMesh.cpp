@@ -4,40 +4,57 @@
 
 #include "GLMesh.h"
 
-GLMesh::GLMesh() {
 
-}
 
-GLMesh::GLMesh(uint32_t nbIndices,GLVao vao) {
-    _vao = vao;
+GLMesh::GLMesh(uint32_t nbIndices, GLenum renderType){
     _nbIndices = nbIndices;
+    _renderType = renderType;
+    _vao = new GLVao();
+
 }
 
-GLMesh::GLMesh(uint32_t nbPoints,GLVao vao, GLenum renderType): GLMesh(nbPoints,vao) {
+GLMesh::GLMesh(uint32_t nbIndices,GLVao* vao, GLenum renderType) {
+    _nbIndices = nbIndices;
     _renderType = renderType;
+    _vao = vao;
 }
 
 GLenum GLMesh::getRenderType() {
     return _renderType;
 }
 
-const GLVao &GLMesh::getVao() const {
-    return _vao;
-}
 
 uint32_t GLMesh::getNbPoints() const {
     return _nbIndices;
 }
 
 void GLMesh::draw() {
-    _vao.bind();
+    _vao->bind();
     draw(_nbIndices);
 }
 
 void GLMesh::draw(uint32_t nbIndices) {
-    if(_vao.getIndexBufferGlId() != 0) {
-        glDrawElements(_renderType, nbIndices, _vao.getIndType(), nullptr);
+    if(_vao->getIndexBuffer() != nullptr) {
+        glDrawElements(_renderType, nbIndices, _vao->getIndType(), nullptr);
     }else{
         glDrawArrays(_renderType,0,nbIndices);
     }
 }
+
+GLMesh::~GLMesh() {
+    dispose();
+}
+
+void GLMesh::dispose(bool disposeVao) {
+    if(_vao != nullptr){
+        delete _vao;
+        _vao = nullptr;
+    }
+}
+
+GLVao *GLMesh::getVao() const {
+    return _vao;
+}
+
+
+

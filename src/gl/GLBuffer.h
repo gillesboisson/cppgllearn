@@ -9,17 +9,17 @@
 
 class GLBuffer {
 
-    GLuint _glId;
-    GLenum _target;
-    GLenum _usage;
-    GLvoid *_data;
-    GLsizeiptr _dataSize;
-
-
+    GLuint _glId{};
+    GLenum _target{};
+    GLenum _usage{};
+    GLvoid *_data{};
+    GLsizeiptr _dataSize{};
 
 public:
 
     GLBuffer();
+    ~GLBuffer();
+
     GLBuffer(GLenum target,GLenum usage);
     GLBuffer(GLenum target,GLenum usage,GLvoid *data,GLsizeiptr size);
 

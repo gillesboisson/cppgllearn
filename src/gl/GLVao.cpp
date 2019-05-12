@@ -4,39 +4,10 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
-//
-//GLAttribute CreateGLAttribute(uint32_t location, GLint size, GLenum type,GLuint vbo,GLsizei stride,GLboolean normalize,const GLvoid * pointer){
-//    GLAttribute attr;
-//
-//    attr.location = location;
-//    attr.size = size;
-//    attr.type = type;
-//    attr.normalize = normalize;
-//    attr.stride = stride;
-//    attr.location = location;
-//    attr.vbo = vbo;
-//    attr.pointer = pointer;
-//
-//    return attr;
-//}
-//
-//GLAttribute* NewGLAttribute(uint32_t location, GLint size, GLenum type,GLuint vbo,GLsizei stride,GLboolean normalize,const GLvoid * pointer){
-//    GLAttribute* attr = new GLAttribute();
-//
-//    attr->location = location;
-//    attr->size = size;
-//    attr->type = type;
-//    attr->normalize = normalize;
-//    attr->stride = stride;
-//    attr->location = location;
-//    attr->vbo = vbo;
-//    attr->pointer = pointer;
-//
-//    return attr;
-//}
+#include <vector>
 
 void ActivateGLAttribute(GLAttribute* attr){
-    glBindBuffer(GL_ARRAY_BUFFER, attr->getVbo());
+    attr->getVbo()->bind();
 	glEnableVertexAttribArray(attr->getLocation());
 	glVertexAttribPointer(
 	    attr->getLocation(),
@@ -52,9 +23,7 @@ GLuint GLVao::getGLId(){
     return _glId;
 }
 
-GLuint GLVao::getIndexBufferGlId(){
-    return _indexBufferGlId;
-}
+
 
 void GLVao::init(GLAttribute *attributes, int nbAttributes){
     _nbAttributes = nbAttributes;
@@ -62,8 +31,8 @@ void GLVao::init(GLAttribute *attributes, int nbAttributes){
     gen();
     activate();
 }
-void GLVao::init(GLAttribute *attributes, int nbAttributes, GLuint indVbo){
-    _indexBufferGlId = indVbo;
+void GLVao::init(GLAttribute *attributes, int nbAttributes, GLBuffer *indexBuffer){
+    _indexBuffer = indexBuffer;
     init(attributes, nbAttributes);
 }
 
@@ -83,21 +52,36 @@ void GLVao::activate(){
 
         ActivateGLAttribute(attr++);
     }
-    if(_indexBufferGlId != 0){
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,_indexBufferGlId);
+    if(_indexBuffer != nullptr){
+        _indexBuffer->bind();
     }
     glBindVertexArray(0);
 
 }
 void GLVao::dispose(bool destroyBuffers){
     glDeleteVertexArrays(1, &_glId);
+
+
+
     if(destroyBuffers){
+        std::vector<GLBuffer*> buffers;
         for (int i = 0; i < _nbAttributes; ++i) {
-            _attributes[i].deleteVbo();
+            auto attrVbo = _attributes[i].getVbo();
+
+            if(std::find(buffers.begin(), buffers.end(),attrVbo) != buffers.end()) {
+                buffers.push_back(attrVbo);
+            }
+        }
+
+        for(auto & buffer : buffers){
+            delete buffer;
         }
     }
-    if(destroyBuffers && _indexBufferGlId != 0){
-        glDeleteBuffers(1,&_indexBufferGlId);
+
+
+
+    if(destroyBuffers && _indexBuffer != nullptr){
+        _indexBuffer->dispose();
     }
 
     delete[] _attributes;
@@ -106,14 +90,20 @@ void GLVao::dispose(bool destroyBuffers){
 
 }
 
-void GLVao::init(GLAttribute *attributes, int nbAttributes, GLuint indVbo, GLenum indType) {
-
-    init(attributes, nbAttributes, indVbo);
+void GLVao::init(GLAttribute *attributes, int nbAttributes,  GLBuffer *indexBuffer, GLenum indType) {
+    init(attributes, nbAttributes, indexBuffer);
     _indType = indType;
 }
 
 GLenum GLVao::getIndType() const {
     return _indType;
 
+}
+GLVao::~GLVao() {
+    dispose();
+}
+
+GLBuffer* GLVao::getIndexBuffer() const {
+    return _indexBuffer;
 }
 

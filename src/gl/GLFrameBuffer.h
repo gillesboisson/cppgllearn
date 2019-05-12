@@ -13,12 +13,7 @@ class GLFrameBuffer {
 protected:
 
     GLuint _glId;
-public:
-    GLuint getGLId() const;
 
-    int getWidth() const;
-
-    int getHeight() const;
 
 protected:
     int _width;
@@ -26,6 +21,12 @@ protected:
 
 
 public:
+    GLuint getGLId() const;
+
+    int getWidth() const;
+
+    int getHeight() const;
+
     void init(int width,int height);
     void bind();
     void attachTexture(const GLTexture &texture,GLenum attachment);

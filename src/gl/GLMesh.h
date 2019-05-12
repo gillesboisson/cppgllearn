@@ -10,29 +10,28 @@
 
 class GLMesh {
 protected:
-    GLVao _vao;
+    GLVao* _vao;
     uint32_t _nbIndices;
-public:
-    uint32_t getNbPoints() const;
-
-public:
-    const GLVao &getVao() const;
-
-public:
-
-
-protected:
     GLenum _renderType = GL_TRIANGLES;
 
 public:
-    GLMesh();
-    explicit GLMesh(uint32_t nbIndices,GLVao vao);
-    explicit GLMesh(uint32_t nbPoints,GLVao vao,GLenum renderType);
+
+    ~GLMesh();
+
+    void dispose(bool disposeVao = true);
+
+    explicit GLMesh(uint32_t nbIndices,GLenum renderType = GL_STATIC_DRAW);
+    explicit GLMesh(uint32_t nbPoints,GLVao* vao,GLenum renderType = GL_STATIC_DRAW);
 
     GLenum getRenderType();
 
     void draw(uint32_t nbIndices);
     void draw();
+
+
+    uint32_t getNbPoints() const;
+    GLVao *getVao() const;
+
 };
 
 
