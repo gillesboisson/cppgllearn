@@ -34,6 +34,22 @@ public:
 };
 
 
+struct PointLight {
+    glm::vec3 ambient;uint32_t __s1;
+    glm::vec3 diffuse;uint32_t __s2;
+    glm::vec3 specular;uint32_t __s3;
+    glm::vec3 position;
+    float shininess;
+};
+
+struct TransformUB {
+    glm::mat4 mvp;
+    glm::mat4 rot;
+    glm::mat4 m;
+};
+
+
+
 class TutoGLApp : public GLFWAppA {
 protected:
     Camera _cam;
@@ -54,6 +70,17 @@ protected:
     GLTexture _textureTest;
     GLTexture _cubeMapTest;
     GLMesh *_cube;
+
+
+
+    GLBuffer* lightB;
+    PointLight light;
+    GLBuffer* transformB;
+    TransformUB transformub;
+
+
+//    GLBuffer* transformB;
+
 
     void setupGeometry();
 

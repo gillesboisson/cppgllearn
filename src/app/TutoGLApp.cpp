@@ -21,9 +21,6 @@ void TutoGLApp::setupGeometry() {
     _node2.transform.scale(20);
 
     _cube = PrimitiveHelper::createSkyboxTriangleMesh();
-
-
-
 }
 
 void TutoGLApp::setupShader() {
@@ -68,30 +65,46 @@ void TutoGLApp::loadDuck() {
 void TutoGLApp::setupUniforms() {
     _simpleShader.useProgram();
     uint32_t colorL = _simpleShader.getUniformLocation("color");
-    uint32_t diffuseColorL = _simpleShader.getUniformLocation("pointLight.diffuse");
-    uint32_t ambientColorL = _simpleShader.getUniformLocation("pointLight.ambient");
-    uint32_t specularColorL = _simpleShader.getUniformLocation("pointLight.specular");
-    uint32_t shininessL = _simpleShader.getUniformLocation("pointLight.shininess");
-    uint32_t lightPositionL = _simpleShader.getUniformLocation("lightPosition");
+//    uint32_t diffuseColorL = _simpleShader.getUniformLocation("pointLight.diffuse");
+//    uint32_t ambientColorL = _simpleShader.getUniformLocation("pointLight.ambient");
+//    uint32_t specularColorL = _simpleShader.getUniformLocation("pointLight.specular");
+//    uint32_t shininessL = _simpleShader.getUniformLocation("pointLight.shininess");
+//    uint32_t lightPositionL = _simpleShader.getUniformLocation("lightPosition");
 
     _camPosL = _simpleShader.getUniformLocation("camPosition");
     _mvpL   = _simpleShader.getUniformLocation("transform.mvp");
     _mL     = _simpleShader.getUniformLocation("transform.m");
     _rotL   = _simpleShader.getUniformLocation("transform.rot");
 
+
+    light.diffuse = glm::vec3(0.5);
+    light.ambient = glm::vec3(0.4);
+    light.specular = glm::vec3(0.1);
+    light.position = glm::vec3(3.0,3.0,3.0);
+    light.shininess = 32.f;
+
+    lightB = new GLBuffer(GL_UNIFORM_BUFFER,GL_STATIC_DRAW,&light,sizeof(light));
+    lightB->bindBase(1);
+    _simpleShader.bindUniformBlockIndex("Light",1);
+
+    transformB = new GLBuffer(GL_UNIFORM_BUFFER,GL_DYNAMIC_DRAW,&transformub,sizeof(transformub));
+    transformB->bindBase(2);
+    _simpleShader.bindUniformBlockIndex("TransformUB",2);
+
+
     glm::vec4 color(1.0);
-    glm::vec3 diffuseColor(0.5);
-    glm::vec3 ambientColor(0.4);
-    glm::vec3 specularColor(0.1);
-    glm::vec3 lightPosition(3.0,3.0,3.0);
-    float shininess = 32.f;
+//    glm::vec3 diffuseColor(0.5);
+//    glm::vec3 ambientColor(0.4);
+//    glm::vec3 specularColor(0.1);
+//    glm::vec3 lightPosition(3.0,3.0,3.0);
+//    float shininess = 32.f;
 
     _simpleShader.setUniformVec4v(colorL,color);
-    _simpleShader.setUniformVec3v(diffuseColorL,diffuseColor);
-    _simpleShader.setUniformVec3v(ambientColorL,ambientColor);
-    _simpleShader.setUniformVec3v(specularColorL,specularColor);
-    _simpleShader.setUniformVec3v(lightPositionL,lightPosition);
-    _simpleShader.setUniformFloat(shininessL,shininess);
+//    _simpleShader.setUniformVec3v(diffuseColorL,diffuseColor);
+//    _simpleShader.setUniformVec3v(ambientColorL,ambientColor);
+//    _simpleShader.setUniformVec3v(specularColorL,specularColor);
+//    _simpleShader.setUniformVec3v(lightPositionL,lightPosition);
+//    _simpleShader.setUniformFloat(shininessL,shininess);
     _textureShader.useProgram();
     auto colorTLocation   = _textureShader.getUniformLocation("colorT");
     glUniform1i(colorTLocation, 0);
@@ -111,12 +124,12 @@ void TutoGLApp::setupUniforms() {
     _rotL3   = _skyboxShader.getUniformLocation("camRot");
 
     _cmReflectionShader.useProgram();
-    _cmReflectionShader.setUniformVec4v("color",color);
-    _cmReflectionShader.setUniformVec3v("pointLight.diffuse",diffuseColor);
-    _cmReflectionShader.setUniformVec3v("pointLight.ambient",ambientColor);
-    _cmReflectionShader.setUniformVec3v("pointLight.specular",specularColor);
-    _cmReflectionShader.setUniformFloat("pointLight.shininess",shininess);
-    _cmReflectionShader.setUniformVec3v("lightPosition",lightPosition);
+//    _cmReflectionShader.setUniformVec4v("color",color);
+//    _cmReflectionShader.setUniformVec3v("pointLight.diffuse",diffuseColor);
+//    _cmReflectionShader.setUniformVec3v("pointLight.ambient",ambientColor);
+//    _cmReflectionShader.setUniformVec3v("pointLight.specular",specularColor);
+//    _cmReflectionShader.setUniformFloat("pointLight.shininess",shininess);
+//    _cmReflectionShader.setUniformVec3v("lightPosition",lightPosition);
 
 }
 
@@ -195,32 +208,38 @@ void TutoGLApp::update(double frameInterval,float frameSpeed) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // update transform uniform -------------------------
-    _cmReflectionShader.useProgram();
+    _simpleShader.useProgram();
     _cubeMapTest.bind();
 
-    glm::mat4 *modelM = _node.getWorldMat();
-    const glm::mat4 &rotM = _node.transform.getRotMat();
+//    glm::mat4 *modelM = _node.getWorldMat();
+//    const glm::mat4 &rotM = _node.transform.getRotMat();
 
-    _cam.updateMVP(&_mvp, modelM);
-    _cmReflectionShader.setUniformMat4v("transform.mvp", _mvp);
-    _cmReflectionShader.setUniformMat4v("transform.m", *modelM);
-    _cmReflectionShader.setUniformMat4v("transform.rot", rotM);
-    _cmReflectionShader.setUniformVec3v("camPosition",_cam.transform.getPosition());
+//    _cam.updateMVP(&_mvp, modelM);
+
+    transformub.m = *_node.getWorldMat();
+    _cam.updateMVP(&transformub.mvp,&transformub.m);
+    transformub.rot = _node.transform.getRotMat();
+    transformB->uploadData();
+
+//    _simpleShader.setUniformMat4v("transform.mvp", _mvp);
+//    _simpleShader.setUniformMat4v("transform.m", *modelM);
+//    _simpleShader.setUniformMat4v("transform.rot", rotM);
+    _simpleShader.setUniformVec3v("camPosition",_cam.transform.getPosition());
 
     // draw mesh
     _meshes[0]->draw();
 
 
-    _skyboxShader.useProgram();
-    glm::mat4 *modelM2 = _node2.getWorldMat();
-    const glm::mat4 &rotM2 = _node2.transform.getRotMat();
-
-    _cam.updateMVP(&_mvp, modelM2);
-    _skyboxShader.setUniformMat4v(_mvpL3, _mvp);
-    _skyboxShader.setUniformMat4v(_rotL3, _cam.transform.getRotMat());
-    _cubeMapTest.bind();
-
-    _cube->draw();
+//    _skyboxShader.useProgram();
+//    glm::mat4 *modelM2 = _node2.getWorldMat();
+//    const glm::mat4 &rotM2 = _node2.transform.getRotMat();
+//
+//    _cam.updateMVP(&_mvp, modelM2);
+//    _skyboxShader.setUniformMat4v(_mvpL3, _mvp);
+//    _skyboxShader.setUniformMat4v(_rotL3, _cam.transform.getRotMat());
+//    _cubeMapTest.bind();
+//
+//    _cube->draw();
 
 
 

@@ -27,6 +27,7 @@ void GLBuffer::init(GLenum target, GLenum usage, GLsizeiptr size) {
 void GLBuffer::init(GLenum target, GLenum usage, GLvoid* data, GLsizeiptr size) {
     init(target,usage);
     _data = data;
+    _dataSize = size;
     uploadData(size,data,usage);
 }
 
@@ -115,4 +116,13 @@ void GLBuffer::uploadData() const {
 
 GLBuffer::~GLBuffer() {
     dispose();
+}
+
+void GLBuffer::bindBase(GLuint index) const {
+    glBindBufferBase(_target,index,_glId);
+}
+
+void GLBuffer::bindRange(GLuint index, GLintptr offset, GLsizeiptr size) const {
+    glBindBufferRange(_target,index,_glId,offset,size);
+
 }

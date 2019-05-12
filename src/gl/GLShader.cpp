@@ -238,4 +238,11 @@ uint32_t  GLShader::getUniformLocation(const char *uniformName) {
     return glGetUniformLocation(_programId, uniformName);
 }
 
+void GLShader::bindUniformBlockIndex(const char *name, GLuint index) {
+    GLuint udIndex = glGetUniformBlockIndex(_programId, name);
+    printf("bindUniformBlockIndex %d \n",udIndex);
+    glUniformBlockBinding(_programId, udIndex, index);
+}
+
+
 

@@ -54,6 +54,8 @@ public:
     void setUniformVec3v(const char *uniformName, const glm::vec3 &vec);
 
     void setUniformFloat(const char *uniformName, float fl);
+
+    void bindUniformBlockIndex(const char* name,GLuint index);
 };
 
 #endif

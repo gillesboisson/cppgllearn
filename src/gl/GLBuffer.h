@@ -29,6 +29,9 @@ public:
     void init(GLenum target,GLenum usage,GLvoid *data,GLsizeiptr size);
 
     void bind() const;
+    void bindBase(GLuint index) const;
+    void bindRange(GLuint index,GLintptr offset,GLsizeiptr size) const;
+
     void uploadData(GLsizeiptr size,GLvoid* data,GLenum usage) const;
     void uploadData(GLsizeiptr size,GLvoid* data) const ;
 
