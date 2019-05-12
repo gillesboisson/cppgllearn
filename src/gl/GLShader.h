@@ -15,19 +15,27 @@
 
 class GLShader
 {
+
+protected:
+
+    GLuint _programId;
+    GLuint _vertexId, _fragmentId, _geometryId;
+
+
+    bool loadVertexShader(const std::string &filename);
+    bool loadFragmentShader(const std::string &filename);
+    bool loadGeometryShader(const std::string &filename);
+    bool compileShader(const std::string &filename, GLuint shaderId);
+
 public:
 
-	GLuint _programId;
-	GLuint _vertexId, _fragmentId;
 
 	std::string readFile(const char *file);
  
-	void useProgram();
+	void useProgram() const;
 
-	bool init(const std::string &vertProgramPath, const std::string &fragProgramPath);
- 
-	bool loadVertexShader(const std::string &filename);
-	bool loadFragmentShader(const std::string &filename);
+    bool init(const std::string &vertProgramPath, const std::string &fragProgramPath);
+
 
 	bool linkShaders();
 
@@ -38,24 +46,30 @@ public:
  
 	void dispose();
 
-    uint32_t getUniformLocation(const char *uniformName);
-    void setUniformMat4v(GLuint location, const glm::mat4 & mat);
+    uint32_t getUniformLocation(const char *uniformName) const;
+    void setUniformMat4v(GLuint location, const glm::mat4 & mat) const;
 
-    void setUniformVec4v(GLuint location, const glm::vec4 & vec);
+    void setUniformVec4v(GLuint location, const glm::vec4 & vec) const;
 
-    void setUniformVec3v(GLuint location, const glm::vec3 & vec);
+    void setUniformVec3v(GLuint location, const glm::vec3 & vec) const;
 
-    void setUniformFloat(GLuint location, float fl);
+    void setUniformFloat(GLuint location, float fl) const;
 
-    void setUniformMat4v(const char *uniformName, const glm::mat4 &mat);
+    void setUniformMat4v(const char *uniformName, const glm::mat4 &mat) const;
 
-    void setUniformVec4v(const char *uniformName, const glm::vec4 &vec);
+    void setUniformVec4v(const char *uniformName, const glm::vec4 &vec) const;
 
-    void setUniformVec3v(const char *uniformName, const glm::vec3 &vec);
+    void setUniformVec3v(const char *uniformName, const glm::vec3 &vec) const;
 
-    void setUniformFloat(const char *uniformName, float fl);
+    void setUniformFloat(const char *uniformName, float fl) const;
 
-    void bindUniformBlockIndex(const char* name,GLuint index);
+    void bindUniformBlockIndex(const char* name,GLuint index) const;
+
+    bool initBaseShaders(const std::string &vertProgramPath, const std::string &fragProgramPath);
+
+    void deleteElements();
+
+    bool init(const std::string &vertProgramPath, const std::string &fragProgramPath, const std::string &geomProgramPath);
 };
 
 #endif

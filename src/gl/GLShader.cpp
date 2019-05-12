@@ -10,12 +10,6 @@
 
 std::string GLShader::readFile(const char *file)
 {
-	// Open file
-	
-	
-	//std::cout << "> Open file " << file << std::endl;
-	
-
 	std::ifstream t(file);
 
 	// Read file into buffer
@@ -25,100 +19,92 @@ std::string GLShader::readFile(const char *file)
 	// Make a std::string and fill it with the contents of buffer
 	std::string fileContent = buffer.str();
 
-	//std::cout << "<  " << fileContent << std::endl << "==================" << std::endl;
 
 	return fileContent;
 }
 
 
-void GLShader::useProgram()
+void GLShader::useProgram() const
 {
 	// Load the shader into the rendering pipeline
 	glUseProgram(_programId);
 }
 
-bool GLShader::init(const std::string &vertProgramPath, const std::string &fragProgramPath)
-{
-	// Generate our shader. This is similar to glGenBuffers() and glGenVertexArray(), except that this returns the ID
-	_programId = glCreateProgram();
+void GLShader::deleteElements(){
+    if(_programId != 0) {
+        glDeleteProgram(_programId);
+        _programId = 0;
+    }
 
-	if (!loadVertexShader(vertProgramPath))
-		return false;
+    if(_vertexId != 0) {
+        glDeleteShader(_vertexId);
+        _vertexId = 0;
+    }
 
-	if (!loadFragmentShader(fragProgramPath))
-		return false;
+    if(_fragmentId != 0) {
+        glDeleteShader(_fragmentId);
+        _fragmentId = 0;
+    }
 
-	// All shaders has been create, now we must put them together into one large object
-	return linkShaders();
+    if(_geometryId != 0) {
+        glDeleteShader(_geometryId);
+        _geometryId = 0;
+    }
+
 }
 
+bool GLShader::initBaseShaders(const std::string &vertProgramPath, const std::string &fragProgramPath){
+    _programId = glCreateProgram();
+
+    if (loadVertexShader(vertProgramPath) && loadFragmentShader(fragProgramPath)){
+        return true;
+    }
+
+    deleteElements();
+    return false;
+}
+
+bool GLShader::init(const std::string &vertProgramPath, const std::string &fragProgramPath)
+{
+    if(initBaseShaders(vertProgramPath,fragProgramPath)){
+        return linkShaders();
+    }
+
+    deleteElements();
+    return false;
+}
+
+bool GLShader::init(const std::string &vertProgramPath, const std::string &fragProgramPath, const std::string &geomProgramPath)
+{
+    if(initBaseShaders(vertProgramPath,fragProgramPath) && loadGeometryShader(geomProgramPath)){
+        return linkShaders();
+    }
+
+    deleteElements();
+    return false;
+
+}
+
+bool GLShader::loadGeometryShader(const std::string &filename)
+{
+    _geometryId = glCreateShader(GL_GEOMETRY_SHADER);
+
+    return compileShader(filename,_geometryId);
+}
 
 bool GLShader::loadVertexShader(const std::string &filename)
 {
-//	std::cout << "Linking Vertex shader" << filename << " " << std::endl;
-
-	// Read file as std::string 
-	std::string str = readFile(filename.c_str());
-
-
-
-	 // c_str() gives us a const char*, but we need a non-const one
-	char* src = const_cast<char*>( str.c_str());
-	int32_t size = str.length();
-	
-	// Create an empty vertex shader handle
 	_vertexId = glCreateShader(GL_VERTEX_SHADER);
 
-	// Send the vertex shader source code to OpenGL
-	glShaderSource(_vertexId, 1, &src, &size);
-
-	// Compile the vertex shader
-	glCompileShader(_vertexId);
-
-	int wasCompiled = 0;
-	glGetShaderiv(_vertexId, GL_COMPILE_STATUS, &wasCompiled );
-
-	if (wasCompiled == 0)
-	{
-        printShaderCompilationErrorInfo(_vertexId);
-		return false;
-	}
-
-	glAttachShader(_programId, _vertexId);
-	return true;
+    return compileShader(filename,_vertexId);
 }
 
 bool GLShader::loadFragmentShader(const std::string &filename)
 {
-//	std::cout << "Loading Fragment GLShader" << filename << " "<< std::endl;
+    _fragmentId = glCreateShader(GL_FRAGMENT_SHADER);
 
-	// Read file as std::string 
-	std::string str = readFile(filename.c_str());
+    return compileShader(filename,_fragmentId);
 
-	 // c_str() gives us a const char*, but we need a non-const one
-	char* src = const_cast<char*>( str.c_str());
-	int32_t size = str.length();
-	
-	// Create an empty vertex shader handle
-	_fragmentId = glCreateShader(GL_FRAGMENT_SHADER);
-
-	// Send the vertex shader source code to OpenGL
-	glShaderSource(_fragmentId, 1, &src, &size);
-
-	// Compile the vertex shader
-	glCompileShader(_fragmentId);
-
-	int wasCompiled = 0;
-	glGetShaderiv(_fragmentId, GL_COMPILE_STATUS, &wasCompiled );
-
-	if (wasCompiled == 0)
-	{
-        printShaderCompilationErrorInfo(_fragmentId);
-		return false;
-	}
-
-	glAttachShader(_programId, _fragmentId);
-	return true;
 }
 
 bool GLShader::linkShaders()
@@ -134,7 +120,11 @@ bool GLShader::linkShaders()
 	if (isLinked == 0)
         printShaderLinkingError(_programId);
 
-	return isLinked != 0;
+	bool res = isLinked != 0;
+
+	if(!res) deleteElements();
+
+	return res;
 }
 
 void GLShader::printShaderLinkingError(int32_t shaderId)
@@ -197,52 +187,79 @@ void GLShader::dispose()
 	glDeleteShader(_fragmentId);
 }
 
-void GLShader::setUniformMat4v(GLuint location, const glm::mat4 &mat) {
+void GLShader::setUniformMat4v(GLuint location, const glm::mat4 &mat) const {
     glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(mat));
 }
 
-void GLShader::setUniformVec4v(GLuint location, const glm::vec4 &vec) {
+void GLShader::setUniformVec4v(GLuint location, const glm::vec4 &vec) const{
     glUniform4fv(location, 1, glm::value_ptr(vec));
 }
 
-void GLShader::setUniformVec3v(GLuint location, const glm::vec3 &vec) {
+void GLShader::setUniformVec3v(GLuint location, const glm::vec3 &vec) const{
     glUniform3fv(location, 1, glm::value_ptr(vec));
 }
 
-void GLShader::setUniformFloat(GLuint location, float fl) {
+void GLShader::setUniformFloat(GLuint location, float fl) const{
     glUniform1f(location, fl);
 }
 
 
-void GLShader::setUniformMat4v(const char* uniformName, const glm::mat4 &mat) {
+void GLShader::setUniformMat4v(const char* uniformName, const glm::mat4 &mat) const {
     GLuint location = glGetUniformLocation(_programId, uniformName);
     glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(mat));
 }
 
-void GLShader::setUniformVec4v(const char* uniformName, const glm::vec4 &vec) {
+void GLShader::setUniformVec4v(const char* uniformName, const glm::vec4 &vec) const {
     GLuint location = glGetUniformLocation(_programId, uniformName);
     glUniform4fv(location, 1, glm::value_ptr(vec));
 }
 
-void GLShader::setUniformVec3v(const char* uniformName, const glm::vec3 &vec) {
+void GLShader::setUniformVec3v(const char* uniformName, const glm::vec3 &vec) const {
     GLuint location = glGetUniformLocation(_programId, uniformName);
     glUniform3fv(location, 1, glm::value_ptr(vec));
 }
 
-void GLShader::setUniformFloat(const char* uniformName, float fl) {
+void GLShader::setUniformFloat(const char* uniformName, float fl) const {
     GLuint location = glGetUniformLocation(_programId, uniformName);
     glUniform1f(location, fl);
 }
 
-uint32_t  GLShader::getUniformLocation(const char *uniformName) {
+uint32_t  GLShader::getUniformLocation(const char *uniformName) const {
     return glGetUniformLocation(_programId, uniformName);
 }
 
-void GLShader::bindUniformBlockIndex(const char *name, GLuint index) {
+void GLShader::bindUniformBlockIndex(const char *name, GLuint index) const {
     GLuint udIndex = glGetUniformBlockIndex(_programId, name);
     printf("bindUniformBlockIndex %d \n",udIndex);
     glUniformBlockBinding(_programId, udIndex, index);
 }
+
+bool GLShader::compileShader(const std::string &filename, GLuint shaderId) {
+
+    std::string str = readFile(filename.c_str());
+
+    char* src = const_cast<char*>( str.c_str());
+    int32_t size = str.length();
+
+    glShaderSource(shaderId, 1, &src, &size);
+
+    // Compile the vertex shader
+    glCompileShader(shaderId);
+
+    int wasCompiled = 0;
+    glGetShaderiv(shaderId, GL_COMPILE_STATUS, &wasCompiled );
+
+    if (wasCompiled == 0)
+    {
+        printShaderCompilationErrorInfo(shaderId);
+        return false;
+    }
+
+    glAttachShader(_programId, shaderId);
+
+    return true;
+}
+
 
 
 
