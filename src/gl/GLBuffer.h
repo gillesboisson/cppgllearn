@@ -29,14 +29,14 @@ public:
     void init(GLenum target,GLenum usage,GLvoid *data,GLsizeiptr size);
 
     void bind() const;
-    void uploadData(GLsizeiptr size,const GLvoid* data,GLenum usage) const;
-    void uploadData(GLsizeiptr size,const GLvoid* data) const ;
+    void uploadData(GLsizeiptr size,GLvoid* data,GLenum usage) const;
+    void uploadData(GLsizeiptr size,GLvoid* data) const ;
 
     void allocate(GLsizeiptr size,GLenum usage);
     void allocate(GLsizeiptr size);
     void uploadData() const;
 
-    void uploadSubData(GLintptr offset,GLsizeiptr size,const GLvoid* data) const;
+    void uploadSubData(GLintptr offset,GLsizeiptr size,GLvoid* data) const;
     void uploadSubData(GLintptr offset,GLsizeiptr size) const;
     void uploadSubData(GLintptr offset) const;
 
@@ -48,10 +48,11 @@ public:
 
     GLenum getUsage() const;
 
-    void *getData() const;
+    const void *getData() const;
 
     GLsizeiptr getDataSize() const;
 
+    void init(GLenum target, GLenum usage, GLsizeiptr size);
 };
 
 

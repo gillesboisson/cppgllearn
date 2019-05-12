@@ -18,20 +18,26 @@ void GLBuffer::init(GLenum target, GLenum usage) {
     if(_glId == 0) gen();
 }
 
-
-void GLBuffer::init(GLenum target, GLenum usage, GLvoid *data, GLsizeiptr size) {
+void GLBuffer::init(GLenum target, GLenum usage, GLsizeiptr size) {
     init(target,usage);
-    _data = data;
     allocate(size);
 }
 
-void GLBuffer::uploadData(GLsizeiptr size, const GLvoid *data, GLenum usage)  const{
+
+void GLBuffer::init(GLenum target, GLenum usage, GLvoid* data, GLsizeiptr size) {
+    init(target,usage);
+    _data = data;
+    uploadData(size,data,usage);
+}
+
+void GLBuffer::uploadData(GLsizeiptr size, GLvoid *data, GLenum usage)  const{
+    printf("buffer uploadData %s %i, \n",data,usage);
     glBindBuffer(_target, _glId);
     glBufferData(_target, size, data, usage);
     glBindBuffer(_target, 0);
 }
 
-void GLBuffer::uploadData(GLsizeiptr size, const GLvoid *data)  const{
+void GLBuffer::uploadData(GLsizeiptr size, GLvoid *data)  const{
     uploadData(size, data,_usage);
 }
 
@@ -45,7 +51,7 @@ void GLBuffer::allocate(GLsizeiptr size) {
     uploadData(size, nullptr,_usage);
 }
 
-void GLBuffer::uploadSubData(GLintptr offset, GLsizeiptr size, const GLvoid *data)  const{
+void GLBuffer::uploadSubData(GLintptr offset, GLsizeiptr size, GLvoid *data)  const{
     glBindBuffer(_target, _glId);
     glBufferSubData(_target,offset,size,data);
 }
@@ -78,7 +84,7 @@ GLenum GLBuffer::getUsage() const {
     return _usage;
 }
 
-void *GLBuffer::getData() const {
+const void *GLBuffer::getData() const {
     return _data;
 }
 
