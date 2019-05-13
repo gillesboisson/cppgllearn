@@ -33,7 +33,27 @@ void TutoGLApp::setupShader() {
     _skyboxShader.init("./assets/skybox.vert","./assets/skybox.frag");
     _cmReflectionShader.init("./assets/cm_reflection.vert","./assets/cm_reflection.frag");
 
+    _testGeom.init("./assets/testgeom.vert","./assets/testgeom.frag","./assets/testgeom.glsl");
+
     _textureTest.loadTexture2d("./assets/grass_2.png");
+
+
+    float geomTdata[] = {
+        -0.5, -0.5, 0,  1.0,0.0,0.0,1.0,
+        0.5, -0.5, 0,   0.0,1.0,0.0,1.0,
+        -0.5, 0.5, 0,   0.0,0.0,1.0,1.0,
+        0.5, 0.5, 0,    1.0,0.0,1.0,1.0
+    };
+
+    auto vBuffer = new GLBuffer(GL_ARRAY_BUFFER,GL_STATIC_DRAW,geomTdata,sizeof(geomTdata));
+
+    auto attrs = new GLAttribute[2];
+
+    attrs[0].set(GLAttributeLocation::Position,3,GL_FLOAT,vBuffer,7 * sizeof(float),GL_FALSE, 0);
+    attrs[1].set(GLAttributeLocation::Color,4,GL_FLOAT,vBuffer,7 * sizeof(float),GL_FALSE, (void*) (3 * sizeof(float)));
+
+    _geomTestMesh = new GLMesh(4,GL_POINTS);
+    _geomTestMesh->getVao()->init(attrs,2);
 
 }
 
@@ -208,26 +228,21 @@ void TutoGLApp::update(double frameInterval,float frameSpeed) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // update transform uniform -------------------------
-    _simpleShader.useProgram();
-    _cubeMapTest.bind();
+//    _simpleShader.useProgram();
+//    _cubeMapTest.bind();
 
 //    glm::mat4 *modelM = _node.getWorldMat();
 //    const glm::mat4 &rotM = _node.transform.getRotMat();
 
 //    _cam.updateMVP(&_mvp, modelM);
 
-    transformub.m = *_node.getWorldMat();
-    _cam.updateMVP(&transformub.mvp,&transformub.m);
-    transformub.rot = _node.transform.getRotMat();
-    transformB->uploadData();
-
-//    _simpleShader.setUniformMat4v("transform.mvp", _mvp);
-//    _simpleShader.setUniformMat4v("transform.m", *modelM);
-//    _simpleShader.setUniformMat4v("transform.rot", rotM);
-    _simpleShader.setUniformVec3v("camPosition",_cam.transform.getPosition());
-
-    // draw mesh
-    _meshes[0]->draw();
+//    transformub.m = *_node.getWorldMat();
+//    _cam.updateMVP(&transformub.mvp,&transformub.m);
+//    transformub.rot = _node.transform.getRotMat();
+//    transformB->uploadData();
+//
+//    _simpleShader.setUniformVec3v("camPosition",_cam.transform.getPosition());
+//    _meshes[0]->draw();
 
 
 //    _skyboxShader.useProgram();
@@ -242,6 +257,8 @@ void TutoGLApp::update(double frameInterval,float frameSpeed) {
 //    _cube->draw();
 
 
+    _testGeom.useProgram();
+    _geomTestMesh->draw();
 
 
 

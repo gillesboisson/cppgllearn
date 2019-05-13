@@ -20,8 +20,8 @@ public:
 
     void dispose(bool disposeVao = true);
 
-    explicit GLMesh(uint32_t nbIndices,GLenum renderType = GL_STATIC_DRAW);
-    explicit GLMesh(uint32_t nbPoints,GLVao* vao,GLenum renderType = GL_STATIC_DRAW);
+    explicit GLMesh(uint32_t nbIndices,GLenum renderType);
+    explicit GLMesh(uint32_t nbPoints,GLVao* vao,GLenum renderType);
 
     GLenum getRenderType();
 

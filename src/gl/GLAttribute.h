@@ -33,11 +33,11 @@ public:
     GLboolean _normalize;
     GLsizei _stride;
     GLBuffer* _vbo;
-    const GLvoid * _pointer;
+    const void* _pointer;
 
     GLAttribute();
-    GLAttribute(uint32_t location, GLint size, GLenum type,GLBuffer* vbo,GLsizei stride,GLboolean normalize,const GLvoid * pointer);
-    void set(uint32_t location, GLint size, GLenum type,GLBuffer* vbo,GLsizei stride,GLboolean normalize,const GLvoid * pointer);
+    GLAttribute(uint32_t location, GLint size, GLenum type,GLBuffer* vbo,GLsizei stride,GLboolean normalize,const void* pointer);
+    void set(uint32_t location, GLint size, GLenum type,GLBuffer* vbo,GLsizei stride,GLboolean normalize,const void* pointer);
 
     void deleteVbo();
 };

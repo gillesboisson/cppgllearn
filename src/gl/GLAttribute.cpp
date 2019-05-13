@@ -7,7 +7,7 @@
 GLAttribute::GLAttribute() = default;
 
 GLAttribute::GLAttribute(uint32_t location, GLint size, GLenum type, GLBuffer* vbo, GLsizei stride, GLboolean normalize,
-                         const GLvoid *pointer) {
+                         const void* pointer) {
     set(location,size,type,vbo,stride,normalize,pointer);
 }
 
@@ -53,7 +53,7 @@ void GLAttribute::set(
     GLBuffer* vbo,
     GLsizei stride,
     GLboolean normalize,
-    const GLvoid *pointer) {
+    const void* pointer) {
     _location = location;
     _size = size;
     _type = type;

@@ -61,6 +61,7 @@ protected:
     GLShader _textureShader;
     GLShader _skyboxShader;
     GLShader _cmReflectionShader;
+    GLShader _testGeom;
     GLTexture* _fboTexture;
     std::vector<GLBuffer*> _vbos;
     std::vector<GLMesh*> _meshes;
@@ -104,6 +105,8 @@ protected:
     float _lastMousePosX;
     float _lastMousePosY;
     GLVao _quadVao;
+    GLMesh *_geomTestMesh;
+
 
 public:
     TutoGLApp();
@@ -118,7 +121,6 @@ public:
 
 
     void setupFBO();
-
 
 
 };
