@@ -32,6 +32,8 @@ public:
     uint32_t getNbPoints() const;
     GLVao *getVao() const;
 
+    void drawInstances(uint32_t nbIndices, uint32_t nbInstances);
+    void drawInstances(uint32_t nbInstances);
 };
 
 

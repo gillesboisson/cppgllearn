@@ -6,18 +6,7 @@
 #include <iostream>
 #include <vector>
 
-void ActivateGLAttribute(GLAttribute* attr){
-    attr->getVbo()->bind();
-	glEnableVertexAttribArray(attr->getLocation());
-	glVertexAttribPointer(
-	    attr->getLocation(),
-	    attr->getSize(),
-	    attr->getType(),
-	    attr->getNormalize(),
-	    attr->getStride(),
-	    attr->getPointer()
-	    );
-}
+
 
 GLuint GLVao::getGLId(){
     return _glId;
@@ -48,9 +37,9 @@ void GLVao::gen(){
 void GLVao::activate(){
     GLAttribute *attr = _attributes;
     glBindVertexArray(_glId);
-    for(int i=0; i < _nbAttributes ; i++){
-
-        ActivateGLAttribute(attr++);
+    for(int i=0; i < _nbAttributes ; i++,attr++){
+        attr->activate();
+        if(attr->hasDivisor()) _hasDivisor = true;
     }
     if(_indexBuffer != nullptr){
         _indexBuffer->bind();
@@ -105,5 +94,9 @@ GLVao::~GLVao() {
 
 GLBuffer* GLVao::getIndexBuffer() const {
     return _indexBuffer;
+}
+
+bool GLVao::hasDivisor() const {
+    return _hasDivisor;
 }
 

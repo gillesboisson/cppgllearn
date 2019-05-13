@@ -34,7 +34,6 @@ enum GLAttributeLocation{
 //GLAttribute CreateGLAttribute(uint32_t location, GLint size, GLenum type,GLuint vbo,GLsizei stride,GLboolean normalize,const GLvoid * pointer);
 //GLAttribute* NewGLAttribute(uint32_t location, GLint size, GLenum type,GLuint vbo,GLsizei stride,GLboolean normalize,const GLvoid * pointer);
 
-void ActivateGLAttribute(GLAttribute* attr);
 
 class GLVao{
     GLAttribute* _attributes;
@@ -45,7 +44,7 @@ class GLVao{
     GLenum _indType = GL_UNSIGNED_SHORT;
     int _nbAttributes;
 
-
+    bool _hasDivisor;
 public:
 
     ~GLVao();
@@ -63,6 +62,10 @@ public:
     GLBuffer *getIndexBuffer() const;
 
     GLuint getGLId();
+
+    bool hasDivisor() const;
+
+
 };
 
 

@@ -57,6 +57,7 @@ protected:
     Node _node2;
     GLShader _fixColorShader;
     GLShader _simpleShader;
+    GLShader _colorInstancedShader;
     GLShader _colorShader;
     GLShader _textureShader;
     GLShader _skyboxShader;

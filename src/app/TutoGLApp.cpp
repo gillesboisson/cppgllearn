@@ -34,26 +34,42 @@ void TutoGLApp::setupShader() {
     _cmReflectionShader.init("./assets/cm_reflection.vert","./assets/cm_reflection.frag");
 
     _testGeom.init("./assets/testgeom.vert","./assets/testgeom.frag","./assets/testgeom.glsl");
+    _colorInstancedShader.init("./assets/color_instanced.vert","./assets/color_instanced.frag");
 
     _textureTest.loadTexture2d("./assets/grass_2.png");
 
 
     float geomTdata[] = {
-        -0.5, -0.5, 0,  1.0,0.0,0.0,1.0,
-        0.5, -0.5, 0,   0.0,1.0,0.0,1.0,
-        -0.5, 0.5, 0,   0.0,0.0,1.0,1.0,
-        0.5, 0.5, 0,    1.0,0.0,1.0,1.0
+        -0.1, -0.1, 0,  1.0,0.0,0.0,1.0,
+        0.1, -0.1, 0,   0.0,1.0,0.0,1.0,
+        -0.1, 0.1, 0,   0.0,0.0,1.0,1.0,
+        0.1, 0.1, 0,    1.0,0.0,1.0,1.0
+    };
+
+
+    float elementPos[] = {
+        -0.5, -0.5,
+        0.5, -0.5,
+        -0.5, 0.5,
+        0.5, 0.5
+    };
+
+    uint16_t indices[] = {
+        0,1,2,
+        1,3,2
     };
 
     auto vBuffer = new GLBuffer(GL_ARRAY_BUFFER,GL_STATIC_DRAW,geomTdata,sizeof(geomTdata));
-
-    auto attrs = new GLAttribute[2];
+    auto vPBuffer = new GLBuffer(GL_ARRAY_BUFFER,GL_STATIC_DRAW,elementPos,sizeof(elementPos));
+    auto iBuffer = new GLBuffer(GL_ELEMENT_ARRAY_BUFFER,GL_STATIC_DRAW,indices,sizeof(indices));
+    auto attrs = new GLAttribute[3];
 
     attrs[0].set(GLAttributeLocation::Position,3,GL_FLOAT,vBuffer,7 * sizeof(float),GL_FALSE, 0);
     attrs[1].set(GLAttributeLocation::Color,4,GL_FLOAT,vBuffer,7 * sizeof(float),GL_FALSE, (void*) (3 * sizeof(float)));
+    attrs[2].set(GLAttributeLocation::IPosition,2,GL_FLOAT,vPBuffer,2 * sizeof(float),GL_FALSE, nullptr,1);
 
-    _geomTestMesh = new GLMesh(4,GL_POINTS);
-    _geomTestMesh->getVao()->init(attrs,2);
+    _geomTestMesh = new GLMesh(6,GL_TRIANGLES);
+    _geomTestMesh->getVao()->init(attrs,3,iBuffer,GL_UNSIGNED_SHORT);
 
 }
 
@@ -257,8 +273,8 @@ void TutoGLApp::update(double frameInterval,float frameSpeed) {
 //    _cube->draw();
 
 
-    _testGeom.useProgram();
-    _geomTestMesh->draw();
+    _colorInstancedShader.useProgram();
+    _geomTestMesh->drawInstances(4);
 
 
 

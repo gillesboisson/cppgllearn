@@ -61,4 +61,44 @@ void GLAttribute::set(
     _stride = stride;
     _normalize = normalize;
     _pointer = pointer;
+    _divisor = 0;
+}
+
+GLuint GLAttribute::getDivisor() const {
+    return _divisor;
+}
+
+GLAttribute::GLAttribute(uint32_t location, GLint size, GLenum type, GLBuffer *vbo, GLsizei stride, GLboolean normalize,
+                         const void *pointer, GLuint divisor) {
+
+    set(location,size,type,vbo,stride,normalize,pointer,divisor);
+
+}
+
+void GLAttribute::set(uint32_t location, GLint size, GLenum type, GLBuffer *vbo, GLsizei stride, GLboolean normalize,
+                      const void *pointer, GLuint divisor) {
+
+    set(location,size,type,vbo,stride,normalize,pointer);
+    _divisor = divisor;
+}
+
+bool GLAttribute::hasDivisor() const {
+    return _divisor > 0;
+}
+
+void GLAttribute::activate(){
+    _vbo->bind();
+    glEnableVertexAttribArray(_location);
+    glVertexAttribPointer(
+        _location,
+        _size,
+        _type,
+        _normalize,
+        _stride,
+        _pointer
+    );
+    if(_divisor > 0){
+        glBindBuffer(GL_ARRAY_BUFFER,0);
+        glVertexAttribDivisor(_location,_divisor);
+    }
 }
