@@ -8,6 +8,7 @@
  
 #include "GLShader.h"
 
+
 std::string GLShader::readFile(const char *file)
 {
 	std::ifstream t(file);
@@ -54,7 +55,10 @@ void GLShader::deleteElements(){
 }
 
 bool GLShader::initBaseShaders(const std::string &vertProgramPath, const std::string &fragProgramPath){
+    deleteElements();
     _programId = glCreateProgram();
+    _shaderType = Render;
+
 
     if (loadVertexShader(vertProgramPath) && loadFragmentShader(fragProgramPath)){
         return true;
@@ -83,6 +87,34 @@ bool GLShader::init(const std::string &vertProgramPath, const std::string &fragP
     deleteElements();
     return false;
 
+}
+
+
+bool GLShader::initTransformFeedback(const std::string &vertProgramPath) {
+    deleteElements();
+    _programId = glCreateProgram();
+    _shaderType = TransformFeedback;
+
+    if (loadVertexShader(vertProgramPath)){
+        return true;
+    }
+
+    deleteElements();
+    return false;
+}
+
+bool GLShader::initTransformFeedback(const std::string &vertProgramPath, const std::string &geomProgramPath) {
+
+    if(initTransformFeedback(vertProgramPath) && loadGeometryShader(geomProgramPath)){
+        return true;
+    }
+
+    deleteElements();
+    return false;
+}
+
+void GLShader::transformFeedbackVaryings(GLsizei count,const char** varying,GLenum bufferMode){
+    glTransformFeedbackVaryings(_programId,count,varying,bufferMode);
 }
 
 bool GLShader::loadGeometryShader(const std::string &filename)
@@ -259,6 +291,12 @@ bool GLShader::compileShader(const std::string &filename, GLuint shaderId) {
 
     return true;
 }
+
+GLShaderType GLShader::getShaderType() const {
+    return _shaderType;
+}
+
+
 
 
 

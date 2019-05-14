@@ -63,6 +63,8 @@ protected:
     GLShader _skyboxShader;
     GLShader _cmReflectionShader;
     GLShader _testGeom;
+    GLShader _testTf;
+
     GLTexture* _fboTexture;
     std::vector<GLBuffer*> _vbos;
     std::vector<GLMesh*> _meshes;
@@ -73,7 +75,8 @@ protected:
     GLTexture _cubeMapTest;
     GLMesh *_cube;
 
-
+    GLBuffer* _tfOut;
+    GLVao* _tfIn;
 
     GLBuffer* lightB;
     PointLight light;
@@ -101,6 +104,8 @@ protected:
     uint32_t _mvpL2;
     uint32_t _mvpL3;
     uint32_t _rotL3;
+
+
 
     float _angle;
     float _lastMousePosX;

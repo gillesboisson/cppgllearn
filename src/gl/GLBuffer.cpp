@@ -104,6 +104,10 @@ GLBuffer::GLBuffer(GLenum target, GLenum usage):GLBuffer() {
     init(target,usage);
 }
 
+GLBuffer::GLBuffer(GLenum target, GLenum usage,GLsizeiptr size):GLBuffer(){
+    init(target,usage,size);
+}
+
 GLBuffer::GLBuffer(GLenum target, GLenum usage, GLvoid *data, GLsizeiptr size):GLBuffer(){
     init(target,usage,data,size);
 }
@@ -116,6 +120,10 @@ void GLBuffer::uploadData() const {
 
 GLBuffer::~GLBuffer() {
     dispose();
+}
+
+void GLBuffer::bindBase(GLenum target,GLuint index) const {
+    glBindBufferBase(target,index,_glId);
 }
 
 void GLBuffer::bindBase(GLuint index) const {

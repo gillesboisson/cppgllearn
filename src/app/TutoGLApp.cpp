@@ -38,6 +38,7 @@ void TutoGLApp::setupShader() {
 
     _textureTest.loadTexture2d("./assets/grass_2.png");
 
+    _testTf.initTransformFeedback("./assets/test_tf.vert");
 
     float geomTdata[] = {
         -0.1, -0.1, 0,  1.0,0.0,0.0,1.0,
@@ -70,6 +71,21 @@ void TutoGLApp::setupShader() {
 
     _geomTestMesh = new GLMesh(6,GL_TRIANGLES);
     _geomTestMesh->getVao()->init(attrs,3,iBuffer,GL_UNSIGNED_SHORT);
+
+
+    // transform feedback
+
+    auto tfAttr = new GLAttribute(GLAttributeLocation::Position,2,GL_FLOAT,vPBuffer,2 * sizeof(float),GL_FALSE,nullptr);
+
+    _tfIn = new GLVao();
+    _tfIn->init(tfAttr,1);
+
+    _tfOut = new GLBuffer(GL_ARRAY_BUFFER,GL_STATIC_READ,sizeof(elementPos));
+    const char* varyings[] = {"vPosition"};
+    _testTf.transformFeedbackVaryings(1,varyings,GL_INTERLEAVED_ATTRIBS);
+
+
+
 
 }
 
@@ -273,10 +289,24 @@ void TutoGLApp::update(double frameInterval,float frameSpeed) {
 //    _cube->draw();
 
 
-    _colorInstancedShader.useProgram();
-    _geomTestMesh->drawInstances(4);
+//    _colorInstancedShader.useProgram();
+//    _geomTestMesh->drawInstances(4);
 
 
+    glEnable(GL_RASTERIZER_DISCARD);
+
+    _tfIn->bind();
+    _tfOut->bindBase(GL_TRANSFORM_FEEDBACK_BUFFER,0);
+    _testTf.useProgram();
+    glBeginTransformFeedback(GL_POINTS);
+//    GLPrintErrors("glBeginTransformFeedback");
+    glDrawArrays(GL_POINTS,0,4);
+    glEndTransformFeedback();
+//    GLPrintErrors("glEndTransformFeedback");
+    glFlush();
+    GLfloat feedback[5];
+    glGetBufferSubData(GL_TRANSFORM_FEEDBACK_BUFFER, 0, sizeof(feedback), feedback);
+    glDisable(GL_RASTERIZER_DISCARD);
 
 }
 

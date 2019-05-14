@@ -22,13 +22,14 @@ public:
 
     GLBuffer(GLenum target,GLenum usage);
     GLBuffer(GLenum target,GLenum usage,GLvoid *data,GLsizeiptr size);
-
+    GLBuffer(GLenum target, GLenum usage,GLsizeiptr size);
 
     void gen();
     void init(GLenum target,GLenum usage);
     void init(GLenum target,GLenum usage,GLvoid *data,GLsizeiptr size);
 
     void bind() const;
+    void bindBase(GLenum target,GLuint index) const;
     void bindBase(GLuint index) const;
     void bindRange(GLuint index,GLintptr offset,GLsizeiptr size) const;
 

@@ -12,6 +12,11 @@
 #include <glm/gtc/type_ptr.hpp>
 
 
+enum GLShaderType{
+    Render,
+    TransformFeedback,
+};
+
 
 class GLShader
 {
@@ -20,6 +25,7 @@ protected:
 
     GLuint _programId;
     GLuint _vertexId, _fragmentId, _geometryId;
+    GLShaderType _shaderType;
 
 
     bool loadVertexShader(const std::string &filename);
@@ -35,9 +41,13 @@ public:
 	void useProgram() const;
 
     bool init(const std::string &vertProgramPath, const std::string &fragProgramPath);
+    bool init(const std::string &vertProgramPath, const std::string &fragProgramPath, const std::string &geomProgramPath);
+
+    bool initTransformFeedback(const std::string &vertProgramPath);
+    bool initTransformFeedback(const std::string &vertProgramPath, const std::string &geomProgramPath);
 
 
-	bool linkShaders();
+    bool linkShaders();
 
 	void printShaderLinkingError(int32_t shaderId);
 
@@ -69,7 +79,10 @@ public:
 
     void deleteElements();
 
-    bool init(const std::string &vertProgramPath, const std::string &fragProgramPath, const std::string &geomProgramPath);
+
+    GLShaderType getShaderType() const;
+
+    void transformFeedbackVaryings(GLsizei count, const char **varying, GLenum bufferMode);
 };
 
 #endif
