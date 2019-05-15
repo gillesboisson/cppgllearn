@@ -36,9 +36,10 @@ void TutoGLApp::setupShader() {
     _testGeom.init("./assets/testgeom.vert","./assets/testgeom.frag","./assets/testgeom.glsl");
     _colorInstancedShader.init("./assets/color_instanced.vert","./assets/color_instanced.frag");
 
-    _textureTest.loadTexture2d("./assets/grass_2.png");
+    //_textureTest.loadTexture2d("./assets/grass_2.png");
 
-    _testTf.initTransformFeedback("./assets/test_tf.vert");
+    const char* varyings[] = {"vPosition"};
+    _testTf.initTransformFeedback("./assets/test_tf.vert",1,varyings,GL_INTERLEAVED_ATTRIBS);
 
     float geomTdata[] = {
         -0.1, -0.1, 0,  1.0,0.0,0.0,1.0,
@@ -61,7 +62,7 @@ void TutoGLApp::setupShader() {
     };
 
     auto vBuffer = new GLBuffer(GL_ARRAY_BUFFER,GL_STATIC_DRAW,geomTdata,sizeof(geomTdata));
-    auto vPBuffer = new GLBuffer(GL_ARRAY_BUFFER,GL_STATIC_DRAW,elementPos,sizeof(elementPos));
+    vPBuffer = new GLBuffer(GL_ARRAY_BUFFER,GL_STATIC_DRAW,elementPos,sizeof(elementPos));
     auto iBuffer = new GLBuffer(GL_ELEMENT_ARRAY_BUFFER,GL_STATIC_DRAW,indices,sizeof(indices));
     auto attrs = new GLAttribute[3];
 
@@ -74,15 +75,14 @@ void TutoGLApp::setupShader() {
 
 
     // transform feedback
-
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
     auto tfAttr = new GLAttribute(GLAttributeLocation::Position,2,GL_FLOAT,vPBuffer,2 * sizeof(float),GL_FALSE,nullptr);
-
     _tfIn = new GLVao();
     _tfIn->init(tfAttr,1);
 
     _tfOut = new GLBuffer(GL_ARRAY_BUFFER,GL_STATIC_READ,sizeof(elementPos));
-    const char* varyings[] = {"vPosition"};
-    _testTf.transformFeedbackVaryings(1,varyings,GL_INTERLEAVED_ATTRIBS);
+
+
 
 
 
@@ -292,12 +292,15 @@ void TutoGLApp::update(double frameInterval,float frameSpeed) {
 //    _colorInstancedShader.useProgram();
 //    _geomTestMesh->drawInstances(4);
 
+//    setupShader();
 
-    glEnable(GL_RASTERIZER_DISCARD);
 
-    _tfIn->bind();
-    _tfOut->bindBase(GL_TRANSFORM_FEEDBACK_BUFFER,0);
     _testTf.useProgram();
+    glEnable(GL_RASTERIZER_DISCARD);
+    _tfOut->bindBase(GL_TRANSFORM_FEEDBACK_BUFFER,0);
+    _tfIn->bind();
+
+
     glBeginTransformFeedback(GL_POINTS);
 //    GLPrintErrors("glBeginTransformFeedback");
     glDrawArrays(GL_POINTS,0,4);

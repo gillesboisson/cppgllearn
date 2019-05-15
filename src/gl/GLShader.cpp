@@ -90,31 +90,35 @@ bool GLShader::init(const std::string &vertProgramPath, const std::string &fragP
 }
 
 
-bool GLShader::initTransformFeedback(const std::string &vertProgramPath) {
+void GLShader::initTransformFeedback(){
     deleteElements();
     _programId = glCreateProgram();
     _shaderType = TransformFeedback;
+}
+
+bool GLShader::initTransformFeedback(const std::string &vertProgramPath,GLsizei count,const char** varying,GLenum bufferMode) {
+    initTransformFeedback();
 
     if (loadVertexShader(vertProgramPath)){
-        return true;
+        glTransformFeedbackVaryings(_programId,count,varying,bufferMode);
+        return linkShaders();;
     }
 
     deleteElements();
     return false;
 }
 
-bool GLShader::initTransformFeedback(const std::string &vertProgramPath, const std::string &geomProgramPath) {
+bool GLShader::initTransformFeedback(const std::string &vertProgramPath, const std::string &geomProgramPath,GLsizei count,const char** varying,GLenum bufferMode) {
 
-    if(initTransformFeedback(vertProgramPath) && loadGeometryShader(geomProgramPath)){
-        return true;
+    initTransformFeedback();
+
+    if (loadVertexShader(vertProgramPath) && loadGeometryShader(geomProgramPath)){
+        glTransformFeedbackVaryings(_programId,count,varying,bufferMode);
+        return linkShaders();;
     }
 
     deleteElements();
     return false;
-}
-
-void GLShader::transformFeedbackVaryings(GLsizei count,const char** varying,GLenum bufferMode){
-    glTransformFeedbackVaryings(_programId,count,varying,bufferMode);
 }
 
 bool GLShader::loadGeometryShader(const std::string &filename)

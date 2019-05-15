@@ -129,6 +129,7 @@ public:
     void setupFBO();
 
 
+    GLBuffer *vPBuffer;
 };
 
 
