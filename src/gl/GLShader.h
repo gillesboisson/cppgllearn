@@ -32,7 +32,6 @@ protected:
     bool loadFragmentShader(const std::string &filename);
     bool loadGeometryShader(const std::string &filename);
     bool compileShader(const std::string &filename, GLuint shaderId);
-    void initTransformFeedback();
 
 public:
 
@@ -44,7 +43,7 @@ public:
     bool init(const std::string &vertProgramPath, const std::string &fragProgramPath);
     bool init(const std::string &vertProgramPath, const std::string &fragProgramPath, const std::string &geomProgramPath);
 
-    bool initTransformFeedback(const std::string &vertProgramPath,GLsizei count,const char** varying,GLenum bufferMode);
+
 //    bool initTransformFeedback(const std::string &vertProgramPath, const std::string &geomProgramPath,GLsizei count,const char** varying,GLenum bufferMode);
 
 
@@ -83,9 +82,7 @@ public:
 
     GLShaderType getShaderType() const;
 
-//    void transformFeedbackVaryings(GLsizei count, const char **varying, GLenum bufferMode);
-    bool initTransformFeedback(const std::string &vertProgramPath, const std::string &geomProgramPath, GLsizei count,
-                               const char **varying, GLenum bufferMode);
+
 };
 
 #endif

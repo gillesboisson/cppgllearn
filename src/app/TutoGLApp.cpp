@@ -39,7 +39,7 @@ void TutoGLApp::setupShader() {
     //_textureTest.loadTexture2d("./assets/grass_2.png");
 
     const char* varyings[] = {"vPosition"};
-    _testTf.initTransformFeedback("./assets/test_tf.vert",1,varyings,GL_INTERLEAVED_ATTRIBS);
+    _testTf.init("./assets/test_tf.vert",1,varyings,GL_INTERLEAVED_ATTRIBS);
 
     float geomTdata[] = {
         -0.1, -0.1, 0,  1.0,0.0,0.0,1.0,
@@ -294,22 +294,13 @@ void TutoGLApp::update(double frameInterval,float frameSpeed) {
 
 //    setupShader();
 
-
-    _testTf.useProgram();
-    glEnable(GL_RASTERIZER_DISCARD);
-    _tfOut->bindBase(GL_TRANSFORM_FEEDBACK_BUFFER,0);
     _tfIn->bind();
 
+    _testTf.doPass(_tfOut,4);
 
-    glBeginTransformFeedback(GL_POINTS);
-//    GLPrintErrors("glBeginTransformFeedback");
-    glDrawArrays(GL_POINTS,0,4);
-    glEndTransformFeedback();
-//    GLPrintErrors("glEndTransformFeedback");
     glFlush();
     GLfloat feedback[5];
     glGetBufferSubData(GL_TRANSFORM_FEEDBACK_BUFFER, 0, sizeof(feedback), feedback);
-    glDisable(GL_RASTERIZER_DISCARD);
 
 }
 

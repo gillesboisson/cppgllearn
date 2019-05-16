@@ -90,36 +90,7 @@ bool GLShader::init(const std::string &vertProgramPath, const std::string &fragP
 }
 
 
-void GLShader::initTransformFeedback(){
-    deleteElements();
-    _programId = glCreateProgram();
-    _shaderType = TransformFeedback;
-}
 
-bool GLShader::initTransformFeedback(const std::string &vertProgramPath,GLsizei count,const char** varying,GLenum bufferMode) {
-    initTransformFeedback();
-
-    if (loadVertexShader(vertProgramPath)){
-        glTransformFeedbackVaryings(_programId,count,varying,bufferMode);
-        return linkShaders();;
-    }
-
-    deleteElements();
-    return false;
-}
-
-bool GLShader::initTransformFeedback(const std::string &vertProgramPath, const std::string &geomProgramPath,GLsizei count,const char** varying,GLenum bufferMode) {
-
-    initTransformFeedback();
-
-    if (loadVertexShader(vertProgramPath) && loadGeometryShader(geomProgramPath)){
-        glTransformFeedbackVaryings(_programId,count,varying,bufferMode);
-        return linkShaders();;
-    }
-
-    deleteElements();
-    return false;
-}
 
 bool GLShader::loadGeometryShader(const std::string &filename)
 {

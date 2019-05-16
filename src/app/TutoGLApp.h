@@ -10,6 +10,7 @@
 #include "../3d/Camera.h"
 #include "../3d/Node.h"
 #include "../gl/GLShader.h"
+#include "../gl/GLTransformFeedbackShader.h"
 #include "../gl/GLBatchA.h"
 #include "../gl/GLBuffer.h"
 #include "../gl/GLFrameBuffer.h"
@@ -63,7 +64,7 @@ protected:
     GLShader _skyboxShader;
     GLShader _cmReflectionShader;
     GLShader _testGeom;
-    GLShader _testTf;
+    GLTransformFeedbackShader _testTf;
 
     GLTexture* _fboTexture;
     std::vector<GLBuffer*> _vbos;
