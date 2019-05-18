@@ -38,13 +38,10 @@ bool GLTransformFeedbackShader::init(const std::string &vertProgramPath, const s
 }
 
 void GLTransformFeedbackShader::doPass(GLBuffer *outputBuffer,GLenum renderType,GLsizei start,GLsizei count) const {
-    useProgram();
-    glEnable(GL_RASTERIZER_DISCARD);
     outputBuffer->bindBase(GL_TRANSFORM_FEEDBACK_BUFFER,0);
     glBeginTransformFeedback(renderType);
     glDrawArrays(renderType,start,count);
     glEndTransformFeedback();
-    glDisable(GL_RASTERIZER_DISCARD);
 }
 
 void GLTransformFeedbackShader::doPass(GLBuffer *outputBuffer,GLenum renderType,GLsizei count) const {

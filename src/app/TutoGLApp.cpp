@@ -23,14 +23,17 @@ void TutoGLApp::setupShader() {
     std::cout << "SetupShader\n";
 
     _simpleShader.init("./assets/shaders/simple_light_shader.vert", "./assets/shaders/simple_light_shader.frag");
+    _simpleShader2.init("./assets/shaders/simple_light_shader.vert", "./assets/shaders/simple_light_shader.frag");
 
     lightB = new GLBuffer(GL_UNIFORM_BUFFER,GL_STATIC_DRAW,sizeof(PointLightU));
     lightB->bindBase(1);
     _simpleShader.bindUniformBlockIndex("Light",1);
+    _simpleShader2.bindUniformBlockIndex("Light",1);
 
     transformB = new GLBuffer(GL_UNIFORM_BUFFER,GL_DYNAMIC_DRAW,sizeof(TransformU));
     transformB->bindBase(2);
     _simpleShader.bindUniformBlockIndex("TransformUB",2);
+    _simpleShader2.bindUniformBlockIndex("TransformUB",2);
 
 }
 
@@ -58,16 +61,22 @@ void TutoGLApp::loadDuck() {
     auto meshes = GLTFLoader::loadMeshes(vbos, model.bufferViews, model.accessors, model.meshes[0].primitives);
 
     auto mat = new SimpleLightMaterial(&_simpleShader,transformB,lightB,&light);
+    auto mat2 = new SimpleLightMaterial(&_simpleShader2,transformB,lightB,&light);
 
     _duck = new Model(*meshes.data(),mat);
     _duck->transform.scale(0.01);
     _duck->updateGeometry();
 
+
+    _duck2 = new Model(*meshes.data(),mat2);
+    _duck2->transform.scale(0.01);
+    _duck2->transform.translate(3.0,0,0);
+    _duck2->updateGeometry();
+
 }
 
 void TutoGLApp::setupUniforms() {
     _simpleShader.useProgram();
-    uint32_t colorL = _simpleShader.getUniformLocation("color");
 
     light.diffuse = glm::vec3(0.5);
     light.ambient = glm::vec3(0.4);
@@ -76,8 +85,10 @@ void TutoGLApp::setupUniforms() {
     light.shininess = 32.f;
 
     glm::vec4 color(1.0);
+    _simpleShader.setUniformVec4v("color",color);
 
-    _simpleShader.setUniformVec4v(colorL,color);
+    _simpleShader2.useProgram();
+    _simpleShader2.setUniformVec4v("color",color);
 
 }
 
@@ -147,6 +158,7 @@ void TutoGLApp::update(double frameInterval,float frameSpeed) {
 
     _renderer->clear();
     _renderer->renderModel(_duck,&_cam);
+    _renderer->renderModel(_duck2,&_cam);
 
 
 }

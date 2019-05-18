@@ -22,6 +22,17 @@ void FBStack::reset(){
     _stackInd = 0;
 }
 
+void FBStack::restore(uint32_t index){
+    if(index < _stackInd){
+        _stackInd = index;
+        _current = _stack + index;
+        bindCurrent();
+    }else{
+        printf("FBStack::restore : index %d out of current stack bounds %d",index,_stackInd);
+    }
+
+}
+
 FBStackData * FBStack::push(
     GLFrameBuffer *fbo,
     GLint x,
@@ -88,6 +99,10 @@ FBStackData *FBStack::push(GLint x, GLint y, GLsizei width, GLsizei height) {
 
 FBStackData *FBStack::replace(GLint x, GLint y, GLsizei width, GLsizei height) {
     return replace(nullptr,x,y,width,height);
+}
+
+uint16_t FBStack::getStackInd() const {
+    return _stackInd;
 }
 
 

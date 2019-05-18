@@ -24,10 +24,12 @@ class TutoGLApp : public GLFWAppA {
 protected:
     Camera _cam;
     Model* _duck;
+    Model* _duck2;
 
     glm::mat4 _mvp;
 
     GLShader _simpleShader;
+    GLShader _simpleShader2;
     std::vector<GLBuffer*> _vbos;
 
     GLBuffer* lightB;

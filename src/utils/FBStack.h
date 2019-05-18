@@ -47,7 +47,9 @@ public:
     void reset();
 
 
+    void restore(uint32_t index);
 
+    uint16_t getStackInd() const;
 };
 
 
