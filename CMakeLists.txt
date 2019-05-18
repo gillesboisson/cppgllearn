@@ -21,4 +21,4 @@ include_directories( ${OPENGL_INCLUDE_DIRS} ${LIBS_INCLUDES})
 find_package(glfw3 3.3 REQUIRED)
 include_directories(${GKFW_INCLUDE_DIRS})
 
-target_link_libraries(cpp_learn ${OPENGL_LIBRARIES} ${GLEW_LIBRARY} glfw )
+target_link_libraries(cpp_learn ${OPENGL_LIBRARIES} glfw )

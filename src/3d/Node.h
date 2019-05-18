@@ -15,19 +15,18 @@
 class Node {
 protected:
     Node* _parent{};
-    std::list<Node*> _children;
-    glm::mat4 _worldMat;
+    std::list<Node*> _children{};
+    glm::mat4 _worldMat{};
+
 
 
 public:
-    GLTransform transform;
-    const char* name;
-
+    GLTransform transform{};
+    const char* name{};
     const char *getName() const;
 
     void setName(const char *name);
 
-    Node();
 
     glm::mat4* getWorldMat();
 

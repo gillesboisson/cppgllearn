@@ -67,7 +67,6 @@ void Node::updateGeometry() {
 }
 
 
-Node::Node() {}
 
 const char *Node::getName() const {
     return name;
@@ -80,7 +79,6 @@ void Node::setName(const char *name) {
 glm::mat4* Node::getWorldMat() {
     return &_worldMat;
 }
-
 
 
 

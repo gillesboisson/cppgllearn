@@ -7,11 +7,11 @@
 
 void GLBuffer::gen() {
     glGenBuffers(1,&_glId);
-    printf("gen buffer id %d %04X %04X \n",_glId,_target,_usage);
+//    printf("gen buffer id %d %04X %04X \n",_glId,_target,_usage);
 }
 
 void GLBuffer::init(GLenum target, GLenum usage) {
-    printf("init buffer %d \n",_glId);
+//    printf("init buffer %d \n",_glId);
 
     _target = target;
     _usage = usage;
@@ -32,7 +32,7 @@ void GLBuffer::init(GLenum target, GLenum usage, GLvoid* data, GLsizeiptr size) 
 }
 
 void GLBuffer::uploadData(GLsizeiptr size, GLvoid *data, GLenum usage)  const{
-    printf("buffer uploadData %s %i, \n",data,usage);
+//    printf("buffer uploadData %s %i, \n",data,usage);
     glBindBuffer(_target, _glId);
     glBufferData(_target, size, data, usage);
     glBindBuffer(_target, 0);

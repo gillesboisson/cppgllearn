@@ -1,14 +1,6 @@
 #include "GLHelper.h"
 
 
-void GLUploadBuffer(GLuint vbo,GLsizeiptr size,const GLvoid* data,GLenum target,GLenum usage){
-    glBindBuffer(target, vbo);
-	glBufferData(target, size, data, usage);
-    glBindBuffer(target, 0);
-
-}
-
-
 std::string GLErrorMessage(GLenum error){
     std::string errorM;
     std::string message;

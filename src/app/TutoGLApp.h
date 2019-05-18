@@ -15,105 +15,35 @@
 #include "../gl/GLBuffer.h"
 #include "../gl/GLFrameBuffer.h"
 #include "../3d/GLTFLoader.h"
-
-
-struct WireframeVertex{
-    glm::vec3 position;
-    glm::vec2 uv;
-};
-
-class WireframeBatch: public GLBatchA<WireframeVertex>{
-
-protected:
-    void complete() override;
-    GLVao* createVao() override;
-
-public:
-    WireframeBatch();
-
-
-};
-
-
-struct PointLight {
-    glm::vec3 ambient;uint32_t __s1;
-    glm::vec3 diffuse;uint32_t __s2;
-    glm::vec3 specular;uint32_t __s3;
-    glm::vec3 position;
-    float shininess;
-};
-
-struct TransformUB {
-    glm::mat4 mvp;
-    glm::mat4 rot;
-    glm::mat4 m;
-};
-
+#include "../3d/Model.h"
+#include "../gl/GLRenderer.h"
+#include "SimpleLightMaterial.h"
 
 
 class TutoGLApp : public GLFWAppA {
 protected:
     Camera _cam;
-    Node _node;
-    Node _node2;
-    GLShader _fixColorShader;
+    Model* _duck;
+
+    glm::mat4 _mvp;
+
     GLShader _simpleShader;
-    GLShader _colorInstancedShader;
-    GLShader _colorShader;
-    GLShader _textureShader;
-    GLShader _skyboxShader;
-    GLShader _cmReflectionShader;
-    GLShader _testGeom;
-    GLTransformFeedbackShader _testTf;
-
-    GLTexture* _fboTexture;
     std::vector<GLBuffer*> _vbos;
-    std::vector<GLMesh*> _meshes;
-    WireframeBatch _wireframeBatch;
-
-    GLFrameBuffer _fbo;
-    GLTexture _textureTest;
-    GLTexture _cubeMapTest;
-    GLMesh *_cube;
-
-    GLBuffer* _tfOut;
-    GLVao* _tfIn;
 
     GLBuffer* lightB;
-    PointLight light;
+    PointLightU light;
     GLBuffer* transformB;
-    TransformUB transformub;
+//    TransformUB transformub;
 
-
-//    GLBuffer* transformB;
-
+    GLRenderer* _renderer;
 
     void setupGeometry();
 
     void setupShader();
-    void setupTexture();
 
     void loadDuck();
-    glm::mat4 _mvp;
-
-
-
-    uint32_t _camPosL  ;
-    uint32_t _mvpL    ;
-    uint32_t _mL      ;
-    uint32_t _rotL    ;
-    uint32_t _mvpL2;
-    uint32_t _mvpL3;
-    uint32_t _rotL3;
-
-
-
-    float _angle;
     float _lastMousePosX;
     float _lastMousePosY;
-    GLVao _quadVao;
-    GLMesh *_geomTestMesh;
-
 
 public:
     TutoGLApp();
@@ -127,10 +57,11 @@ public:
     void setupUniforms();
 
 
-    void setupFBO();
 
 
     GLBuffer *vPBuffer;
+
+    void setupRenderer();
 };
 
 

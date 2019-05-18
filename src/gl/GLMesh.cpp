@@ -29,7 +29,7 @@ uint32_t GLMesh::getNbPoints() const {
 }
 
 void GLMesh::draw() {
-    _vao->bind();
+
     draw(_nbIndices);
 }
 
@@ -42,7 +42,7 @@ void GLMesh::draw(uint32_t nbIndices) {
 }
 
 void GLMesh::drawInstances(uint32_t nbInstances) {
-    _vao->bind();
+
     if(_vao->getIndexBuffer() != nullptr) {
         glDrawElementsInstanced(_renderType, _nbIndices, _vao->getIndType(), nullptr,nbInstances);
     }else{

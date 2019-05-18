@@ -25,14 +25,17 @@ public:
 
     GLenum getRenderType();
 
-    void draw(uint32_t nbIndices);
-    void draw();
+
 
 
     uint32_t getNbPoints() const;
     GLVao *getVao() const;
 
-    void drawInstances(uint32_t nbIndices, uint32_t nbInstances);
+//    void drawInstances(uint32_t nbIndices, uint32_t nbInstances);
+
+
+    void draw(uint32_t nbIndices);
+    void draw();
     void drawInstances(uint32_t nbInstances);
 };
 
