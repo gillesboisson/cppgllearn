@@ -7,6 +7,7 @@
 
 #include "glm/glm.hpp"
 #include "../gl/GLMaterialA.h"
+#include "../gl/GLRenderer.h"
 
 
 struct PointLightU {
@@ -33,7 +34,7 @@ protected:
 
 public:
 
-    SimpleLightMaterial(GLShader* shader,GLBuffer* transformUB,GLBuffer* lightUB,PointLightU* light);
+    SimpleLightMaterial(GLRenderer* renderer,GLBuffer* transformUB,GLBuffer* lightUB,PointLightU* light);
     void bindGeomUniforms(glm::mat4 worldMat, Camera *camera) override;
     void bindMatUniforms() override;
 

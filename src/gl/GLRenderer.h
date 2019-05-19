@@ -5,6 +5,9 @@
 #ifndef CPP_LEARN_GLRENDERER_H
 #define CPP_LEARN_GLRENDERER_H
 
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
 #include "GLTransformFeedbackShader.h"
 #include "GLShader.h"
 #include "GLVao.h"
@@ -47,6 +50,7 @@ protected:
 
 public:
 
+    GLRenderer();
     GLRenderer(GLsizei width,GLsizei height);
     GLRenderer(GLint vpX,GLint vpY,GLsizei width,GLsizei height);
     ~GLRenderer();
@@ -65,7 +69,7 @@ public:
     void setDepthTestEnabled(bool val);
 
 
-    void registerShader(const char* name,GLShader* shader);
+    GLShader* registerShader(const char* name,GLShader* shader);
     void deleteShader(const char *name);
 
     void setClearColor(glm::vec4 color);
@@ -78,6 +82,8 @@ public:
     void renderModel(Model *model, Camera *camera);
 
     GLShader *getShader(const char *name) const;
+
+    void resize(GLsizei width,GLsizei height);
 
     void resetViewport() const;
 

@@ -271,6 +271,23 @@ GLShaderType GLShader::getShaderType() const {
     return _shaderType;
 }
 
+GLShader::GLShader() {
+
+}
+
+GLShader::GLShader(const std::string &vertProgramPath, const std::string &fragProgramPath):GLShader() {
+    init(vertProgramPath,fragProgramPath);
+}
+
+GLShader::GLShader(
+    const std::string &vertProgramPath,
+    const std::string &fragProgramPath,
+    const std::string &geomProgramPath) :GLShader(){
+
+    init(vertProgramPath,fragProgramPath,geomProgramPath);
+
+}
+
 
 
 

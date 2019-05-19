@@ -15,6 +15,22 @@ const float PrimitiveHelper::cubePosition[] = {
     1,1,-1
 };
 
+const float PrimitiveHelper::quadMesh3DPosition[] = {
+    -1,-1,0,
+    1,-1,0,
+    -1,1,0,
+    1,1,0,
+};
+
+const float PrimitiveHelper::quadMeshPosition[] = {
+    -1,-1,
+    1,-1,
+    1,1,
+    -1,1,
+};
+
+
+
 const GLushort PrimitiveHelper::cubeTriangleIndices[] = {
     0,1,2,1,3,2,
     1,5,3,5,7,3,
@@ -125,6 +141,14 @@ GLMesh *PrimitiveHelper::createCubeLineMesh() {
     return mesh;
 }
 
+GLMesh *PrimitiveHelper::createQuadMesh3D() {
+    auto vbo = new GLBuffer(GL_ARRAY_BUFFER,GL_STATIC_DRAW,(GLvoid*) quadMesh3DPosition,sizeof(quadMesh3DPosition));
+    auto attr = new GLAttribute(GLAttributeLocation::Position,3,GL_FLOAT,vbo,sizeof(float) * 3,GL_FALSE, nullptr);
+    auto mesh = new GLMesh(4,GL_TRIANGLE_STRIP);
+    mesh->getVao()->init(attr,1);
+    return mesh;
+}
+
 const float *PrimitiveHelper::getCubePosition() {
     return cubePosition;
 }
@@ -135,4 +159,12 @@ const uint16_t *PrimitiveHelper::getCubeTriangleIndices() {
 
 const uint16_t *PrimitiveHelper::getCubeLineIndices() {
     return cubeLineIndices;
+}
+
+const float *PrimitiveHelper::getQuadMeshPosition() {
+    return quadMeshPosition;
+}
+
+const float *PrimitiveHelper::getQuadMesh3DPosition() {
+    return quadMesh3DPosition;
 }

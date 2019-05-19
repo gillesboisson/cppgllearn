@@ -114,8 +114,14 @@ void GLRenderer::doTransformFeedbackPass(
 
 }
 
-void GLRenderer::registerShader(const char *name, GLShader *shader) {
-    _shaders[name] = shader;
+GLShader* GLRenderer::registerShader(const char *name, GLShader *shader) {
+    if(_shaders.find(name) == _shaders.end()) {
+        _shaders[name] = shader;
+        return shader;
+    }else{
+        printf("GLRenderer::registerShader : shader %s already exists",name);
+        return shader;
+    }
 }
 
 GLShader* GLRenderer::getShader(const char *name) const{
@@ -175,6 +181,10 @@ void GLRenderer::setDepthTestEnabled(bool val) {
     }
 }
 
+GLRenderer::GLRenderer():GLRenderer(0,0,0,0) {
+
+}
+
 GLRenderer::GLRenderer(GLsizei width, GLsizei height):GLRenderer(0,0,width,height) {
 
 }
@@ -215,4 +225,21 @@ void GLRenderer::resetViewport() const{
 
 GLRenderer::~GLRenderer() {
     delete _fbStack;
+}
+
+void GLRenderer::resize(GLsizei width, GLsizei height) {
+    _viewportWidth = width;
+    _viewportHeight = height;
+    if(_fbStack->getStackInd() > 1) {
+        auto vpStack = _fbStack->getStack();
+        vpStack->width = width;
+        vpStack->height = height;
+    }else{
+        _fbStack->replace(
+            _viewportX,
+            _viewportY,
+            _viewportWidth,
+            _viewportHeight
+            );
+    }
 }

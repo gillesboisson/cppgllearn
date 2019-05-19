@@ -23,9 +23,9 @@ class GLShader
 
 protected:
 
-    GLuint _programId;
-    GLuint _vertexId, _fragmentId, _geometryId;
-    GLShaderType _shaderType;
+    GLuint _programId{};
+    GLuint _vertexId, _fragmentId, _geometryId{};
+    GLShaderType _shaderType{};
 
 
     bool loadVertexShader(const std::string &filename);
@@ -35,6 +35,10 @@ protected:
 
 public:
 
+
+    GLShader();
+    GLShader(const std::string &vertProgramPath, const std::string &fragProgramPath);
+    GLShader(const std::string &vertProgramPath, const std::string &fragProgramPath, const std::string &geomProgramPath);
 
 	std::string readFile(const char *file);
  

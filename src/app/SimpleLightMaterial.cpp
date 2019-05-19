@@ -16,9 +16,13 @@ void SimpleLightMaterial::bindMatUniforms() {
     _lightUB->uploadSubData(0,sizeof(PointLightU),_light);
 }
 
-SimpleLightMaterial::SimpleLightMaterial(GLShader* shader,GLBuffer *transformUB, GLBuffer *lightUB, PointLightU *light):GLMaterialA(shader) {
+SimpleLightMaterial::SimpleLightMaterial(
+    GLRenderer* renderer,
+    GLBuffer *transformUB,
+    GLBuffer *lightUB,
+    PointLightU *light):GLMaterialA(renderer->getShader("simpleLight")) {
     _transformUB = transformUB;
     _lightUB = lightUB;
     _light = light;
-    _camPosUI = shader->getUniformLocation("camPosition");
+    _camPosUI = _shader->getUniformLocation("camPosition");
 }

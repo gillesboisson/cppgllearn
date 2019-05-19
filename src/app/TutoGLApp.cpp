@@ -6,7 +6,6 @@
 #include "../geometry/PrimitiveHelper.h"
 
 
-
 TutoGLApp::TutoGLApp():GLFWAppA(512,512,"Open GL Tutos",60) {
     _mvp = glm::mat4(1.0);
 
@@ -22,18 +21,35 @@ void TutoGLApp::setupGeometry() {
 void TutoGLApp::setupShader() {
     std::cout << "SetupShader\n";
 
-    _simpleShader.init("./assets/shaders/simple_light_shader.vert", "./assets/shaders/simple_light_shader.frag");
-    _simpleShader2.init("./assets/shaders/simple_light_shader.vert", "./assets/shaders/simple_light_shader.frag");
+
+    auto lightS =_renderer->registerShader(
+        "simpleLight",
+        new GLShader("./assets/shaders/simple_light_shader.vert", "./assets/shaders/simple_light_shader.frag")
+        );
+
+    auto colorS = _renderer->registerShader(
+        "fixColor",
+        new GLShader("./assets/shaders/fix_color.vert", "./assets/shaders/fix_color.frag")
+        );
+
+
+    lightS->useProgram();
 
     lightB = new GLBuffer(GL_UNIFORM_BUFFER,GL_STATIC_DRAW,sizeof(PointLightU));
     lightB->bindBase(1);
-    _simpleShader.bindUniformBlockIndex("Light",1);
-    _simpleShader2.bindUniformBlockIndex("Light",1);
+    lightS->bindUniformBlockIndex("Light",1);
 
     transformB = new GLBuffer(GL_UNIFORM_BUFFER,GL_DYNAMIC_DRAW,sizeof(TransformU));
     transformB->bindBase(2);
-    _simpleShader.bindUniformBlockIndex("TransformUB",2);
-    _simpleShader2.bindUniformBlockIndex("TransformUB",2);
+    lightS->bindUniformBlockIndex("TransformUB",2);
+
+    glm::vec4 color(1.0);
+    lightS->setUniformVec4v("color",color);
+
+    colorS->useProgram();
+    lightS->setUniformVec4v("color",color);
+
+
 
 }
 
@@ -60,23 +76,23 @@ void TutoGLApp::loadDuck() {
     auto vbos = GLTFLoader::loadBufferViews(model.buffers, model.bufferViews);
     auto meshes = GLTFLoader::loadMeshes(vbos, model.bufferViews, model.accessors, model.meshes[0].primitives);
 
-    auto mat = new SimpleLightMaterial(&_simpleShader,transformB,lightB,&light);
-    auto mat2 = new SimpleLightMaterial(&_simpleShader2,transformB,lightB,&light);
+    auto mat = new SimpleLightMaterial(_renderer,transformB,lightB,&light);
 
     _duck = new Model(*meshes.data(),mat);
     _duck->transform.scale(0.01);
     _duck->updateGeometry();
 
 
-    _duck2 = new Model(*meshes.data(),mat2);
-    _duck2->transform.scale(0.01);
-    _duck2->transform.translate(3.0,0,0);
-    _duck2->updateGeometry();
+    auto quad = PrimitiveHelper::createQuadMesh3D();
+
+    _quadMat = new SimpleColorMaterial(_renderer);
+    _quadMat->setColor(glm::vec4(1,1,1,1));
+    _quadMesh = PrimitiveHelper::createQuadMesh3D();
+
 
 }
 
 void TutoGLApp::setupUniforms() {
-    _simpleShader.useProgram();
 
     light.diffuse = glm::vec3(0.5);
     light.ambient = glm::vec3(0.4);
@@ -85,11 +101,6 @@ void TutoGLApp::setupUniforms() {
     light.shininess = 32.f;
 
     glm::vec4 color(1.0);
-    _simpleShader.setUniformVec4v("color",color);
-
-    _simpleShader2.useProgram();
-    _simpleShader2.setUniformVec4v("color",color);
-
 }
 
 void TutoGLApp::afterStart() {
@@ -98,8 +109,6 @@ void TutoGLApp::afterStart() {
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
 
-
-    setupRenderer();
     setupGeometry();
     setupShader();
     loadDuck();
@@ -158,13 +167,13 @@ void TutoGLApp::update(double frameInterval,float frameSpeed) {
 
     _renderer->clear();
     _renderer->renderModel(_duck,&_cam);
-    _renderer->renderModel(_duck2,&_cam);
+    _renderer->renderMesh(_quadMesh,_quadMat);
 
 
 }
 
-void TutoGLApp::setupRenderer() {
-    _renderer = new GLRenderer(_windowWidth,_windowHeight);
+void TutoGLApp::initRenderer() {
+    GLFWAppA::initRenderer();
     _renderer->setClearColor(glm::vec4(0,0,0,0));
     _renderer->setDepthTestEnabled(true);
     _renderer->setFaceCullingEnabled(true);

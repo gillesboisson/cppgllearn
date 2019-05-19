@@ -105,6 +105,10 @@ uint16_t FBStack::getStackInd() const {
     return _stackInd;
 }
 
+FBStackData *FBStack::getStack() const {
+    return _stack;
+}
+
 
 
 

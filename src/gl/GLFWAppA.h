@@ -15,6 +15,7 @@
 #include <chrono>
 
 #include "../gl/GLHelper.h"
+#include "../gl/GLRenderer.h"
 
 
 class GLFWAppA {
@@ -27,11 +28,12 @@ protected:
     const char* _windowTitle;
     double _lastFrameTime;
 
+    GLRenderer* _renderer;
+
 
     static void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 
 public:
-
 
 
 
@@ -59,10 +61,16 @@ public:
     virtual void beforeStart();
     virtual void afterStart();
     virtual void update(double frameInterval,float frameSpeed) = 0;
+
+    virtual void initRenderer();
+    void initRenderer(GLRenderer* renderer,bool resizeRenderer = true);
+
     virtual void beforeQuit();
 
 
     void bindFramebuffer();
+
+    void resize(int width, int height);
 };
 
 

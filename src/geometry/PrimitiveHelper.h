@@ -8,15 +8,11 @@
 #include "../gl/GLMesh.h"
 
 class PrimitiveHelper {
-    static const float cubePosition[];
-public:
-    static const float *getCubePosition();
+    static const float quadMesh3DPosition[12];
+    static const float quadMeshPosition[8];
+    static const float cubePosition[24];
 
-    static const uint16_t *getCubeTriangleIndices();
 
-    static const uint16_t *getCubeLineIndices();
-
-private:
     static const uint16_t cubeTriangleIndices[36];
     static const GLushort cubeTriangleInsideIndices[36];
 
@@ -29,6 +25,16 @@ public:
     static GLMesh *createSkyboxTriangleMesh();
 
 
+
+    static const float *getCubePosition();
+
+    static const uint16_t *getCubeTriangleIndices();
+
+    static const uint16_t *getCubeLineIndices();
+    static const float *getQuadMesh3DPosition();
+    static const float *getQuadMeshPosition();
+
+    static GLMesh *createQuadMesh3D();
 };
 
 

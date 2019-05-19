@@ -18,18 +18,19 @@
 #include "../3d/Model.h"
 #include "../gl/GLRenderer.h"
 #include "SimpleLightMaterial.h"
+#include "SimpleColorMaterial.h"
 
 
 class TutoGLApp : public GLFWAppA {
 protected:
     Camera _cam;
     Model* _duck;
-    Model* _duck2;
+    Model* _quad;
+
 
     glm::mat4 _mvp;
 
-    GLShader _simpleShader;
-    GLShader _simpleShader2;
+
     std::vector<GLBuffer*> _vbos;
 
     GLBuffer* lightB;
@@ -37,7 +38,6 @@ protected:
     GLBuffer* transformB;
 //    TransformUB transformub;
 
-    GLRenderer* _renderer;
 
     void setupGeometry();
 
@@ -46,6 +46,9 @@ protected:
     void loadDuck();
     float _lastMousePosX;
     float _lastMousePosY;
+
+    SimpleColorMaterial *_quadMat;
+    GLMesh *_quadMesh;
 
 public:
     TutoGLApp();
@@ -58,12 +61,15 @@ public:
 
     void setupUniforms();
 
-
+    void initRenderer() override ;
 
 
     GLBuffer *vPBuffer;
 
-    void setupRenderer();
+
+
+
+
 };
 
 

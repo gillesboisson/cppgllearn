@@ -4,6 +4,8 @@
 
 #include "GLFWAppA.h"
 
+
+
 #include <cmath>
 
 
@@ -32,14 +34,32 @@ bool GLFWAppA::start() {
         return false;
     }
 
+
+
+
+
+
+
     glfwMakeContextCurrent(_window);
-    glfwSetFramebufferSizeCallback(_window, GLFWAppA::framebuffer_size_callback);
+
+    glfwSetWindowUserPointer(_window, this);
+
+    auto func = [](GLFWwindow* w, int width, int height)
+    {
+        static_cast<GLFWAppA*>(glfwGetWindowUserPointer(w))->resize(width,height);
+    };
+
+    glfwSetFramebufferSizeCallback(_window, func);
+
+
+
+//    glfwSetFramebufferSizeCallback(_window, GLFWAppA::framebuffer_size_callback);
 
     if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
         std::cout << "Failed to initialize GLAD" << std::endl;
         return false;
     }
-
+    initRenderer();
 
     afterStart();
 
@@ -50,6 +70,8 @@ bool GLFWAppA::start() {
 
         if (_lastFrameTime != 0) {
             timeInterval = time - _lastFrameTime;
+
+            _renderer->clear();
             update(timeInterval, 1000 / timeInterval / _fps);
         }
 
@@ -77,6 +99,14 @@ bool GLFWAppA::start() {
     return true;
 
 
+}
+
+void GLFWAppA::resize(int width,int height){
+    _windowWidth = width;
+    _windowHeight = height;
+    if(_renderer != nullptr){
+        _renderer->resize(width,height);
+    }
 }
 
 uint16_t GLFWAppA::getFps() const {
@@ -129,4 +159,17 @@ GLFWAppA::GLFWAppA(int width, int height, const char *title, uint16_t fps) {
     _windowHeight = height;
     _windowTitle = title;
     _fps = fps;
+
+
 }
+
+void GLFWAppA::initRenderer(){
+    initRenderer(new GLRenderer(0,0,_windowWidth,_windowHeight),false);
+}
+
+void GLFWAppA::initRenderer(GLRenderer *renderer,bool resizeRenderer) {
+    _renderer = renderer;
+    if(resizeRenderer) renderer->resize(_windowWidth,_windowHeight);
+}
+
+
