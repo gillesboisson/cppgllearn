@@ -14,6 +14,8 @@ SubTexture::SubTexture(GLTexture* texture,uint32_t x,uint32_t y,uint32_t width,u
     _height = height;
 }
 
+
+
 void SubTexture::copyUvs(float *uvs) {
     uvs[0] = uvs[4] = (float)_left / _texture->getWidth();
     uvs[1] = uvs[3] = (float)_top / _texture->getHeight();
@@ -25,7 +27,21 @@ void SubTexture::copyUvs(glm::vec2 *uvs) {
     uvs[0][0] = uvs[2][0] = (float)_left / _texture->getWidth();
     uvs[0][1] = uvs[1][1] = (float)_top / _texture->getHeight();
     uvs[1][0] = uvs[3][0] = (float)_right / _texture->getWidth();
-    uvs[1][1] = uvs[3][1] = (float)_bottom / _texture->getHeight();
+    uvs[2][1] = uvs[3][1] = (float)_bottom / _texture->getHeight();
+}
+
+void SubTexture::updateQuadVertices(glm::vec2 *uvs,glm::vec2 *points) {
+
+//    points[0][0] = points[2][0] = 0;
+//    points[0][1] = points[1][1] = 0;
+
+    uvs[0][0] = uvs[2][0] = (float)_left / _texture->getWidth();
+    uvs[0][1] = uvs[1][1] = (float)_top / _texture->getHeight();
+    uvs[1][0] = uvs[3][0] = (float)_right / _texture->getWidth();
+    uvs[2][1] = uvs[3][1] = (float)_bottom / _texture->getHeight();
+
+    points[1][0] = points[3][0] = _width;
+    points[2][1] = points[3][1] =_height;
 }
 
 uint32_t SubTexture::getLeft() const {

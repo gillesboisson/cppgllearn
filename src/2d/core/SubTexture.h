@@ -48,6 +48,8 @@ public:
     uint32_t getWidth() const;
 
     uint32_t getHeight() const;
+
+    void updateQuadVertices(glm::vec2 *uvs, glm::vec2 *points);
 };
 
 

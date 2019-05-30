@@ -14,7 +14,7 @@
 #include "GLMaterialA.h"
 #include <glm/glm.hpp>
 
-#include "../3d/Camera.h"
+#include "../core/Camera.h"
 #include "../3d/Model.h"
 #include "../utils/FBStack.h"
 
@@ -100,6 +100,8 @@ public:
     void swapFrameBuffer(GLFrameBuffer *fbo);
 
     GLFrameBuffer *popFrameBuffer();
+
+    void prepare(GLMaterialA *material, GLVao *vao);
 };
 
 

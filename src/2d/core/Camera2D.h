@@ -6,7 +6,7 @@
 #define CPP_LEARN_CAMERA2D_H
 
 
-#include "../../3d/Camera.h"
+#include "../../core/Camera.h"
 
 class Camera2D : public Camera{
 protected:

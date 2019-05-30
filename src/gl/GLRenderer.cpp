@@ -91,10 +91,14 @@ void GLRenderer::renderModel(Model *model, Camera *camera) {
     mat->render(mesh,*model->getWorldMat(),camera);
 }
 
-void GLRenderer::prepare(GLMaterialA *material, GLVao *vao, Camera *camera) {
+void GLRenderer::prepare(GLMaterialA *material, GLVao *vao) {
     bindShader(material->getActiveShader());
     bindMaterial(material);
     bindVao(vao);
+}
+
+void GLRenderer::prepare(GLMaterialA *material, GLVao *vao, Camera *camera) {
+    prepare(material,vao);
     material->bindModelUniforms(nullptr, camera);
 }
 

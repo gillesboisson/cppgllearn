@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="cpp_learn"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\usr\local\;CMake Files\..\..\..\..\..\usr\local\lib\;CMake Files\..\..\..\..\..\usr\local\lib\cmake\;CMake Files\..\..\..\..\..\usr\local\lib\cmake\glfw3\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/gillesboisson/Projects/sandbox/cpp_learn/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/gillesboisson/Projects/sandbox/cpp_learn/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/gillesboisson/Projects/sandbox/cpp_learn/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/gillesboisson/Projects/sandbox/cpp_learn/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/gillesboisson/Projects/sandbox/cpp_learn/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/Users/gillesboisson/Projects/sandbox/cpp_learn/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/gillesboisson/Projects/sandbox/cpp_learn/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/gillesboisson/Projects/sandbox/cpp_learn/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/gillesboisson/Projects/sandbox/cpp_learn/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/gillesboisson/Projects/sandbox/cpp_learn/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/gillesboisson/Projects/sandbox/cpp_learn/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/gillesboisson/Projects/sandbox/cpp_learn/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/gillesboisson/Projects/sandbox/cpp_learn/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/gillesboisson/Projects/sandbox/cpp_learn/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/gillesboisson/Projects/sandbox/cpp_learn/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="cpp_learn">
+				<Option output="/Users/gillesboisson/Projects/sandbox/cpp_learn/cmake-build-debug/cpp_learn" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/gillesboisson/Projects/sandbox/cpp_learn/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DDEBUG_GL"/>
+					<Add option="-DGLFW_DLL"/>
+					<Add directory="/Users/gillesboisson/Projects/sandbox/cpp_learn/libs/glad/include"/>
+					<Add directory="/Users/gillesboisson/Projects/sandbox/cpp_learn/libs/glm"/>
+					<Add directory="/Users/gillesboisson/Projects/sandbox/cpp_learn/libs/tinygltf-2.2.0"/>
+					<Add directory="/Users/gillesboisson/Projects/sandbox/cpp_learn/libs/jsoncpp/dist"/>
+					<Add directory="/usr/local/Cellar/glfw/3.3/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/gillesboisson/Projects/sandbox/cpp_learn/cmake-build-debug/Makefile&quot;  VERBOSE=1 cpp_learn"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/gillesboisson/Projects/sandbox/cpp_learn/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/gillesboisson/Projects/sandbox/cpp_learn/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/gillesboisson/Projects/sandbox/cpp_learn/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="cpp_learn/fast">
+				<Option output="/Users/gillesboisson/Projects/sandbox/cpp_learn/cmake-build-debug/cpp_learn" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/gillesboisson/Projects/sandbox/cpp_learn/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DDEBUG_GL"/>
+					<Add option="-DGLFW_DLL"/>
+					<Add directory="/Users/gillesboisson/Projects/sandbox/cpp_learn/libs/glad/include"/>
+					<Add directory="/Users/gillesboisson/Projects/sandbox/cpp_learn/libs/glm"/>
+					<Add directory="/Users/gillesboisson/Projects/sandbox/cpp_learn/libs/tinygltf-2.2.0"/>
+					<Add directory="/Users/gillesboisson/Projects/sandbox/cpp_learn/libs/jsoncpp/dist"/>
+					<Add directory="/usr/local/Cellar/glfw/3.3/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/gillesboisson/Projects/sandbox/cpp_learn/cmake-build-debug/Makefile&quot;  VERBOSE=1 cpp_learn/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/gillesboisson/Projects/sandbox/cpp_learn/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/gillesboisson/Projects/sandbox/cpp_learn/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/gillesboisson/Projects/sandbox/cpp_learn/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/libs/glad/src/glad.c">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/libs/jsoncpp/dist/jsoncpp.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/Camera2D.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/Camera2D.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/Entity2D.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/Entity2D.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/EntityGroup2D.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/EntityGroup2D.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/GLTransform2D.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/GLTransform2D.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/SpriteBatch.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/SpriteBatch.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/Stage2D.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/Stage2D.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/SubTexture.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/SubTexture.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/TextureAtlas.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/TextureAtlas.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/entities/PolyA.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/entities/PolyA.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/entities/Quad.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/entities/Quad.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/entities/Sprite.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/entities/Sprite.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/materials/SpriteMaterial.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/materials/SpriteMaterial.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/materials/SpriteShader.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/materials/SpriteShader.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/3d/GLTFLoader.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/3d/GLTFLoader.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/3d/Model.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/3d/Model.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/3d/Node.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/3d/Node.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/app/SimpleColorMaterial.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/app/SimpleColorMaterial.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/app/SimpleLightMaterial.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/app/SimpleLightMaterial.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/app/TutoGLApp.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/app/TutoGLApp.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/core/Camera.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/core/Camera.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/geometry/PrimitiveHelper.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/geometry/PrimitiveHelper.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/GLAttribute.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/GLAttribute.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/GLBuffer.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/GLBuffer.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/GLFWAppA.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/GLFWAppA.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/GLFrameBuffer.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/GLFrameBuffer.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/GLHelper.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/GLHelper.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/GLMaterialA.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/GLMaterialA.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/GLMesh.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/GLMesh.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/GLRenderer.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/GLRenderer.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/GLShader.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/GLShader.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/GLTexture.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/GLTexture.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/GLTransform.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/GLTransform.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/GLTransformA.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/GLTransformA.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/GLTransformFeedbackShader.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/GLTransformFeedbackShader.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/GLVao.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/GLVao.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/lib_stb.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/main.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/utils/FBStack.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/utils/FBStack.h">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/../../../../../usr/local/lib/cmake/glfw3/glfw3Config.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\local\lib\cmake\glfw3\"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/../../../../../usr/local/lib/cmake/glfw3/glfw3ConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\local\lib\cmake\glfw3\"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/../../../../../usr/local/lib/cmake/glfw3/glfw3Targets-release.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\local\lib\cmake\glfw3\"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/../../../../../usr/local/lib/cmake/glfw3/glfw3Targets.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\usr\local\lib\cmake\glfw3\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

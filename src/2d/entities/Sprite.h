@@ -12,6 +12,7 @@ class Sprite : public Quad{
 protected:
 
     SubTexture* _subTexture;
+    void prepareBatch(SpriteBatch *batch) override;
 
     //float _uvs[8];
 

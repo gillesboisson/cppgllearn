@@ -2,7 +2,9 @@
 #include "../materials/SpriteMaterial.h"
 
 SpriteBatch::SpriteBatch(GLRenderer* renderer,Camera *camera,uint32_t maxSize, uint16_t maxIndicesSize)
-: GLBatchA(maxSize, maxIndicesSize,new SpriteMaterial(renderer),GL_TRIANGLES,renderer,camera) {}
+: BatchA(maxSize, maxIndicesSize,new SpriteMaterial(renderer),GL_TRIANGLES,renderer,camera) {
+    initVao();
+}
 
 
 
@@ -18,8 +20,8 @@ GLVao *SpriteBatch::createVao() {
     return vao;
 }
 
-
 void SpriteBatch::reset(){
+    BatchA::reset();
     _currentTexture = nullptr;
 }
 

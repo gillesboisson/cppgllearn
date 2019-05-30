@@ -4,6 +4,8 @@
 
 #include "GLTransform2D.h"
 
+#include <glm/gtx/matrix_transform_2d.hpp>
+
 GLTransform2D::GLTransform2D() {
     reset();
 }
@@ -17,20 +19,31 @@ void GLTransform2D::reset(){
 
     // rotation helpers
     _rotation   = 0;
-    _depth      = 0;
+    _depth      = 0.5;
+    _dirtyRot = true;
     _dirtyMat = true;
-    _dirtyRot = false;
+
 
     _rs = glm::vec2(1,0);
     _rc = glm::vec2(0,1);
 
 }
 
+
+
 const glm::vec2 &GLTransform2D::getPosition() const {
     return _position;
 }
 
+
+void GLTransform2D::setPosition(float x,float y) {
+    _position.x = x;
+    _position.y = y;
+    _dirtyMat = true;
+}
+
 void GLTransform2D::setPosition(const glm::vec2 &position) {
+    _dirtyMat = true;
     _position = position;
 }
 
@@ -38,8 +51,23 @@ const glm::vec2 &GLTransform2D::getScale() const {
     return _scale;
 }
 
+
+
 void GLTransform2D::setScale(const glm::vec2 &scale) {
+    _dirtyMat = true;
     _scale = scale;
+}
+
+void GLTransform2D::setScale(float x,float y) {
+    _scale.x = x;
+    _scale.y = y;
+    _dirtyMat = true;
+}
+
+void GLTransform2D::setScale(float scale) {
+    _scale.x = scale;
+    _scale.y = scale;
+    _dirtyMat = true;
 }
 
 const glm::vec2 &GLTransform2D::getSize() const {
@@ -47,7 +75,14 @@ const glm::vec2 &GLTransform2D::getSize() const {
 }
 
 void GLTransform2D::setSize(const glm::vec2 &size) {
+    _dirtyMat = true;
     _size = size;
+}
+
+void GLTransform2D::setSize(float x, float y) {
+    _size.x = x;
+    _size.y = y;
+    _dirtyMat = true;
 }
 
 const glm::vec2 &GLTransform2D::getPivot() const {
@@ -58,6 +93,12 @@ void GLTransform2D::setPivot(const glm::vec2 &pivot) {
     _pivot = pivot;
 }
 
+void GLTransform2D::setPivot(float x,float y) {
+    _pivot.x = x;
+    _pivot.y = y;
+    _dirtyMat = true;
+}
+
 float GLTransform2D::getRotation() const {
     return _rotation;
 }
@@ -65,8 +106,8 @@ float GLTransform2D::getRotation() const {
 void GLTransform2D::setRotation(float rotation) {
     if(rotation != _rotation){
         _rotation = rotation;
-        _dirtyMat = true;
         _dirtyRot = true;
+        _dirtyMat = true;
     }
 }
 
@@ -85,8 +126,10 @@ void GLTransform2D::updateRot() {
 
     _rc.x = cos(_rotation);
     _rs.x = sin(_rotation);
-    _rc.y = -_rs.y;
+    _rc.y = -_rs.x;
     _rs.y = _rc.x;
+
+
 
 }
 
@@ -94,40 +137,33 @@ void GLTransform2D::updateLayout() {
 
 }
 void GLTransform2D::updateLocalMat() {
-    if(_dirtyRot) updateRot();
 
-    _mat = glm::mat3x2();
+    if(_dirtyMat) {
+        _dirtyMat = false;
+        if (_dirtyRot) updateRot();
 
-    _mat[0][0] = _rc.x * _scale.x;
-    _mat[0][1] = _rs.x * _scale.x;
-    _mat[1][0] = _rc.y * _scale.y;
-    _mat[1][1] = _rs.y * _scale.y;
+        glm::vec2 pivot = glm::vec2(
+            _size.x != 0 ? _size.x * _pivot.x : _pivot.x,
+            _size.y != 0 ? _size.y * _pivot.y : _pivot.y
+        );
 
-    updateLayout();
+        _mat = glm::mat3(1);
+        _mat = glm::translate(_mat, pivot + _position);
+        _mat = glm::rotate(_mat, _rotation);
 
-    glm::vec2 pivot = glm::vec2 (
-        _size.x != 0 ? _size.x * _pivot.x : _pivot.x,
-        _size.y != 0 ? _size.y * _pivot.y : _pivot.y
-    );
-
-    _mat[2][0] = _position.x - (pivot.x * _mat[0][0]) + (pivot.y * _mat[1][0]);
-    _mat[2][1] = _position.y - (pivot.x * _mat[0][1]) + (pivot.y * _mat[1][1]);
+        _mat = glm::translate(_mat, -pivot);
+        _mat = glm::scale(_mat, _scale);
+    }
 
 }
 
-void GLTransform2D::updateWorldMat(glm::mat3x2 *wm,const glm::mat3x2 &pm) {
+void GLTransform2D::updateWorldMat(glm::mat3 *wm, const glm::mat3 &pm) {
     updateLocalMat();
 
-    wm[0][0][0] = (_mat[0][0] * pm[0][0]) + (_mat[0][1] * pm[1][0]);
-    wm[0][0][1] = (_mat[0][0] * pm[0][1]) + (_mat[0][1] * pm[1][1]);
-    wm[0][1][0] = (_mat[0][1] * pm[0][0]) + (_mat[1][1] * pm[1][0]);
-    wm[0][1][1] = (_mat[1][0] * pm[0][1]) + (_mat[1][1] * pm[1][1]);
-    wm[0][2][0] = (_mat[2][0] * pm[0][0]) + (_mat[2][1] * pm[0][1]) + pm[2][0];
-    wm[0][2][1] = (_mat[2][0] * pm[0][1]) + (_mat[2][1] * pm[1][1]) + pm[2][1];
-
+    *wm = pm * _mat;
 
 }
 
-void GLTransform2D::updateWorldMat(glm::mat3x2 *worldMat) {
-    updateWorldMat(worldMat,glm::mat3x2());
+void GLTransform2D::updateWorldMat(glm::mat3 *worldMat) {
+    updateWorldMat(worldMat,glm::mat3(1));
 }

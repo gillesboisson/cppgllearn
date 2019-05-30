@@ -29,3 +29,13 @@ void Stage2D::initBase(GLRenderer *renderer,uint32_t width,uint32_t height){
     _renderer = renderer;
     _camera = new Camera2D(0,0,width,height);
 }
+
+Camera2D * Stage2D::getCamera(){
+    return _camera;
+}
+
+void Stage2D::render(){
+    _batch->begin();
+    push(_batch,glm::mat3x2(1));
+    _batch->end();
+}

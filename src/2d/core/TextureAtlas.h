@@ -14,7 +14,7 @@
 
 class TextureAtlas {
 protected:
-    std::map<const char*,SubTexture*>_subTextures{};
+    std::map<std::string,SubTexture*>_subTextures{};
     GLTexture *_texture;
 
 
@@ -23,8 +23,8 @@ public:
     explicit TextureAtlas(GLTexture *texture);
     ~TextureAtlas();
 
-    SubTexture* addSubTexture(const char *name, uint32_t x, uint32_t y, uint32_t width, uint32_t height);
-    SubTexture* getSubTexture(const char *name);
+    SubTexture* addSubTexture(const std::string& name, uint32_t x, uint32_t y, uint32_t width, uint32_t height);
+    SubTexture* getSubTexture(const std::string& name);
 
 
     bool load(const Json::Value &jsonData);

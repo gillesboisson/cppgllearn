@@ -14,11 +14,15 @@ const char *cubeMapNames[] = {"pos-x",
                               "neg-z"
                             };
 
-void GLTexture::loadTexture2d(const char *imagePath) {
+void GLTexture::loadTexture2d(const char *imagePath,bool flipTextureV) {
     gen();
 
+    if(flipTextureV) {
+        stbi_set_flip_vertically_on_load(true);
+    }else{
+        stbi_set_flip_vertically_on_load(false);
 
-    stbi_set_flip_vertically_on_load(true);
+    }
     int nrChannels;
     unsigned char *data = stbi_load(imagePath, &_width, &_height, &nrChannels, 0);
 

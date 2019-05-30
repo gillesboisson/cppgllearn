@@ -54,6 +54,9 @@ void GLBuffer::allocate(GLsizeiptr size) {
 
 void GLBuffer::uploadSubData(GLintptr offset, GLsizeiptr size, GLvoid *data)  const{
     glBindBuffer(_target, _glId);
+
+    auto *dataa = (float*)data;
+
     glBufferSubData(_target,offset,size,data);
 }
 

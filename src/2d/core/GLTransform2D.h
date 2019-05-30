@@ -16,9 +16,9 @@ protected:
     float _depth;
     float _rotation;
 
-    glm::mat3x2 _mat;
-    bool _dirtyMat;
+    glm::mat3 _mat;
     bool _dirtyRot;
+    bool _dirtyMat;
 
     glm::vec2 _rs;
     glm::vec2 _rc;
@@ -32,6 +32,14 @@ public:
 
     // Accessors
 public:
+
+    void updateRot();
+    void updateLocalMat();
+    void updateLayout();
+    void updateWorldMat(glm::mat3 *wm, const glm::mat3 &pm);
+    void updateWorldMat(glm::mat3 *worldMat);
+
+
     const glm::vec2 &getPosition() const;
 
     void setPosition(const glm::vec2 &position);
@@ -52,21 +60,19 @@ public:
 
     void setDepth(float depth);
 
-
-
-    void updateRot();
-
-    void updateLocalMat();
-
-    void updateLayout();
-
-
-    void updateWorldMat(glm::mat3x2 *worldMat, const glm::mat3x2 &parentMat);
-    void updateWorldMat(glm::mat3x2 *worldMat);
-
     const glm::vec2 &getSize() const;
 
     void setSize(const glm::vec2 &size);
+
+    void setPosition(float x, float y);
+
+    void setScale(float x, float y);
+
+    void setScale(float scale);
+
+    void setSize(float x, float y);
+
+    void setPivot(float x, float y);
 };
 
 

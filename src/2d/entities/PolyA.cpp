@@ -31,7 +31,7 @@ void PolyA::copyIndices(uint16_t *pInt, uint16_t offset){
 void PolyA::pushVertices(SpriteVertex *pVertex, uint16_t *pInt, uint16_t offset) {
     for (int i = 0; i < _nbPoints; ++i) {
         glm::vec2 pt = _worldMat * glm::vec3(_positions[i],1);
-        pVertex[i].pos = glm::vec3(pt,_transform.getDepth());
+        pVertex[i].pos = glm::vec3(pt,transform.getDepth());
         pVertex[i].color = _color;
         pVertex[i].uv = _uvs[i];
     }

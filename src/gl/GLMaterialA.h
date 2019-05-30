@@ -11,7 +11,7 @@
 
 #include "GLMesh.h"
 #include "GLTransform.h"
-#include "../3d/Camera.h"
+#include "../core/Camera.h"
 
 class GLMaterialA {
 protected:

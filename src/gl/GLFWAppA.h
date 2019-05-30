@@ -57,9 +57,8 @@ public:
     bool start();
     void quit();
 
-
     virtual void beforeStart();
-    virtual void afterStart();
+    virtual void afterRendererInit();
     virtual void update(double frameInterval,float frameSpeed) = 0;
 
     virtual void initRenderer();

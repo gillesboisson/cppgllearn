@@ -13,7 +13,7 @@ Camera2D::Camera2D(float x, float y, float width, float height) {
 }
 
 void Camera2D::update2DProjection() {
-    init2D(_width, _height, 0.0001, 1);
+    init2D(_width, _height, -1.000, 1.000);
 }
 
 void Camera2D::resize(float width,float height) {

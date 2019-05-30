@@ -61,7 +61,7 @@ bool GLFWAppA::start() {
     }
     initRenderer();
 
-    afterStart();
+    afterRendererInit();
 
     _active = true;
     while (!glfwWindowShouldClose(_window)) {
@@ -141,7 +141,7 @@ void GLFWAppA::beforeStart() {
 
 }
 
-void GLFWAppA::afterStart() {
+void GLFWAppA::afterRendererInit() {
 
 }
 

@@ -25,6 +25,9 @@ public:
     Stage2D(GLRenderer *renderer,uint32_t width,uint32_t height);
     ~Stage2D();
 
+    Camera2D *getCamera();
+
+    void render();
 };
 
 

@@ -16,19 +16,21 @@ class Entity2D {
 protected:
 
     glm::vec4 _color;
-    glm::mat3x2 _worldMat;
+    glm::mat3 _worldMat;
     EntityGroup2D *_parent;
 
-    void updateGeom(const glm::mat3x2 &parentMat);
+    void updateGeom(const glm::mat3 &parentMat);
     virtual void pushGeom(SpriteBatch *batch);
+    virtual void prepareBatch(SpriteBatch *batch);
 
 public:
-    GLTransform2D _transform;
+    GLTransform2D transform;
 
     Entity2D();
-
-
     virtual void reset();
+    void push(SpriteBatch *batch, const glm::mat3 &parentMat);
+
+    // accessors
 
     float getAlpha();
 
@@ -38,10 +40,41 @@ public:
 
     void getColor(glm::vec3 color);
 
+    // transform accessors
 
+    const glm::vec2 &getPosition() const;
 
+    void setPosition(const glm::vec2 &position);
 
-    void push(SpriteBatch *batch, const glm::mat3x2 &parentMat);
+    const glm::vec2 &getScale() const;
+
+    void setScale(const glm::vec2 &scale);
+
+    const glm::vec2 &getPivot() const;
+
+    void setPivot(const glm::vec2 &pivot);
+
+    float getRotation() const;
+
+    void setRotation(float rotation);
+
+    float getDepth() const;
+
+    void setDepth(float depth);
+
+    const glm::vec2 &getSize() const;
+
+    void setSize(const glm::vec2 &size);
+
+    void setPosition(float x, float y);
+
+    void setScale(float x, float y);
+
+    void setScale(float scale);
+
+    void setSize(float x, float y);
+
+    void setPivot(float x, float y);
 
 
 };
