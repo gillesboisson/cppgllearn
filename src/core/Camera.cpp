@@ -9,7 +9,7 @@ void Camera::initOrtho(float left, float right, float bottom, float top, float n
 }
 
 void Camera::init2D(float width, float height, float near, float far) {
-    _projection = glm::ortho(0.0f,width,0.0f,-height,near,far);
+    _projection = glm::ortho(0.0f,width,height,0.f,near,far);
 }
 
 void Camera:: initPerspective(float fov, float ratio, float near, float far){

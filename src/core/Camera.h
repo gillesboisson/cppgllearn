@@ -7,7 +7,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "./Node.h"
+#include "../3d/Node.h"
 
 
 class Camera: public Node{
