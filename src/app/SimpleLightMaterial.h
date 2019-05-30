@@ -35,8 +35,8 @@ protected:
 public:
 
     SimpleLightMaterial(GLRenderer* renderer,GLBuffer* transformUB,GLBuffer* lightUB,PointLightU* light);
-    void bindGeomUniforms(glm::mat4 worldMat, Camera *camera) override;
-    void bindMatUniforms() override;
+    void bindModelUniforms(glm::mat4 *worldMat, Camera *camera) override;
+    void bindCommonUniforms() override;
 
 
 };

@@ -210,6 +210,15 @@ void GLShader::setUniformFloat(GLuint location, float fl) const{
     glUniform1f(location, fl);
 }
 
+void GLShader::setUniformInt(GLuint location, int32_t i) const{
+    glUniform1i(location, i);
+}
+
+void GLShader::setUniformUInt(GLuint location, uint32_t i) const{
+    glUniform1ui(location, i);
+}
+
+
 
 void GLShader::setUniformMat4v(const char* uniformName, const glm::mat4 &mat) const {
     GLuint location = glGetUniformLocation(_programId, uniformName);
@@ -229,6 +238,14 @@ void GLShader::setUniformVec3v(const char* uniformName, const glm::vec3 &vec) co
 void GLShader::setUniformFloat(const char* uniformName, float fl) const {
     GLuint location = glGetUniformLocation(_programId, uniformName);
     glUniform1f(location, fl);
+}
+void GLShader::setUniformInt(const char* uniformName, int32_t i) const {
+    GLuint location = glGetUniformLocation(_programId, uniformName);
+    setUniformInt(location, i);
+}
+void GLShader::setUniformUInt(const char* uniformName, uint32_t i) const {
+    GLuint location = glGetUniformLocation(_programId, uniformName);
+    glUniform1ui(location, i);
 }
 
 uint32_t  GLShader::getUniformLocation(const char *uniformName) const {

@@ -14,7 +14,7 @@ GLShader *GLMaterialA::getActiveShader() const {
 }
 
 void GLMaterialA::render(GLMesh *mesh,glm::mat4 mat, Camera *camera){
-    bindGeomUniforms(mat, camera);
+    bindModelUniforms(&mat, camera);
     mesh->draw();
 
 

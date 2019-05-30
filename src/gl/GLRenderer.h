@@ -81,6 +81,9 @@ public:
 
     void renderModel(Model *model, Camera *camera);
 
+
+    void prepare(GLMaterialA* material, GLVao* vao,Camera *camera);
+
     GLShader *getShader(const char *name) const;
 
     void resize(GLsizei width,GLsizei height);

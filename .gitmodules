@@ -1,0 +1,6 @@
+[submodule "libs/json"]
+	path = libs/json
+	url = https://github.com/nlohmann/json
+[submodule "libs/jsoncpp"]
+	path = libs/jsoncpp
+	url = https://github.com/open-source-parsers/jsoncpp.git

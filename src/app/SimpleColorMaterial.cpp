@@ -8,11 +8,11 @@ SimpleColorMaterial::SimpleColorMaterial(GLRenderer *renderer):GLMaterialA(rende
     _colorU = _shader->getUniformLocation("color");
 }
 
-void SimpleColorMaterial::bindGeomUniforms(glm::mat4 worldMat, Camera *camera) {
+void SimpleColorMaterial::bindModelUniforms(glm::mat4 *worldMat, Camera *camera) {
 
 }
 
-void SimpleColorMaterial::bindMatUniforms() {
+void SimpleColorMaterial::bindCommonUniforms() {
     _shader->setUniformVec4v(_colorU,_color);
 }
 

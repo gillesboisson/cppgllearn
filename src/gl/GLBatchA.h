@@ -11,6 +11,8 @@
 
 #include "./GLVao.h"
 #include "./GLBuffer.h"
+#include "./GLMaterialA.h"
+#include "GLRenderer.h"
 
 template<typename VerticesT>
 class GLBatchA {
@@ -36,15 +38,18 @@ protected:
     uint16_t _vaoId;
 
 
-
+    GLMaterialA *_material;
+    GLenum _renderType;
+    GLRenderer *_renderer;
+    Camera *_camera;
 
     virtual GLVao* createVao() = 0;
-    virtual void complete() = 0;
+    virtual void complete();
 
 
 public:
 
-    explicit GLBatchA(uint32_t maxSize, uint16_t maxIndicesSize);
+    explicit GLBatchA(uint32_t maxSize, uint16_t maxIndicesSize,GLMaterialA *material,GLenum renderType,GLRenderer* renderer,Camera *camera);
     ~GLBatchA();
 
     GLuint getVbo() const;
@@ -69,8 +74,11 @@ public:
 
 
     void end();
-    void reset();
 
+    virtual void reset();
+
+    GLMaterialA *getMaterial();
+    void draw();
 
 
 };
@@ -90,15 +98,22 @@ void GLBatchA<VerticesT>::init() {
     _vaoId = _vao->getGLId();
 
 
+
+
 }
 
 
 
 
 template<typename VerticesT>
-GLBatchA<VerticesT>::GLBatchA(const uint32_t maxSize, const uint16_t maxIndicesSize) {
+GLBatchA<VerticesT>::GLBatchA(const uint32_t maxSize, const uint16_t maxIndicesSize,GLMaterialA * material,GLenum renderType,GLRenderer* renderer,Camera *camera) {
     _maxVerticesSize = maxSize;
     _maxIndicesSize = maxIndicesSize;
+    _material = material;
+    _renderType = renderType;
+    _renderer = renderer;
+    _camera = camera;
+
 }
 
 template<typename VerticesT>
@@ -139,24 +154,11 @@ uint16_t GLBatchA<VerticesT>::pull(VerticesT **vertices, uint16_t **indices, uin
 template<typename VerticesT>
 void GLBatchA<VerticesT>::end() {
 
-    glBindVertexArray(_vaoId);
-    auto sV = sizeof(VerticesT) * _verticesSize;
-    auto sI = sizeof(uint16_t) * _indicesSize;
-
-    auto v1 = _indicesData[0];
-    auto v2 = _indicesData[1];
-    auto v3 = _indicesData[2];
-
-
-    _vbo->uploadData();
-    _ibo->uploadData();
-
-//    glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-//    glBufferData(GL_ARRAY_BUFFER, sV, _verticesData, GL_DYNAMIC_DRAW);
-//    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _vao->getIndexBufferGlId());
-//    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sI, _indicesData, GL_DYNAMIC_DRAW);
+    _vbo->uploadSubData(0,_verticesSize);
+    _ibo->uploadSubData(0,_indicesSize);
 
     complete();
+    draw();
     reset();
 }
 
@@ -191,6 +193,7 @@ void GLBatchA<VerticesT>::dispose() {
         delete[] _indicesData;
         _indicesData = nullptr;
     }
+
 }
 
 
@@ -209,6 +212,26 @@ template<typename VerticesT>
 void GLBatchA<VerticesT>::reset() {
     _verticesSize = 0;
     _indicesSize = 0;
+}
+
+template<typename VerticesT>
+void GLBatchA<VerticesT>::complete() {}
+
+template<typename VerticesT>
+GLMaterialA *GLBatchA<VerticesT>::getMaterial() {
+    return _material;
+}
+
+template<typename VerticesT>
+void GLBatchA<VerticesT>::draw() {
+
+    _renderer->prepare(_material,_vao,_camera);
+
+    if(_vao->getIndexBuffer() != nullptr) {
+        glDrawElements(_renderType,_indicesSize, _vao->getIndType(), nullptr);
+    }else{
+        glDrawArrays(_renderType,0,_indicesSize);
+    }
 }
 
 

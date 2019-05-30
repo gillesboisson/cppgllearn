@@ -32,22 +32,32 @@ void TutoGLApp::setupShader() {
         new GLShader("./assets/shaders/fix_color.vert", "./assets/shaders/fix_color.frag")
         );
 
+    auto blinnPhongShader = _renderer->registerShader(
+        "blinnPhong",
+        new GLShader("./assets/shaders/blinn_phong.vert", "./assets/shaders/blinn_phong.frag")
+    );
+
 
     lightS->useProgram();
 
     lightB = new GLBuffer(GL_UNIFORM_BUFFER,GL_STATIC_DRAW,sizeof(PointLightU));
     lightB->bindBase(1);
-    lightS->bindUniformBlockIndex("Light",1);
+
 
     transformB = new GLBuffer(GL_UNIFORM_BUFFER,GL_DYNAMIC_DRAW,sizeof(TransformU));
     transformB->bindBase(2);
-    lightS->bindUniformBlockIndex("TransformUB",2);
 
     glm::vec4 color(1.0);
+
+    lightS->bindUniformBlockIndex("TransformUB",2);
+    lightS->bindUniformBlockIndex("Light",1);
     lightS->setUniformVec4v("color",color);
 
-    colorS->useProgram();
-    lightS->setUniformVec4v("color",color);
+    blinnPhongShader->useProgram();
+    blinnPhongShader->bindUniformBlockIndex("TransformUB",2);
+    blinnPhongShader->bindUniformBlockIndex("Light",1);
+    blinnPhongShader->setUniformVec4v("color",color);
+
 
 
 
@@ -96,9 +106,9 @@ void TutoGLApp::setupUniforms() {
 
     light.diffuse = glm::vec3(0.5);
     light.ambient = glm::vec3(0.4);
-    light.specular = glm::vec3(0.1);
+    light.specular = glm::vec3(0.3);
     light.position = glm::vec3(3.0,3.0,3.0);
-    light.shininess = 32.f;
+    light.shininess = 6.f;
 
     glm::vec4 color(1.0);
 }
@@ -167,7 +177,7 @@ void TutoGLApp::update(double frameInterval,float frameSpeed) {
 
     _renderer->clear();
     _renderer->renderModel(_duck,&_cam);
-    _renderer->renderMesh(_quadMesh,_quadMat);
+//    _renderer->renderMesh(_quadMesh,_quadMat);
 
 
 }

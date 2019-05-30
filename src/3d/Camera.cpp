@@ -17,7 +17,12 @@ void Camera:: initPerspective(float fov, float ratio, float near, float far){
 }
 
 void Camera::updateMVP(glm::mat4 *mvpMat, glm::mat4 *modelTransformMat) {
+
     *mvpMat = _projection * _invWorldMat * *modelTransformMat;
+}
+
+glm::mat4 Camera::getVP() {
+    return _projection * _invWorldMat;
 }
 
 Camera::Camera():Node() {

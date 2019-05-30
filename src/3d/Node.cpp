@@ -21,9 +21,6 @@ void Node::removeChild(Node *node) {
         _children.erase(it);
         node->_parent = nullptr;
     }
-
-
-
 }
 
 std::list<Node *>::iterator Node::find(Node *node) {

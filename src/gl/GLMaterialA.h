@@ -22,8 +22,8 @@ public:
 
     virtual void render(GLMesh* mesh,GLTransform* transform,Camera* camera);
 
-    virtual void bindGeomUniforms(glm::mat4 worldMat, Camera *camera) = 0;
-    virtual void bindMatUniforms() = 0;
+    virtual void bindModelUniforms(glm::mat4 *worldMat, Camera *camera) = 0;
+    virtual void bindCommonUniforms() = 0;
     GLShader* getActiveShader() const;
 
     void render(GLMesh *mesh, glm::mat4 mat, Camera *camera);

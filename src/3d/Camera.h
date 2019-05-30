@@ -15,6 +15,7 @@ class Camera: public Node{
     glm::mat4 _invWorldMat = glm::mat4(1.0f);
 
 
+
 public:
     void initOrtho(float left = -1, float right = 1, float bottom = -1, float top = 1, float near = 0.0001,
                    float far = 100);
@@ -33,6 +34,7 @@ public:
     void updateWorldMat(glm::mat4 *parentMat, bool updateChildren) override;
 
 
+    glm::mat4 getVP();
 };
 
 

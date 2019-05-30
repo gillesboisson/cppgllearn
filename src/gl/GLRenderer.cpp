@@ -70,13 +70,12 @@ void GLRenderer::bindMaterial(GLMaterialA *material) {
     if(material != _currentMaterial){
         _currentMaterial= material;
         if(_currentMaterial!= nullptr){
-            _currentMaterial->bindMatUniforms();
+            _currentMaterial->bindCommonUniforms();
         }
     }
 }
 
 void GLRenderer::renderMesh(GLMesh *mesh, GLMaterialA *material) {
-    setRasterDiscarded(false);
     bindShader(material->getActiveShader());
     bindMaterial(material);
     bindVao(mesh->getVao());
@@ -84,15 +83,21 @@ void GLRenderer::renderMesh(GLMesh *mesh, GLMaterialA *material) {
 }
 
 void GLRenderer::renderModel(Model *model, Camera *camera) {
-    setRasterDiscarded(false);
     auto mat = model->getMaterial();
     auto mesh = model->getMesh();
     bindShader(mat->getActiveShader());
     bindMaterial(mat);
     bindVao(model->getMesh()->getVao());
     mat->render(mesh,*model->getWorldMat(),camera);
-
 }
+
+void GLRenderer::prepare(GLMaterialA *material, GLVao *vao, Camera *camera) {
+    bindShader(material->getActiveShader());
+    bindMaterial(material);
+    bindVao(vao);
+    material->bindModelUniforms(nullptr, camera);
+}
+
 
 void GLRenderer::prepareTransformFeedbackPass(
     GLTransformFeedbackShader* tfShader,
@@ -243,3 +248,6 @@ void GLRenderer::resize(GLsizei width, GLsizei height) {
             );
     }
 }
+
+
+

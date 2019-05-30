@@ -15,8 +15,8 @@ protected:
     uint32_t _colorU{};
 public:
     SimpleColorMaterial(GLRenderer* renderer);
-    void bindGeomUniforms(glm::mat4 worldMat, Camera *camera) override;
-    void bindMatUniforms() override;
+    void bindModelUniforms(glm::mat4 *worldMat, Camera *camera) override;
+    void bindCommonUniforms() override;
 
     const glm::vec4 &getColor() const;
 

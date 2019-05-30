@@ -87,6 +87,13 @@ public:
     GLShaderType getShaderType() const;
 
 
+    void setUniformUInt(GLuint location, uint32_t i) const;
+
+    void setUniformInt(GLuint location, int32_t i) const;
+
+    void setUniformInt(const char *uniformName, int32_t i) const;
+
+    void setUniformUInt(const char *uniformName, uint32_t i) const;
 };
 
 #endif
