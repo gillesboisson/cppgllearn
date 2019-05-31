@@ -16,7 +16,6 @@ Stage2D::Stage2D(GLRenderer *renderer,SpriteBatch* batch,uint32_t width,uint32_t
 
 }
 
-
 Stage2D::~Stage2D() {
 
     delete _camera;
@@ -28,6 +27,7 @@ void Stage2D::initBase(GLRenderer *renderer,uint32_t width,uint32_t height){
     _height = height;
     _renderer = renderer;
     _camera = new Camera2D(0,0,width,height);
+    _propagateFastTransform = false;
 }
 
 Camera2D * Stage2D::getCamera(){

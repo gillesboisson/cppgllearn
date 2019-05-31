@@ -119,7 +119,13 @@ void Entity2D::setScale(float scale) {
     transform.setScale(scale);
 }
 
+bool Entity2D::isFastTransform() const {
+    return transform.isFastTransform();
+}
 
+void Entity2D::setFastTransform(bool fastTransform) {
+    transform.setFastTransform(fastTransform);
+}
 
 
 

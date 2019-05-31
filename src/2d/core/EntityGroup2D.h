@@ -13,6 +13,8 @@
 class EntityGroup2D : public Entity2D{
 protected:
     std::vector<Entity2D*> _children;
+    bool _propagateFastTransform;
+
 
     void pushGeom(SpriteBatch *batch) override;
 
@@ -23,6 +25,13 @@ public:
     void addChild(Entity2D *child);
 
     void removeChild(Entity2D *child);
+
+    void setFastTransform(bool fastTransform) override;
+    void setFastTransform(bool fastTransform,bool enableFastTransformPropagation);
+
+    bool isPropagateFastTransform() const;
+
+    void setPropagateFastTransform(bool propagateFastTransform);
 };
 
 

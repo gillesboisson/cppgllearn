@@ -76,6 +76,9 @@ public:
 
     void setPivot(float x, float y);
 
+    bool isFastTransform() const;
+
+    virtual void setFastTransform(bool fastTransform);
 
 };
 

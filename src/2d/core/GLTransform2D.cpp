@@ -8,6 +8,8 @@
 
 GLTransform2D::GLTransform2D() {
     reset();
+    _fastTransform = false;
+
 }
 
 void GLTransform2D::reset(){
@@ -50,8 +52,6 @@ void GLTransform2D::setPosition(const glm::vec2 &position) {
 const glm::vec2 &GLTransform2D::getScale() const {
     return _scale;
 }
-
-
 
 void GLTransform2D::setScale(const glm::vec2 &scale) {
     _dirtyMat = true;
@@ -140,30 +140,49 @@ void GLTransform2D::updateLocalMat() {
 
     if(_dirtyMat) {
         _dirtyMat = false;
-        if (_dirtyRot) updateRot();
-
-        glm::vec2 pivot = glm::vec2(
-            _size.x != 0 ? _size.x * _pivot.x : _pivot.x,
-            _size.y != 0 ? _size.y * _pivot.y : _pivot.y
-        );
-
         _mat = glm::mat3(1);
-        _mat = glm::translate(_mat, pivot + _position);
-        _mat = glm::rotate(_mat, _rotation);
+        if(!_fastTransform) {
+            if (_dirtyRot) updateRot();
 
-        _mat = glm::translate(_mat, -pivot);
-        _mat = glm::scale(_mat, _scale);
+            glm::vec2 pivot = glm::vec2(
+                _size.x != 0 ? _size.x * _pivot.x : _pivot.x,
+                _size.y != 0 ? _size.y * _pivot.y : _pivot.y
+            );
+
+            _mat = glm::translate(_mat, (pivot * _scale) + _position);
+            _mat = glm::rotate(_mat, _rotation);
+
+            _mat = glm::scale(_mat, _scale);
+
+            _mat = glm::translate(_mat, -pivot);
+
+        }else{
+            _mat[2][0] = _position.x;
+            _mat[2][1] = _position.y;
+        }
     }
 
 }
 
 void GLTransform2D::updateWorldMat(glm::mat3 *wm, const glm::mat3 &pm) {
     updateLocalMat();
-
-    *wm = pm * _mat;
+    if(!_fastTransform) {
+        *wm = pm * _mat;
+    }else{
+        (*wm)[2][0] = pm[2][0] + _mat[2][0];
+        (*wm)[2][1] = pm[2][1] + _mat[2][1];
+    }
 
 }
 
 void GLTransform2D::updateWorldMat(glm::mat3 *worldMat) {
     updateWorldMat(worldMat,glm::mat3(1));
+}
+
+bool GLTransform2D::isFastTransform() const {
+    return _fastTransform;
+}
+
+void GLTransform2D::setFastTransform(bool fastTransform) {
+    _fastTransform = fastTransform;
 }

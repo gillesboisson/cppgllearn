@@ -19,6 +19,8 @@ protected:
     glm::mat3 _mat;
     bool _dirtyRot;
     bool _dirtyMat;
+    bool _fastTransform;
+
 
     glm::vec2 _rs;
     glm::vec2 _rc;
@@ -73,6 +75,10 @@ public:
     void setSize(float x, float y);
 
     void setPivot(float x, float y);
+
+    bool isFastTransform() const;
+
+    void setFastTransform(bool fastTransform);
 };
 
 

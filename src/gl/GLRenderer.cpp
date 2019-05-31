@@ -253,5 +253,15 @@ void GLRenderer::resize(GLsizei width, GLsizei height) {
     }
 }
 
-
+void GLRenderer::setAlphaBlendingEnabled(bool alphaBlending) {
+    if(_alphaBlending != alphaBlending){
+        _alphaBlending = alphaBlending;
+        if(alphaBlending){
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        }else{
+            glDisable(GL_BLEND);
+        }
+    }
+}
 

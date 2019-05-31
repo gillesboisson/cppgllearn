@@ -102,6 +102,10 @@ public:
     GLFrameBuffer *popFrameBuffer();
 
     void prepare(GLMaterialA *material, GLVao *vao);
+
+    void setAlphaBlendingEnabled(bool alphaBlending);
+
+    bool _alphaBlending;
 };
 
 
