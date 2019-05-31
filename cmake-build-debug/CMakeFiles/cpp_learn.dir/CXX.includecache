@@ -712,18 +712,6 @@ type_ptr.inl
 cstring
 -
 
-../libs/glm/glm/gtx/matrix_transform_2d.hpp
-../mat3x3.hpp
-../libs/glm/glm/mat3x3.hpp
-../vec2.hpp
-../libs/glm/glm/vec2.hpp
-matrix_transform_2d.inl
-../libs/glm/glm/gtx/matrix_transform_2d.inl
-
-../libs/glm/glm/gtx/matrix_transform_2d.inl
-../trigonometric.hpp
-../libs/glm/glm/trigonometric.hpp
-
 ../libs/glm/glm/integer.hpp
 detail/func_integer.hpp
 ../libs/glm/glm/detail/func_integer.hpp
@@ -1290,10 +1278,6 @@ TargetConditionals.h
 ../../core/Camera.h
 /Users/gillesboisson/Projects/sandbox/cpp_learn/src/core/Camera.h
 
-/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/Entity2D.cpp
-Entity2D.h
-/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/Entity2D.h
-
 /Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/Entity2D.h
 glm/glm.hpp
 -
@@ -1302,21 +1286,11 @@ GLTransform2D.h
 SpriteBatch.h
 /Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/SpriteBatch.h
 
-/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/EntityGroup2D.cpp
-EntityGroup2D.h
-/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/EntityGroup2D.h
-
 /Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/EntityGroup2D.h
 vector
 -
 Entity2D.h
 /Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/Entity2D.h
-
-/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/GLTransform2D.cpp
-GLTransform2D.h
-/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/GLTransform2D.h
-glm/gtx/matrix_transform_2d.hpp
--
 
 /Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/GLTransform2D.h
 glm/glm.hpp
@@ -1327,10 +1301,6 @@ glm/glm.hpp
 /Users/gillesboisson/Projects/sandbox/cpp_learn/src/core/BatchA.h
 glm/glm.hpp
 /Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/glm/glm.hpp
-
-/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/Stage2D.cpp
-Stage2D.h
-/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/Stage2D.h
 
 /Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/Stage2D.h
 EntityGroup2D.h
@@ -1352,31 +1322,23 @@ SubTexture.h
 json/json.h
 /Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/json/json.h
 
-/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/entities/PolyA.cpp
-PolyA.h
-/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/entities/PolyA.h
-
 /Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/entities/PolyA.h
 ../core/Entity2D.h
 /Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/Entity2D.h
 
-/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/entities/Quad.cpp
-Quad.h
-/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/entities/Quad.h
-
 /Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/entities/Quad.h
 PolyA.h
 /Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/entities/PolyA.h
-
-/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/entities/Sprite.cpp
-Sprite.h
-/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/entities/Sprite.h
 
 /Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/entities/Sprite.h
 Quad.h
 /Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/entities/Quad.h
 ../core/SubTexture.h
 /Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/core/SubTexture.h
+
+/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/materials/SpriteShader.cpp
+SpriteShader.h
+/Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/materials/SpriteShader.h
 
 /Users/gillesboisson/Projects/sandbox/cpp_learn/src/2d/materials/SpriteShader.h
 ../../gl/GLShader.h
@@ -1436,12 +1398,6 @@ glm/gtc/matrix_transform.hpp
 ../gl/GLMesh.h
 /Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/GLMesh.h
 
-/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/./GLAttribute.h
-glad/glad.h
--
-GLBuffer.h
-/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/./GLBuffer.h
-
 /Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/./GLBuffer.h
 glad/glad.h
 -
@@ -1457,44 +1413,6 @@ GLTransform.h
 /Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/./GLTransform.h
 ../core/Camera.h
 /Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/core/Camera.h
-
-/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/./GLMesh.h
-GLVao.h
-/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/./GLVao.h
-tiny_gltf.h
-/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/./tiny_gltf.h
-
-/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/./GLShader.h
-glad/glad.h
--
-string
--
-sstream
--
-fstream
--
-iostream
--
-glm/glm.hpp
--
-glm/gtc/matrix_transform.hpp
--
-glm/gtc/type_ptr.hpp
--
-
-/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/./GLTransform.h
-glm/glm.hpp
--
-glm/gtc/quaternion.hpp
--
-GLTransformA.h
-/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/./GLTransformA.h
-
-/Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/./GLTransformA.h
-glm/glm.hpp
--
-glm/gtc/matrix_transform.hpp
--
 
 /Users/gillesboisson/Projects/sandbox/cpp_learn/src/gl/./GLVao.h
 glad/glad.h
@@ -1663,10 +1581,6 @@ string
 -
 map
 -
-
-/Users/gillesboisson/Projects/sandbox/cpp_learn/src/main.cpp
-app/TutoGLApp.h
-/Users/gillesboisson/Projects/sandbox/cpp_learn/src/app/TutoGLApp.h
 
 /Users/gillesboisson/Projects/sandbox/cpp_learn/src/utils/FBStack.h
 ../gl/GLFrameBuffer.h

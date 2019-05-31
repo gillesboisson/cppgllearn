@@ -10,7 +10,7 @@ SpriteShader* SpriteShader::init(GLRenderer *renderer) {
     return shader;
 }
 
-SpriteShader::SpriteShader():GLShader("./assets/shaders/sprite.vert","./assets/shaders/sprite.frag"){
+SpriteShader::SpriteShader():GLShader("../content/shaders/sprite.vert","../content/shaders/sprite.frag"){
     useProgram();
     _vpLocation = getUniformLocation("vp");
 }
