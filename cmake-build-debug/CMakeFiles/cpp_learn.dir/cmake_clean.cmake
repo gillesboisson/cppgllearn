@@ -38,6 +38,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/cpp_learn.dir/src/lib_stb.cpp.o"
   "CMakeFiles/cpp_learn.dir/src/main.cpp.o"
   "CMakeFiles/cpp_learn.dir/src/utils/FBStack.cpp.o"
+  "CMakeFiles/cpp_learn.dir/src/utils/Rect.cpp.o"
   "CMakeFiles/cpp_learn.dir/libs/glad/src/glad.c.o"
   "cpp_learn.pdb"
   "cpp_learn"

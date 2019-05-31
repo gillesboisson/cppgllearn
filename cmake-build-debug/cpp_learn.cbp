@@ -324,6 +324,12 @@
 		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/utils/FBStack.h">
 			<Option target="cpp_learn"/>
 		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/utils/Rect.cpp">
+			<Option target="cpp_learn"/>
+		</Unit>
+		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/src/utils/Rect.h">
+			<Option target="cpp_learn"/>
+		</Unit>
 		<Unit filename="/Users/gillesboisson/Projects/sandbox/cpp_learn/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
