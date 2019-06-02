@@ -1,5 +1,0 @@
-cmake-build-debug/cpp_learn
-cmake-build-debug/*.cmake
-cmake-build-debug/*.cbp
-cmake-build-debug/Makefile
-.idea
