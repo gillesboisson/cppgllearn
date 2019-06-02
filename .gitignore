@@ -1,5 +1,4 @@
-cmake-build-debug
-.idea
-.vscode
-
-archive
+cmake-build-debug/
+.idea/
+.vscode/
+archive/
