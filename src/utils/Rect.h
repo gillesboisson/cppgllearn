@@ -16,6 +16,7 @@ protected:
     float _bottom;
 
 public:
+    explicit Rect();
     explicit Rect(float x,float y,float width,float height);
     explicit Rect(glm::vec2 position,float width,float height);
 
@@ -65,11 +66,19 @@ public:
 
     bool containPoint(const glm::vec2 &point) const;
 
-    Rect *fit(Rect *rect);
+//    Rect *fit(Rect *rect);
 
     Rect *fit(Rect *rect) const;
 
     Rect *clone() const;
+
+    void resize(float width,float height);
+
+    void set(float x, float y, float width, float height);
+
+    glm::vec2 getPosition() const;
+
+    void setPosition(const glm::vec2 &position);
 };
 
 

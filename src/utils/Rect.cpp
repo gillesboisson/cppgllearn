@@ -4,14 +4,22 @@
 
 #include "Rect.h"
 
+Rect::Rect():Rect(0,0,0,0) {}
+
 Rect::Rect(float x, float y, float width, float height) {
+   set(x,y,width,height);
+}
+
+
+
+Rect::Rect(glm::vec2 position, float width, float height):Rect(position.x, position.y, width, height){
+}
+
+void Rect::set(float x, float y, float width, float height){
     _left = x;
     _top = y;
     _right = x + width;
     _bottom = y + height;
-}
-
-Rect::Rect(glm::vec2 position, float width, float height):Rect(position.x, position.y, width, height){
 }
 
 float Rect::getLeft() const {
@@ -44,6 +52,11 @@ float Rect::getBottom() const {
 
 void Rect::setBottom(float bottom) {
     _bottom = bottom;
+}
+
+void Rect::resize(float width,float height) {
+    _right = _left + width;
+    _bottom = _top + height;
 }
 
 // dynamic props
@@ -81,6 +94,17 @@ float Rect::getHeight() const {
 
 void Rect::setHeight(float height) {
     _bottom = _top + height;
+}
+
+glm::vec2 Rect::getPosition() const{
+    return glm::vec2(_left,_top);
+}
+
+void Rect::setPosition(const glm::vec2 &position){
+    _right += position.x - _left;
+    _left = position.x;
+    _bottom += position.y - _top;
+    _top = position.y;
 }
 
 bool Rect::hitRect(const Rect &rect) const {
@@ -168,6 +192,7 @@ Rect* Rect::fit(Rect *rect) const {
 
     return rect;
 }
+
 
 Rect* Rect::clone() const {
     return new Rect(getX(),getY(),getWidth(),getHeight());

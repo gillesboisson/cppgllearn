@@ -35,6 +35,7 @@ Camera2D * Stage2D::getCamera(){
 }
 
 void Stage2D::render(){
+    _camera->updateGeometry();
     _batch->begin();
     push(_batch,glm::mat3x2(1));
     _batch->end();

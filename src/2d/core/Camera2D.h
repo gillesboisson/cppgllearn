@@ -7,17 +7,18 @@
 
 
 #include "../../core/Camera.h"
+#include "../../utils/Rect.h"
 
 class Camera2D : public Camera{
 protected:
-    float _x;
-    float _y;
-    float _width;
-    float _height;
+    Rect _rect;
+    using Camera::Camera;
 
 public:
 
-    Camera2D(float x,float y,float width,float height);
+    void updateGeometry() override;
+
+    explicit Camera2D(float x,float y,float width,float height);
 
     float getX() const;
 
@@ -38,6 +39,13 @@ public:
     void update2DProjection();
 
     void resize(float width, float height);
+
+    const Rect &getRect() const;
+
+    Rect* getRectPtr();
+
+
+
 };
 
 

@@ -7,7 +7,7 @@
 #include "../2d/materials/SpriteShader.h"
 
 
-TutoGLApp::TutoGLApp():GLFWAppA(512,512,"Open GL Tutos",60) {
+TutoGLApp::TutoGLApp():GLFWAppA(512,512,"Open GL Tutos",30) {
 //    _mvp = glm::mat4(1.0);
 
 }
@@ -32,6 +32,32 @@ void TutoGLApp::afterRendererInit() {
     _sprite2 = new Sprite(_atlas->getSubTexture("radar-green.png"));
     _group1 = new EntityGroup2D();
 
+
+
+    std::vector<SubTexture*> textures;
+
+    textures.push_back(_atlas->getSubTexture("radar-green.png"));
+    textures.push_back(_atlas->getSubTexture("radar-blue.png"));
+    textures.push_back(_atlas->getSubTexture("radar-red.png"));
+
+    auto gridData = new uint16_t[81]{
+        1,1,1,1,1,1,1,1,1,
+        1,0,0,0,0,0,0,0,1,
+        1,0,0,0,0,0,0,0,1,
+        1,0,0,2,2,2,0,0,1,
+        1,0,0,2,2,2,0,0,1,
+        1,0,0,2,2,2,0,0,1,
+        1,0,0,0,0,0,0,0,1,
+        1,0,0,0,0,0,0,0,1,
+        1,1,1,1,1,1,1,1,1
+        };
+
+    _grid           = new TileGrid(9,9,gridData,textures,_cam);
+
+
+
+
+
     _sprite1->transform.setPosition(glm::vec2(10,10));
     _sprite2->transform.setPosition(glm::vec2(20,20));
     _sprite2->setScale(2);
@@ -46,7 +72,8 @@ void TutoGLApp::afterRendererInit() {
     _angle = 0.f;
     _group1->addChild(_sprite1);
     _group1->addChild(_sprite2);
-    _stage->addChild(_group1);
+//    _stage->addChild(_group1);
+    _stage->addChild(_grid);
 }
 
 void TutoGLApp::beforeQuit() {
@@ -60,6 +87,32 @@ void TutoGLApp::update(double frameInterval,float frameSpeed) {
 //    _sprite2->transform.setRotation(_angle);
 //    _group1->transform.setRotation(-_angle / 2);
 
+
+    auto camRect = _cam->getRectPtr();
+
+    auto camPos = camRect->getPosition();
+
+
+    if(glfwGetKey(_window, GLFW_KEY_A) == GLFW_PRESS){
+        camPos.x -= 3;
+    }
+    if(glfwGetKey(_window, GLFW_KEY_D) == GLFW_PRESS){
+        camPos.x += 3;
+    }
+
+    if(glfwGetKey(_window, GLFW_KEY_W) == GLFW_PRESS){
+        camPos.y -= 3;
+    }
+    if(glfwGetKey(_window, GLFW_KEY_S) == GLFW_PRESS){
+        camPos.y += 3;
+    }
+
+    camRect->setPosition(camPos);
+
+
+    if(glfwGetKey(_window, GLFW_KEY_ESCAPE) == GLFW_PRESS){
+        glfwSetWindowShouldClose(_window,true);
+    }
 
     _stage->render();
 

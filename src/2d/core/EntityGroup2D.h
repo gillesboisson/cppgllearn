@@ -7,8 +7,8 @@
 
 
 #include <vector>
-
 #include "Entity2D.h"
+
 
 class EntityGroup2D : public Entity2D{
 protected:

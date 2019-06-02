@@ -36,7 +36,7 @@ public:
 
 
     // geometry update;
-    void updateGeometry();
+    virtual void updateGeometry();
     void updateWorldMat();
     virtual void updateWorldMat(bool updateChildren);
     void updateWorldMat(glm::mat4 *parentMat);

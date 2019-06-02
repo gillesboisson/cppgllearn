@@ -8,6 +8,7 @@
 
 #include <glm/glm.hpp>
 #include "../../gl/GLTexture.h"
+#include "../core/SpriteBatch.h"
 
 class SubTexture {
 protected:
@@ -18,11 +19,15 @@ protected:
     uint32_t _width;
     uint32_t _height;
     GLTexture* _texture;
-public:
-    SubTexture(GLTexture* texture,uint32_t x,uint32_t y,uint32_t width,uint32_t height);
-    void copyUvs(float* uvs);
+
+    glm::vec2 _uvs[4];
+
+
 
 public:
+
+    SubTexture(GLTexture* texture,uint32_t x,uint32_t y,uint32_t width,uint32_t height);
+    void copyUvs(float* uvs) const;
     uint32_t getLeft() const;
 
     void setLeft(uint32_t left);
@@ -43,13 +48,19 @@ public:
 
     void setTexture(GLTexture *texture);
 
-    void copyUvs(glm::vec2 *uvs);
+    void copyUvs(glm::vec2 *uvs) const;
 
     uint32_t getWidth() const;
 
     uint32_t getHeight() const;
 
     void updateQuadVertices(glm::vec2 *uvs, glm::vec2 *points);
+
+    void copyUvsToVertex(SpriteVertex *vertex) const;
+
+    const glm::vec2 *getUvs() const;
+
+
 };
 
 

@@ -3,6 +3,7 @@
 //
 
 #include "Entity2D.h"
+#include "EntityGroup2D.h"
 
 Entity2D::Entity2D() {
     reset();
@@ -125,6 +126,11 @@ bool Entity2D::isFastTransform() const {
 
 void Entity2D::setFastTransform(bool fastTransform) {
     transform.setFastTransform(fastTransform);
+}
+
+Entity2D::~Entity2D() {
+    if(_parent != nullptr) _parent->removeChild(this);
+
 }
 
 

@@ -18,6 +18,7 @@ void Sprite::setSubTexture(SubTexture *subTexture) {
         _subTexture->updateQuadVertices(_uvs,_positions);
         transform.setSize(glm::vec2(_subTexture->getWidth(),_subTexture->getHeight()));
 
+
     }
 }
 

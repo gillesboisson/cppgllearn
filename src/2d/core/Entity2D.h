@@ -19,7 +19,7 @@ protected:
     glm::mat3 _worldMat;
     EntityGroup2D *_parent;
 
-    void updateGeom(const glm::mat3 &parentMat);
+    virtual void updateGeom(const glm::mat3 &parentMat);
     virtual void pushGeom(SpriteBatch *batch);
     virtual void prepareBatch(SpriteBatch *batch);
 
@@ -27,6 +27,9 @@ public:
     GLTransform2D transform;
 
     Entity2D();
+    ~Entity2D();
+
+
     virtual void reset();
     void push(SpriteBatch *batch, const glm::mat3 &parentMat);
 
@@ -79,6 +82,7 @@ public:
     bool isFastTransform() const;
 
     virtual void setFastTransform(bool fastTransform);
+
 
 };
 

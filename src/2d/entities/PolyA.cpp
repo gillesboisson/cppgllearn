@@ -4,7 +4,15 @@
 
 #include "PolyA.h"
 
+PolyA::PolyA() {
+    //set(0,0, nullptr,nullptr,nullptr);
+}
+
 PolyA::PolyA(uint32_t nbPoints,uint16_t nbIndices,glm::vec2*  points,glm::vec2* uvs,uint16_t* indices) {
+    set(nbPoints,nbIndices,points,uvs,indices);
+}
+
+void PolyA::set(uint32_t nbPoints,uint16_t nbIndices,glm::vec2*  points,glm::vec2* uvs,uint16_t* indices){
     _nbPoints = nbPoints;
     _nbIndices = nbIndices;
     _positions = points;
@@ -13,7 +21,7 @@ PolyA::PolyA(uint32_t nbPoints,uint16_t nbIndices,glm::vec2*  points,glm::vec2* 
 }
 
 void PolyA::pushGeom(SpriteBatch *batch) {
-    Entity2D::pushGeom(batch);
+//    Entity2D::pushGeom(batch);
     SpriteVertex* vertices;
     uint16_t *indices;
     uint16_t indicesOffset = batch->pull(&vertices,&indices,_nbPoints,_nbIndices);

@@ -11,6 +11,7 @@
 #include "../2d/core/Stage2D.h"
 #include "../2d/core/TextureAtlas.h"
 #include "../2d/entities/Sprite.h"
+#include "../2d/entities/TileGrid.h"
 
 
 class TutoGLApp : public GLFWAppA {
@@ -22,6 +23,7 @@ protected:
     EntityGroup2D *_group2;
     Sprite *_sprite1;
     Sprite *_sprite2;
+    TileGrid *_grid;
 
 
 public:

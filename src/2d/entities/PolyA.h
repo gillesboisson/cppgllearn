@@ -9,6 +9,9 @@
 
 class PolyA : public Entity2D{
 protected:
+    PolyA();
+    void set(uint32_t nbPoints, uint16_t nbIndices, glm::vec2 *points, glm::vec2 *uvs, uint16_t *indices);
+
     uint32_t _nbPoints;
     uint16_t _nbIndices;
 
@@ -25,6 +28,7 @@ public:
 
 
     void copyIndices(uint16_t *pInt, uint16_t offset);
+
 };
 
 
