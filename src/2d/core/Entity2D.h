@@ -19,9 +19,13 @@ protected:
     glm::mat3 _worldMat;
     EntityGroup2D *_parent;
 
-    virtual void updateGeom(const glm::mat3 &parentMat);
-    virtual void pushGeom(SpriteBatch *batch);
-    virtual void prepareBatch(SpriteBatch *batch);
+    void updateGeom(const glm::mat3 &parentMat);
+    virtual void prepareBatch(void* batch) = 0;
+//    virtual void updateGeom(const glm::mat3 &parentMat);
+//
+//    virtual void pushGeom(void *batch);
+//
+//    virtual void prepareBatch(void *batch);
 
 public:
     GLTransform2D transform;
@@ -31,7 +35,9 @@ public:
 
 
     virtual void reset();
-    void push(SpriteBatch *batch, const glm::mat3 &parentMat);
+
+
+    virtual void push(void *batch, const glm::mat3 &parentMat);
 
     // accessors
 
@@ -84,7 +90,22 @@ public:
     virtual void setFastTransform(bool fastTransform);
 
 
+
 };
+
+//template<class BatchT>
+//void Entity2D::push(BatchT *batch, const glm::mat3 &parentMat){
+//    updateGeom(parentMat);
+//    prepareBatch(batch);
+//    //pushGeom(batch);
+//}
+//
+//
+//void Entity2D::pushGeom(void* batch){}
+//
+//
+//void Entity2D::prepareBatch(void* batch){}
+
 
 
 #endif //CPP_LEARN_ENTITY2D_H

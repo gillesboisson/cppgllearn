@@ -5,37 +5,42 @@
 #ifndef CPP_LEARN_SPRITEBATCH_H
 #define CPP_LEARN_SPRITEBATCH_H
 
-#include "../../core/BatchA.h"
-#include "glm/glm.hpp"
+#include "SpriteBatchA.h"
+#include "../materials/SpriteMaterial.h"
 
-struct SpriteVertex{
-    glm::vec3 pos;
-    glm::vec2 uv;
-    glm::vec4 color;
-} typedef SpriteVertex;
+
 
 
 
 //using SpriteBatch = GLBatchA<SpriteVertex>;
 
-class SpriteBatch : public BatchA<SpriteVertex>{
+class SpriteBatch : public SpriteBatchA<SpriteVertex>{
 protected:
     GLVao* createVao() override;
-    GLTexture *_currentTexture;
+
 
 
 
 public:
     SpriteBatch(GLRenderer* renderer,
-        Camera *camera,
+    Camera *camera,
         uint32_t maxSize = 24000,
         uint16_t maxIndicesSize = 24000
-            );
+    );
 
-    virtual void reset() override;
-
-    void hasSameTextureOrEnd(GLTexture *texture);
 };
 
+
+
+
+//void SpriteBatch::hasSameTextureOrEnd(GLTexture *texture){
+//    if(texture != _currentTexture){
+//        if(_currentTexture != nullptr && _verticesSize > 0) end();
+//        _currentTexture = texture;
+//        if(texture != nullptr) {
+//            ((SpriteMaterial*)_material)->setTexture(texture);
+//        }
+//    }
+//}
 
 #endif //CPP_LEARN_SPRITEBATCH_H

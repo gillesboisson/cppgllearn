@@ -37,19 +37,9 @@ void Entity2D::updateGeom(const glm::mat3 &parentMat){
     transform.updateWorldMat(&_worldMat,parentMat);
 }
 
-void Entity2D::pushGeom(SpriteBatch* batch){
-
-}
-
-void Entity2D::prepareBatch(SpriteBatch* batch){
-
-}
-
-
-void Entity2D::push(SpriteBatch *batch, const glm::mat3 &parentMat){
+void Entity2D::push(void *batch, const glm::mat3 &parentMat){
     updateGeom(parentMat);
     prepareBatch(batch);
-    pushGeom(batch);
 }
 
 const glm::vec2 &Entity2D::getPosition() const {

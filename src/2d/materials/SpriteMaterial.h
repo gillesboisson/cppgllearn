@@ -10,18 +10,21 @@
 
 class SpriteMaterial: public GLMaterialA{
 protected:
-    GLTexture *_texture;
+    GLTexture **_texture;
+    uint16_t _nbTexture;
+    void init(uint16_t nbTexture);
 
 public:
 
-    explicit SpriteMaterial(GLRenderer* renderer);
-    explicit SpriteMaterial(GLShader* shader);
+    explicit SpriteMaterial(GLRenderer* renderer,uint16_t nbTexture);
+    explicit SpriteMaterial(GLShader* shader,uint16_t nbTexture);
+    ~SpriteMaterial();
 
     void bindModelUniforms(glm::mat4 *worldMat, Camera *camera) override;
     void bindCommonUniforms() override;
 
-    GLTexture *getTexture() const;
-    void setTexture(GLTexture *texture);
+    GLTexture *getTexture(uint32_t textureIndex = 0) const;
+    void setTexture(GLTexture *texture,uint32_t textureIndex = 0);
 
 
 };

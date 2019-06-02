@@ -34,8 +34,9 @@ protected:
     void updateGridRect();
 
 
-    void pushGeom(SpriteBatch *batch) override;
-    void prepareBatch(SpriteBatch *batch) override;
+    void prepareBatch(void *batch) override;
+//    void pushGeom(SpriteBatch *batch) override;
+//    void prepareBatch(SpriteBatch *batch) override;
 
 public:
 

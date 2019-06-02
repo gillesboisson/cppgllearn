@@ -71,13 +71,68 @@ void TileGrid::updateGridRect(){
     _gridRect.set(0,0,_nbTileX * _tileWidth,_nbTileY * _tileHeight);
 }
 
+//void TileGrid::prepareBatch(SpriteBatch *batch) {
+//    batch->hasSameTextureOrEnd(_baseTexture);
+//}
 
-void TileGrid::pushGeom(SpriteBatch *batch) {
+uint32_t TileGrid::getNbTileX() const {
+    return _nbTileX;
+}
+
+
+uint32_t TileGrid::getNbTileY() const {
+    return _nbTileY;
+}
+
+
+float TileGrid::getTileWidth() const {
+    return _tileWidth;
+}
+
+void TileGrid::setTileWidth(float tileWidth) {
+    _tileWidth = tileWidth;
+    updateGridRect();
+
+}
+
+float TileGrid::getTileHeight() const {
+    return _tileHeight;
+}
+
+void TileGrid::setTileHeight(float tileHeight) {
+    _tileHeight = tileHeight;
+    updateGridRect();
+
+}
+
+Camera2D *TileGrid::getCamera() const {
+    return _camera;
+}
+
+const Rect &TileGrid::getGridRect() const {
+    return _gridRect;
+}
+
+uint16_t *TileGrid::getGridData() const {
+    return _gridData;
+}
+
+const std::vector<SubTexture *> &TileGrid::getTileSet() const {
+    return _tileSet;
+}
+
+uint32_t TileGrid::getGridSize() {
+    return _nbTileX * _nbTileY;
+}
+
+void TileGrid::prepareBatch(void *batch) {
+    auto spriteBatch = ((SpriteBatch *)batch);
+    spriteBatch->hasSameTextureOrEnd(&_baseTexture);
+
+    // get cam rect
+
     Rect camRect = _camera->getRect();
     camRect.clamp(_gridRect);
-
-//    float rectW = camRect.getWidth();
-//    float rectH = camRect.getHeight();
 
     int iX0 = floor(camRect.getLeft() / _tileWidth);
     int iY0 = floor(camRect.getTop() / _tileHeight);
@@ -97,7 +152,7 @@ void TileGrid::pushGeom(SpriteBatch *batch) {
 
     SpriteVertex* vertices;
     uint16_t *indices;
-    uint16_t indicesOffset = batch->pull(&vertices,&indices,nbPoints,nbIndices);
+    uint16_t indicesOffset = spriteBatch->pull(&vertices,&indices,nbPoints,nbIndices);
 
     uint16_t ptInd;
 
@@ -167,62 +222,8 @@ void TileGrid::pushGeom(SpriteBatch *batch) {
             vertices+=4;
         }
     }
-
 }
 
-void TileGrid::prepareBatch(SpriteBatch *batch) {
-    batch->hasSameTextureOrEnd(_baseTexture);
-}
-
-uint32_t TileGrid::getNbTileX() const {
-    return _nbTileX;
-}
-
-
-uint32_t TileGrid::getNbTileY() const {
-    return _nbTileY;
-}
-
-
-float TileGrid::getTileWidth() const {
-    return _tileWidth;
-}
-
-void TileGrid::setTileWidth(float tileWidth) {
-    _tileWidth = tileWidth;
-    updateGridRect();
-
-}
-
-float TileGrid::getTileHeight() const {
-    return _tileHeight;
-}
-
-void TileGrid::setTileHeight(float tileHeight) {
-    _tileHeight = tileHeight;
-    updateGridRect();
-
-}
-
-Camera2D *TileGrid::getCamera() const {
-    return _camera;
-}
-
-const Rect &TileGrid::getGridRect() const {
-    return _gridRect;
-}
-
-uint16_t *TileGrid::getGridData() const {
-    return _gridData;
-}
-
-const std::vector<SubTexture *> &TileGrid::getTileSet() const {
-    return _tileSet;
-}
-
-uint32_t TileGrid::getGridSize() {
-    return _nbTileX * _nbTileY;
-}
 
 
 

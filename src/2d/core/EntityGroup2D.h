@@ -15,8 +15,7 @@ protected:
     std::vector<Entity2D*> _children;
     bool _propagateFastTransform;
 
-
-    void pushGeom(SpriteBatch *batch) override;
+    void prepareBatch(void *batch) override;
 
 public:
     EntityGroup2D();
@@ -32,6 +31,8 @@ public:
     bool isPropagateFastTransform() const;
 
     void setPropagateFastTransform(bool propagateFastTransform);
+
+
 };
 
 

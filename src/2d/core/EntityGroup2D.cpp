@@ -8,13 +8,12 @@ EntityGroup2D::EntityGroup2D():Entity2D() {
     _propagateFastTransform = true;
 }
 
-void EntityGroup2D::pushGeom(SpriteBatch *batch) {
+
+void EntityGroup2D::prepareBatch(void *batch){
     for(auto entity:_children){
         entity->push(batch,_worldMat);
     }
 }
-
-
 
 void EntityGroup2D::addChild(Entity2D *child){
     auto found = std::find(_children.begin(),_children.end(),child);

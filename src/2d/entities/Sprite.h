@@ -5,14 +5,15 @@
 #ifndef CPP_LEARN_SPRITE_H
 #define CPP_LEARN_SPRITE_H
 
-#include "Quad.h"
+#include "QuadA.h"
 #include "../core/SubTexture.h"
 
-class Sprite : public Quad{
+
+class Sprite : public QuadA<SpriteBatch>{
 protected:
 
     SubTexture* _subTexture;
-    void prepareBatch(SpriteBatch *batch) override;
+    void prepareBatch(void *batch) override;
 
     //float _uvs[8];
 

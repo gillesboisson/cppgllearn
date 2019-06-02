@@ -1,11 +1,11 @@
 #include "SpriteBatch.h"
-#include "../materials/SpriteMaterial.h"
+
+
 
 SpriteBatch::SpriteBatch(GLRenderer* renderer,Camera *camera,uint32_t maxSize, uint16_t maxIndicesSize)
-: BatchA(maxSize, maxIndicesSize,new SpriteMaterial(renderer),GL_TRIANGLES,renderer,camera) {
+    : SpriteBatchA(renderer,camera,new SpriteMaterial(renderer,1),1,maxSize,maxIndicesSize) {
     initVao();
 }
-
 
 
 GLVao *SpriteBatch::createVao() {
@@ -18,19 +18,4 @@ GLVao *SpriteBatch::createVao() {
 
     vao->init(attributes,3,_ibo);
     return vao;
-}
-
-void SpriteBatch::reset(){
-    BatchA::reset();
-    _currentTexture = nullptr;
-}
-
-void SpriteBatch::hasSameTextureOrEnd(GLTexture *texture){
-    if(texture != _currentTexture){
-        if(_currentTexture != nullptr && _verticesSize > 0) end();
-        _currentTexture = texture;
-        if(texture != nullptr) {
-            ((SpriteMaterial*)_material)->setTexture(texture);
-        }
-    }
 }
